@@ -101,6 +101,12 @@ You then have to say that the `lint` dependency group is part of the `dev` group
   dev = [ { include-group = "lint" } ]
 ```
 
+Install [deptry](https://github.com/fpgmaas/deptry) to check correct dependencies:
+
+```sh
+uv add --group dev deptry
+```
+
 Install a first dependency ([Typer](https://typer.tiangolo.com/) to build great CLI):
 
 ```sh
@@ -153,11 +159,11 @@ Commits must respect the [conventional commits convention](#git).
 
 ```sh
 # Start a new feature
-git flow feature start <feature_name>
+git flow feature start <feature-name>
 # Do not forget to publish the feature!
-git glow feature publish <feature_name>
+git glow feature publish <feature-name>
 # Finish
-git flow feature finish <feature_name>
+git flow feature finish <feature-name>
 ```
 
 ### Linting and format
