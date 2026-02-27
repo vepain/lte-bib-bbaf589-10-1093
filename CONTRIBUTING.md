@@ -8,11 +8,11 @@ module name: lteu
 * [Conventions](#conventions)
   * [Git](#git)
   * [Tags comments](#tags-comments)
-* [Developping](#developping)
-  * [Initialising the development environment](#initialising-the-development-environment)
-  * [Use an already initialised environment](#use-an-already-initialised-environment)
+* [Developing](#developing)
+  * [Initializing the development environment](#initializing-the-development-environment)
+  * [Use an already initialized environment](#use-an-already-initialized-environment)
   * [Git](#git-1)
-    * [Developping a feature](#developping-a-feature)
+    * [Developing a feature](#developing-a-feature)
   * [Linting and format](#linting-and-format)
 
 ## Conventions
@@ -52,7 +52,7 @@ module name: lteu
 | `DOCU`     | Add documentation               | `TODO (docu)`                                  |
 | `REVIEW`   | Review code                     | `TODO` `FIXME` `REFACTOR`                      |
 
-## Developping
+## Developing
 
 * [VScode](https://code.visualstudio.com/)
   * Settings in `.vscode/settings.json`
@@ -62,10 +62,10 @@ module name: lteu
 * [ruff](https://docs.astral.sh/ruff/) for linting
 * [ty](https://docs.astral.sh/ty/) for type checking
 
-### Initialising the development environment
+### Initializing the development environment
 
 >[!NOTE]
-> **👤 @vepain:** I already initialised `git-flow` and `uv`, this section helps you to know how. Otherwise, you can go directly to the [next section](#use-an-already-initialised-environment).
+> **👤 @vepain:** I already initialized `git-flow` and `uv`, this section helps you to know how. Otherwise, you can go directly to the [next section](#use-an-already-initialized-environment).
 
 ```sh
 git flow init
@@ -77,7 +77,7 @@ git flow init
 uv init --package --name lteu # Letter To the Editor Utilities
 ```
 
-You can see [./pyproject.toml](./pyproject.toml) file is also initialised, I changed the `projet.scripts.lteu` key:
+You can see [./pyproject.toml](./pyproject.toml) file is also initialized, I changed the `projet.scripts.lteu` key:
 
 ```toml
 [project.scripts]
@@ -94,7 +94,7 @@ uv add --group lint ruff
 uv add --group lint ty
 ```
 
-You then have to say that the `lint` dependency group is part of the `dev` group (`uv` default dependency group for developpers): <https://docs.astral.sh/uv/concepts/projects/dependencies/#nesting-groups>
+You then have to say that the `lint` dependency group is part of the `dev` group (`uv` default dependency group for developers): <https://docs.astral.sh/uv/concepts/projects/dependencies/#nesting-groups>
 
 ```toml
 [dependency-groups]
@@ -113,7 +113,7 @@ Sync the environment:
 uv sync
 ```
 
-### Use an already initialised environment
+### Use an already initialized environment
 
 By default, `uv` create a local `virtualenv` Python virtual environment in the directory `.venv`.
 
@@ -122,7 +122,7 @@ uv sync
 ```
 
 >[!NOTE]
-> The recommandation is to use `uv` to run the tools.
+> The recommendation is to use `uv` to run the tools.
 > If you do not want to use `uv` to run the tools, you have to activate the virtual environment `uv` created:
 >
 > ```sh
@@ -144,12 +144,12 @@ uv run lteu --help
 See [git-flow cheatsheet](https://danielkummer.github.io/git-flow-cheatsheet/).
 
 >[!WARNING]
-> Developping on the `develop` branch.
+> Developing on the `develop` branch.
 > The `main` branch is for releases.
 
-Commits must respect the [conventionnal commits convention](#git).
+Commits must respect the [conventional commits convention](#git).
 
-#### Developping a feature
+#### Developing a feature
 
 ```sh
 # Start a new feature
