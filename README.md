@@ -6,6 +6,8 @@ The letter to the editor aims to demonstrate the bias of the evaluating measures
 * The way they manage the repeated contig does not ensure a perfect prediction has a perfect measure.
 * They do not take into account the length of the contigs.
 
+See also [./docs/PlasEval_vs_V_measure.pdf](./docs/PlasEval_vs_V_measure.pdf).
+
 ## Python package
 
 `lteu` (for Letter To the Editor Utilities).
