@@ -9,7 +9,8 @@
     ]
     requires-python = ">=3.13"
     dependencies = [
-    "pandas>=3.0.1",
+    "pandas[excel]>=3.0.1",
+    "rich>=14.3.3",
     "typer>=0.24.1",
 ]
 
@@ -21,8 +22,13 @@
     build-backend = "uv_build"
 
 [dependency-groups]
-    dev = [{ include-group = "lint" }]
+    dev = [
+    { include-group = "lint" },
+    { include-group = "stubs" },
+    "deptry>=0.24.0",
+]
     lint = ["ruff>=0.15.4", "ty>=0.0.19"]
+    stubs = ["pandas-stubs>=3.0.0.260204"]
 
 [tool.ruff.lint]
     select = ["ALL"]
