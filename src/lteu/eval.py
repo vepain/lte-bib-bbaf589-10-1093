@@ -3,8 +3,12 @@
 import pandas as pd
 
 
-def v_measure(ground_truth: pd.DataFrame, predictions: pd.DataFrame) -> float:
-    """Compute the V-measure.
+def homogeneity(
+    ground_truth: pd.DataFrame,
+    predictions: pd.DataFrame,
+    weight: bool,  # noqa: FBT001
+) -> float:
+    """Compute the homogeneity.
 
     Arguments
     ---------
@@ -12,12 +16,18 @@ def v_measure(ground_truth: pd.DataFrame, predictions: pd.DataFrame) -> float:
         The ground truth (PlasEval format).
     predictions: pd.DataFrame
         The predictions (PlasEval format).
+    weight: bool
+        Consider using the contig length as a weight or not.
     """
     raise NotImplementedError
 
 
-def weighted_v_measure(ground_truth: pd.DataFrame, predictions: pd.DataFrame) -> float:
-    """Compute the weighted V-measure.
+def completeness(
+    ground_truth: pd.DataFrame,
+    predictions: pd.DataFrame,
+    weight: bool,  # noqa: FBT001
+) -> float:
+    """Compute the completeness.
 
     Arguments
     ---------
@@ -25,5 +35,7 @@ def weighted_v_measure(ground_truth: pd.DataFrame, predictions: pd.DataFrame) ->
         The ground truth (PlasEval format).
     predictions: pd.DataFrame
         The predictions (PlasEval format).
+    weight: bool
+        Consider using the contig length as a weight or not.
     """
     raise NotImplementedError

@@ -11,6 +11,9 @@ See also:
 * [Details about the bias](./docs/PlasEval_vs_V_measure.pdf) in `./docs/PlasEval_vs_V_measure.pdf`.
 * [Article supplementary data](https://github.com/broadinstitute/plasmid-detection-benchmark)
 
+>[!WARNING]
+> Homogeneity and completeness measures computing by `sklearn` are not correct. So we code ours.
+
 ## Python package
 
 `lteu` (for Letter To the Editor Utilities).
