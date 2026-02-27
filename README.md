@@ -13,6 +13,7 @@ See also:
 
 >[!WARNING]
 > Homogeneity and completeness measures computing by `sklearn` are not correct. So we code ours.
+> See [GitHub issue #13058](https://github.com/scikit-learn/scikit-learn/issues/13058)
 
 ## Python package
 

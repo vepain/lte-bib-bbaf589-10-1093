@@ -3,19 +3,28 @@
 ## Preamble
 
 * Visualize the data
-  * [ ] Ground truth
-  * [ ] Predictions
+  * [x] Ground truth
+  * [x] Predictions
 
 ## Formatting task
 
-* [ ] Format their ground truth to Plaseval [in `format.py` file](./src/lteu/format.py)
-  * [ ] Define original ground truth format
-  * [ ] Define PlasEval ground truth format
-* [ ] Retrieve only sample ID with "Has complete hybrid assembly" set to true in the `Ground-truth` excel sheet
+* [x] Format their ground truth to Plaseval [in `format.py` file](./src/lteu/format.py)
+  * [x] Define original ground truth format
+  * [x] Define PlasEval ground truth format
+* [ ] @vepain Retrieve only sample ID with "Has complete hybrid assembly" set to true in the `Ground-truth` excel sheet
+* [ ] @vepain Format binning tools predictions for PlasEval
+  * [ ] @vepain Define original format
+
+## Evaluation measures
+
+* [ ] @aniket Homogeneity
+* [ ] @aniket Completness
 
 ## Chromosomal bin
 
 **Bias:** The measures take into account the bin containing the chromosomal contigs.
+
+* [ ] @vepain Format to PlasEval ground-truth union chromosomal bin
 
 ## Repeated contigs
 
