@@ -37,11 +37,11 @@ To get the ground truths in the PlasEval format:
 
 ```sh
 GT_OUTDIR=ground_truth
-uv run lteu fmt gt-to-plaseval predictions.xlsx $GT_OUTDIR
+uv run lteu fmt gt-to-plaseval predictions.xlsx "$GT_OUTDIR"
 
 # Where all the chromosomal contigs belong to the same bin:
 GT_CHR_OUTDIR=ground_truth_chromosome
-uv run lteu fmt gt-to-plaseval predictions.xlsx $GT_CHR_OUTDIR --with-chromosome
+uv run lteu fmt gt-to-plaseval predictions.xlsx "$GT_CHR_OUTDIR" --with-chromosome
 ```
 
 ### Extract samples IDs with complete hybrid assemblies
@@ -49,6 +49,23 @@ uv run lteu fmt gt-to-plaseval predictions.xlsx $GT_CHR_OUTDIR --with-chromosome
 ```sh
 # One column "Sample ID", one sample ID per row
 uv run lteu fmt complete-hybrid-asm predictions.xlsx complete_hybrid_asm.tsv
+```
+
+### Format the bins for PlasEval
+
+To see all the binning method codes:
+
+```sh
+uv run lteu fmt bins-to-plaseval --help
+```
+
+```sh
+BINS_OUTDIR=bins/pbf
+uv run lteu fmt bins-to-plaseval predictions.xlsx pbf "$BINS_OUTDIR"
+
+# Where all the chromosomal contigs belong to the same bin:
+BINS_CHR_OUTDIR=bins_chromosome/pbf
+uv run lteu fmt bins-to-plaseval predictions.xlsx pbf "$BINS_CHR_OUTDIR" --with-chromosome
 ```
 
 ## To-do
