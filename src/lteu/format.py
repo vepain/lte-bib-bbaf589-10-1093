@@ -11,6 +11,7 @@ import typer
 from rich.panel import Panel
 
 from . import log
+from .data import samples as smp_data
 from .data import tools
 from .data.origin import bins as origin_bins
 from .data.origin import gt as origin_gt
@@ -136,9 +137,16 @@ def extract_complete_assembly(
     gt_df = origin_gt.to_dataframe(xlsx_path)
     gt_df = gt_df[gt_df[origin_gt.Header.HAS_COMPLETE_HYBRID_ASM]]
 
-    gt_df[gt_df[origin_gt.Header.SAMPLE_ID].duplicated(keep=False)][
-        origin_gt.Header.SAMPLE_ID
-    ].to_csv(
+    final_smps = pd.Series(
+        gt_df[origin_gt.Header.SAMPLE_ID].unique(),
+        name=smp_data.Header.SAMPLE_ID,
+    )
+
+    log.CONSOLE.print(
+        f":information: {final_smps.size} samples with complete hybrid assemblies",
+    )
+
+    final_smps.to_csv(
         tsv_output,
         sep="\t",
         index=False,
