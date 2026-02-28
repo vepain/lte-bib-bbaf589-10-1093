@@ -104,3 +104,46 @@ def gt_to_plaseval(
         f" [green]Created {count} files in"
         f" :file_folder: [bold]{output_dir}[/bold] directory[/green]",
     )
+
+
+class CompleteHybridAsm:
+    """Complete hybrid assembly args and opts."""
+
+    class Args:
+        """Complete hybrid assembly args."""
+
+        XLSX_PATH = typer.Argument(
+            help="Path to the predictions.xlsx file.",
+        )
+
+        TSV_OUTPUT = typer.Argument(
+            help="Path to the output TSV file.",
+        )
+
+
+@APP.command("complete-hybrid-asm")
+def extract_complete_assembly(
+    xlsx_path: Annotated[Path, CompleteHybridAsm.Args.XLSX_PATH],
+    tsv_output: Annotated[Path, CompleteHybridAsm.Args.TSV_OUTPUT],
+) -> None:
+    """Extract complete hybrid assemblies."""
+    log.CONSOLE.print(
+        Panel("[bold]Extract complete hybrid assemblies[/bold]"),
+    )
+    tsv_output.parent.mkdir(parents=True, exist_ok=True)
+
+    gt_df = origin_gt.to_dataframe(xlsx_path)
+    gt_df = gt_df[gt_df[origin_gt.Header.HAS_COMPLETE_HYBRID_ASM]]
+    # Keep only colum Sample ID with unique value
+    gt_df[gt_df[origin_gt.Header.SAMPLE_ID].duplicated(keep=False)][
+        origin_gt.Header.SAMPLE_ID
+    ].to_csv(
+        tsv_output,
+        sep="\t",
+        index=False,
+    )
+
+    log.CONSOLE.print(
+        ":white_check_mark:"
+        f" [green]Created :page_facing_up: [bold]{tsv_output}[/bold] file[/green]",
+    )
