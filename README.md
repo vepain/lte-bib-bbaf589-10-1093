@@ -15,11 +15,9 @@ See also:
 > Homogeneity and completeness measures computing by `sklearn` are not correct. So we code ours.
 > See [GitHub issue #13058](https://github.com/scikit-learn/scikit-learn/issues/13058)
 
-## Python package
+**Python package:** `lteu` (for Letter To the Editor Utilities).
 
-`lteu` (for Letter To the Editor Utilities).
-
-### Installation
+## Installation
 
 With [uv](https://docs.astral.sh/uv/):
 
@@ -27,10 +25,30 @@ With [uv](https://docs.astral.sh/uv/):
 uv sync
 ```
 
-### Usage
+## Usage
 
 ```sh
 uv run lteu --help
+```
+
+### Format ground-truths
+
+To get the ground truths in the PlasEval format:
+
+```sh
+GT_OUTDIR=ground_truth
+uv run lteu fmt gt-to-plaseval predictions.xlsx $GT_OUTDIR
+
+# Where all the chromosomal contigs belong to the same bin:
+GT_CHR_OUTDIR=ground_truth_chromosome
+uv run lteu fmt gt-to-plaseval predictions.xlsx $GT_CHR_OUTDIR --with-chromosome
+```
+
+### Extract samples IDs with complete hybrid assemblies
+
+```sh
+# One column "Sample ID", one sample ID per row
+uv run lteu fmt complete-hybrid-asm predictions.xlsx complete_hybrid_asm.tsv
 ```
 
 ## To-do
