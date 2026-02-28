@@ -24,7 +24,7 @@
 
 **Bias:** The measures take into account the bin containing the chromosomal contigs.
 
-* [ ] @vepain Format to PlasEval ground-truth union chromosomal bin
+* [x] @vepain Format to PlasEval ground-truth union chromosomal bin
 
 ## Repeated contigs
 
@@ -36,7 +36,3 @@
 ## Contig lengths
 
 **Bias:** They do not take into account the length of the contigs.
-
-* [ ] Recode the paper V-measure adapted in `lteu/eval.py` (fonction `v_measure`)
-* [ ] Adapt the `sklearn` homogeneity and completness measures to take into account the length of the contigs
-  * [ ] Code the adapted V-measure in `lteu/eval.py` (fonction `weighted_v_measure`)
