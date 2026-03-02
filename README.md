@@ -68,6 +68,10 @@ BINS_CHR_OUTDIR=bins_chromosome/pbf
 uv run lteu fmt bins-to-plaseval predictions.xlsx pbf "$BINS_CHR_OUTDIR" --with-chromosome
 ```
 
+## Experiments
+
+The experiments running tutorial is in [./experiments/README.md](./experiments/README.md).
+
 ## To-do
 
 Refer to the [TODO.md](./TODO.md) file.
