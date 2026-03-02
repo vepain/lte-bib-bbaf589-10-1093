@@ -107,9 +107,9 @@ stubs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "pandas", extras = ["excel"], specifier = ">=3.0.1" },
-    { name = "rich", specifier = ">=14.3.3" },
-    { name = "typer", specifier = ">=0.24.1" },
+    { name = "pandas", extras = ["excel"], specifier = ">=3.0" },
+    { name = "rich", specifier = ">=14.3" },
+    { name = "typer", specifier = ">=0.24" },
 ]
 
 [package.metadata.requires-dev]
