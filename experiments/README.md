@@ -95,6 +95,37 @@ pip install uv-build
 pip install .
 ```
 
+## Get the list of samples with complete hybrid assemblies
+
+### installation
+
+On fir:
+
+```sh
+cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+mkdir -p scripts/samples
+```
+
+From here:
+
+```sh
+scp ./scripts/samples/complete_hybrid_asm.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+```
+
+On fir:
+
+```sh
+cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+chmod ug+rwx complete_hybrid_asm.sh
+```
+
+### Usage
+
+```sh
+cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+sbatch complete_hybrid_asm.sh
+```
+
 ## Format the ground truth to the PlasEval format
 
 With and without the chromosomal bin.
@@ -130,7 +161,11 @@ cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_p
 sbatch ground_truth.sh
 ```
 
-## Get the list of samples with complete hybrid assemblies
+## Format the bins to the PlasEval format
+
+With and without the chromosomal bin.
+
+C.f. `./scripts/fmt_to_plaseval/bins.sh`
 
 ### installation
 
@@ -138,25 +173,25 @@ On fir:
 
 ```sh
 cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
-mkdir -p scripts/samples
+mkdir -p scripts/fmt_to_plaseval
 ```
 
 From here:
 
 ```sh
-scp ./scripts/samples/complete_hybrid_asm.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+scp ./scripts/fmt_to_plaseval/bins.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 ```
 
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
-chmod ug+rwx complete_hybrid_asm.sh
+cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+chmod ug+rwx bins.sh
 ```
 
 ### Usage
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
-sbatch complete_hybrid_asm.sh
+cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+sbatch bins.sh
 ```
