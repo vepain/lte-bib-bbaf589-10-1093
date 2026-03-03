@@ -36,3 +36,38 @@
 ## Contig lengths
 
 **Bias:** They do not take into account the length of the contigs.
+
+## Running
+
+On Fir Alliance Canada cluster.
+
+On samples with complete hybrid assemblies.
+
+### Formatting tasks
+
+* Data for PlasEval format
+  * [x] ground truths
+  * [x] bins
+* [x] samples with complete hybrid assemblies
+
+### PlasEval
+
+* Only plasmids
+  * [x] hyasp
+  * [x] gplas2
+  * [x] pbf
+  * [x] mob
+* [ ] With chromosome?
+
+### Original homogeneity and completness measures
+
+* Only plasmids
+  * [ ] hyasp
+  * [ ] gplas2
+  * [ ] pbf
+  * [ ] mob
+* With chromosome
+  * [ ] hyasp
+  * [ ] gplas2
+  * [ ] pbf
+  * [ ] mob
