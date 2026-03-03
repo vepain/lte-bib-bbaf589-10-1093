@@ -13,7 +13,7 @@
 
 umask 007
 
-home_dir="/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/"
+home_dir="/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/"
 
 data_dir="$home_dir/data"
 

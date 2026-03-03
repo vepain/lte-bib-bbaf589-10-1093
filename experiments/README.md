@@ -6,7 +6,7 @@
 
 ## Fir file structure
 
-In `/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor` directory.
+In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 
 ```sh
 .
@@ -24,11 +24,16 @@ In `/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 │   │   │   ├── hyasp
 │   │   │   ├── mob
 │   │   │   └── pbf
-│   │   └── with_chromosome  # Same subtree only_plasmids/
+│   │   └── with_chromosome  # Same subtree as only_plasmids/
 │   └── plaseval  # PlasEval results
-│       └── comp
-│           ├── only_plasmids  # Same subtree as binning/
-│           └── with_chromosome
+│       ├── only_plasmids
+│       │   └──comp  # comp subcommand
+│       │      └── alpha_05  # For alpha = 0.5
+│       │          ├── gplas2
+│       │          ├── hyasp
+│       │          ├── mob
+│       │          └── pbf
+│       └── with_chromosome # Same subtree as only_plasmids/
 ├── scripts  # SBATCH scripts
 └── tools  # Tools cloned repositories
 ```
@@ -55,7 +60,7 @@ The following commands are run on fir.
 Data:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir -p data/original
 wget https://github.com/broadinstitute/plasmid-detection-benchmark/raw/main/data/predictions.xlsx -O data/original/predictions.xlsx
 ```
@@ -70,7 +75,7 @@ Tools:
 > 3. Add your SSH key: `ssh-add ~/.ssh/your_key_id`
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir tools
 cd tools
 git clone -b develop git@github.com:vepain/lte-bib-bbaf589-10-1093.git
@@ -82,7 +87,7 @@ git clone -b develop git@github.com:vepain/lte-bib-bbaf589-10-1093.git
 
 ```sh
 # Create a test directory
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir tmp
 cd tmp
 # ---
@@ -102,27 +107,27 @@ pip install .
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir -p scripts/samples
 ```
 
 From here:
 
 ```sh
-scp ./scripts/samples/complete_hybrid_asm.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+scp ./scripts/samples/complete_hybrid_asm.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
 ```
 
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
 chmod ug+rwx complete_hybrid_asm.sh
 ```
 
 ### Usage
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
 sbatch complete_hybrid_asm.sh
 ```
 
@@ -137,27 +142,27 @@ C.f. `./scripts/fmt_to_plaseval/ground_truth.sh`
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir -p scripts/fmt_to_plaseval
 ```
 
 From here:
 
 ```sh
-scp ./scripts/fmt_to_plaseval/ground_truth.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+scp ./scripts/fmt_to_plaseval/ground_truth.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 ```
 
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 chmod ug+rwx ground_truth.sh
 ```
 
 ### Usage
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 sbatch ground_truth.sh
 ```
 
@@ -172,26 +177,72 @@ C.f. `./scripts/fmt_to_plaseval/bins.sh`
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
 mkdir -p scripts/fmt_to_plaseval
 ```
 
 From here:
 
 ```sh
-scp ./scripts/fmt_to_plaseval/bins.sh fir:/project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+scp ./scripts/fmt_to_plaseval/bins.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 ```
 
 On fir:
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 chmod ug+rwx bins.sh
 ```
 
 ### Usage
 
 ```sh
-cd /project/6001426/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 sbatch bins.sh
+```
+
+## Running PlasEval comp on samples with complete hybrid assemblies
+
+With or without the chromosomal bin, for one given method.
+
+C.f. `./scripts/plaseval/comp.sh`
+
+### installation
+
+#### Install PlasEval
+
+On fir:
+
+```sh
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/tools
+git clone git@github.com:vepain/PlasEval.git
+```
+
+#### Set the sbatch script
+
+On fir:
+
+```sh
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor
+mkdir -p scripts/plaseval
+```
+
+From here:
+
+```sh
+scp ./scripts/plaseval/comp.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
+```
+
+On fir:
+
+```sh
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
+chmod ug+rwx comp.sh
+```
+
+### Usage
+
+```sh
+cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
+sbatch comp.sh
 ```
