@@ -10,29 +10,36 @@ In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 
 ```sh
 .
-└── data
+├── data
 │   ├── samples
 │   │   └── complete_hybrid_asm.tsv
 │   ├── original  # Original data
 │   │   └── predictions.xlsx
-│   ├── ground_truth  # PlasEval formatted ground-truths
+│   ├── ground_truths  # PlasEval formatted ground-truths
 │   │   ├── only_plasmids
 │   │   └── with_chromosome
 │   ├── binning  # PlasEval formatted bins
 │   │   ├── only_plasmids
-│   │   │   ├── gplas2
-│   │   │   ├── hyasp
-│   │   │   ├── mob
-│   │   │   └── pbf
+│   │   │   └── $tool
 │   │   └── with_chromosome  # Same subtree as only_plasmids/
+│   ├── uniqify  # Predictions and ground-truths after uniqify
+│   │   ├── only_plasmids
+│   │   │   └── $tool
+│   │   │       ├── predictions # one file per sample
+│   │   │       ├── ground_truths # idem
+│   │   │       └── nb_matches.tsv
+│   │   └── with_chromosome # Same subtree as only_plasmids/
+│   ├── comp_hom  # Completeness and homogeneity
+│   │   ├── only_plasmids
+│   │   │   ├── repeats
+│   │   │   │   └── $tool.tsv
+│   │   │   └── uniqify # Same subtree as repeats/
+│   │   └── with_chromosome # Same subtree as only_plasmids/
 │   └── plaseval  # PlasEval results
 │       ├── only_plasmids
 │       │   └──comp  # comp subcommand
 │       │      └── alpha_05  # For alpha = 0.5
-│       │          ├── gplas2
-│       │          ├── hyasp
-│       │          ├── mob
-│       │          └── pbf
+│       │          └── $tool
 │       └── with_chromosome # Same subtree as only_plasmids/
 ├── scripts  # SBATCH scripts
 └── tools  # Tools cloned repositories
@@ -246,3 +253,9 @@ chmod ug+rwx comp.sh
 cd /project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
 sbatch comp.sh
 ```
+
+## Distinguishing the repeats
+
+To answer the repeat bias
+
+<!-- TODO CONTINUE HERE -->

@@ -29,3 +29,8 @@ def to_dataframe(tsv_path: Path) -> pd.DataFrame:
 def fname(sample_id: str) -> str:
     """Generate a filename from a sample ID."""
     return f"{sample_id}.tsv"
+
+
+def to_file(df: pd.DataFrame, tsv_path: Path) -> None:
+    """Save the plasmid bins TSV file."""
+    df.to_csv(tsv_path, sep="\t", index=False)

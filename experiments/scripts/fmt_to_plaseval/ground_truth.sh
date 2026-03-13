@@ -18,7 +18,7 @@ home_dir="/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/"
 data_dir="$home_dir/data"
 
 original_predictions="$data_dir/original/predictions.xlsx"
-gt_dir="$data_dir/ground_truth/"
+gt_dir="$data_dir/ground_truths/"
 
 tools_dir="$home_dir/tools"
 lteu_dir="$tools_dir/lte-bib-bbaf589-10-1093"

@@ -1,4 +1,4 @@
-"""Evaluation application."""
+"""Operation application."""
 
 from pathlib import Path
 from typing import Annotated
@@ -11,7 +11,7 @@ from lteu.data.plaseval import bins as pe_bins
 
 from . import files, main
 
-APP = typer.Typer(help="Evaluation commands.")
+APP = typer.Typer(help="Uniqify commands.")
 
 
 class Args:
@@ -28,32 +28,42 @@ class Args:
         help="Path to the samples TSV file.",
     )
 
-    EVAL_TSV = typer.Argument(
-        help="Path to the evaluation TSV file.",
+    OUTPUT_DIR = typer.Argument(
+        help=(
+            "Path to the output directory."
+            " Parent of the new predictions and ground truth directories."
+        ),
     )
 
 
-@APP.command("eval")
-def evaluate(
+@APP.command("uniqify")
+def distinguish_repeats(
     preds_dir: Annotated[Path, Args.PREDICTIONS_DIR],
     gt_dir: Annotated[Path, Args.GROUND_TRUTH_DIR],
     samples_tsv: Annotated[Path, Args.SAMPLES_TSV],
-    eval_tsv: Annotated[Path, Args.EVAL_TSV],
+    output_dir: Annotated[Path, Args.OUTPUT_DIR],
 ) -> None:
-    """Compute the completeness and homogeneity."""
-    log.print_title("Compute the completeness and homogeneity")
+    """Distinguish the repeats in the bins for a list of samples."""
+    log.print_title("Distinguish the repeats in the bins for a list of samples")
 
     log.print_inputs(
         (
             f"Predictions directory: {log.fmt_dir(preds_dir)}",
             f"Ground truth directory: {log.fmt_dir(gt_dir)}",
             f"Samples TSV file: {log.fmt_file(samples_tsv)}",
-            f"Evaluation TSV file: {log.fmt_file(eval_tsv)}",
+            f"Output directory: {log.fmt_dir(output_dir)}",
         ),
     )
 
     smp_df = smp.to_dataframe(samples_tsv)
-    eval_df = files.new_dataframe()
+
+    out_preds_dir = output_dir / "predictions"
+    out_gt_dir = output_dir / "ground_truths"
+
+    out_preds_dir.mkdir(parents=True, exist_ok=True)
+    out_gt_dir.mkdir(parents=True, exist_ok=True)
+
+    nb_matches_df = files.new_dataframe()
 
     nb_no_eval = 0
 
@@ -63,37 +73,30 @@ def evaluate(
 
         if not pred_file.exists() or not gt_file.exists():
             nb_no_eval += 1
-            # Add a row with Nan for the two columns
-            eval_df.loc[len(eval_df)] = {
+            nb_matches_df.loc[len(nb_matches_df)] = {
                 files.Header.SAMPLE_ID: smp_id,
-                files.Header.UNW_COMPLETENESS: None,
-                files.Header.UNW_HOMOGENEITY: None,
-                files.Header.W_COMPLETENESS: None,
-                files.Header.W_HOMOGENEITY: None,
+                files.Header.NB_MATCHES: None,
             }
             continue
 
         pred_df = pe_bins.to_dataframe(preds_dir / pe_bins.fname(smp_id))
         gt_df = pe_bins.to_dataframe(gt_dir / pe_bins.fname(smp_id))
 
-        unw_completeness = main.completeness(pred_df, gt_df, weight=False)
-        unw_homogeneity = main.homogeneity(pred_df, gt_df, weight=False)
+        gt_df, pred_df, nb_match = main.unify_repeats(gt_df, pred_df)
 
-        w_completeness = main.completeness(pred_df, gt_df, weight=True)
-        w_homogeneity = main.homogeneity(pred_df, gt_df, weight=True)
-
-        eval_df.loc[len(eval_df)] = {
+        nb_matches_df.loc[len(nb_matches_df)] = {
             files.Header.SAMPLE_ID: smp_id,
-            files.Header.UNW_COMPLETENESS: unw_completeness,
-            files.Header.UNW_HOMOGENEITY: unw_homogeneity,
-            files.Header.W_COMPLETENESS: w_completeness,
-            files.Header.W_HOMOGENEITY: w_homogeneity,
+            files.Header.NB_MATCHES: nb_match,
         }
+
+        pe_bins.to_file(pred_df, out_preds_dir / pe_bins.fname(smp_id))
+        pe_bins.to_file(gt_df, out_gt_dir / pe_bins.fname(smp_id))
 
     if nb_no_eval:
         log.print_warning(f"{nb_no_eval} samples on {len(smp_df)} have no evaluation")
 
-    eval_tsv.parent.mkdir(parents=True, exist_ok=True)
-    eval_df.to_csv(eval_tsv, sep="\t", index=False)
+    files.to_file(nb_matches_df, output_dir / files.fname())
+    log.print_done(f"Created {log.fmt_file(output_dir / files.fname())} file")
 
-    log.print_done(f"Created {log.fmt_file(eval_tsv)} file")
+    log.print_done(f"Created {log.fmt_dir(out_preds_dir)} directory")
+    log.print_done(f"Created {log.fmt_dir(out_gt_dir)} directory")
