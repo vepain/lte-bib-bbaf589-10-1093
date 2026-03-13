@@ -8,7 +8,6 @@ from typing import Annotated
 
 import pandas as pd
 import typer
-from rich.panel import Panel
 
 from . import log
 from .data import samples as smp_data
@@ -50,11 +49,10 @@ def gt_to_plaseval(
     with_chromosome: Annotated[bool, GtToPlasEval.Opts.WITH_CHROMOSOME] = False,
 ) -> None:
     """Format paper ground truth to PlasEval ground truth."""
-    log.CONSOLE.print(
-        Panel("[bold]Format paper ground-truth to PlasEval ground truth[/bold]"),
-    )
+    log.print_title("Format paper ground-truth to PlasEval ground truth")
+
     if with_chromosome:
-        log.CONSOLE.print(":microbe: With chromosomal bin")
+        log.print_msg(":microbe: With chromosomal bin")
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -78,7 +76,8 @@ def gt_to_plaseval(
             },
         )
 
-    for smp_id, smp_df in gt_per_smp:
+    smp_id: str
+    for smp_id, smp_df in gt_per_smp:  # ty:ignore[invalid-assignment]
         plm_smp_df: pd.DataFrame = smp_df[
             smp_df[origin_gt.Header.GT_CLASS] == "plasmid"
         ]
@@ -98,14 +97,10 @@ def gt_to_plaseval(
                 ignore_index=True,
             )
 
-        plaseval_gt_df.to_csv(output_dir / f"{smp_id}.tsv", sep="\t", index=False)
+        plaseval_gt_df.to_csv(output_dir / pe_bins.fname(smp_id), sep="\t", index=False)
         count += 1
 
-    log.CONSOLE.print(
-        ":white_check_mark:"
-        f" [green]Created {count} files in"
-        f" :file_folder: [bold]{output_dir}[/bold] directory[/green]",
-    )
+    log.print_done(f"Created {count} files in {log.fmt_dir(output_dir)} directory")
 
 
 class CompleteHybridAsm:
@@ -129,9 +124,8 @@ def extract_complete_assembly(
     tsv_output: Annotated[Path, CompleteHybridAsm.Args.TSV_OUTPUT],
 ) -> None:
     """Extract complete hybrid assemblies."""
-    log.CONSOLE.print(
-        Panel("[bold]Extract complete hybrid assemblies[/bold]"),
-    )
+    log.print_title("Extract complete hybrid assemblies")
+
     tsv_output.parent.mkdir(parents=True, exist_ok=True)
 
     gt_df = origin_gt.to_dataframe(xlsx_path)
@@ -142,9 +136,7 @@ def extract_complete_assembly(
         name=smp_data.Header.SAMPLE_ID,
     )
 
-    log.CONSOLE.print(
-        f":information: {final_smps.size} samples with complete hybrid assemblies",
-    )
+    log.print_info(f"{final_smps.size} samples with complete hybrid assemblies")
 
     final_smps.to_csv(
         tsv_output,
@@ -152,10 +144,7 @@ def extract_complete_assembly(
         index=False,
     )
 
-    log.CONSOLE.print(
-        ":white_check_mark:"
-        f" [green]Created :page_facing_up: [bold]{tsv_output}[/bold] file[/green]",
-    )
+    log.print_done(f"Created {log.fmt_file(tsv_output)} file")
 
 
 class BinToPlasEval:
@@ -193,9 +182,7 @@ def bins_to_plaseval(
     with_chromosome: Annotated[bool, BinToPlasEval.Opts.WITH_CHROMOSOME] = False,
 ) -> None:
     """Format paper bins to PlasEval bins."""
-    log.CONSOLE.print(
-        Panel("[bold]Format paper bins to PlasEval bins[/bold]"),
-    )
+    log.print_title("Format paper bins to PlasEval bins")
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -224,7 +211,8 @@ def bins_to_plaseval(
 
     count = 0
     no_bins_count = 0
-    for smp_id, smp_df in bins_per_smp_df:
+    smp_id: str
+    for smp_id, smp_df in bins_per_smp_df:  # ty:ignore[invalid-assignment]
         if not with_chromosome:
             smp_df = smp_df[smp_df[tool_col] != "chromosome"]  # noqa: PLW2901
         if tool == tools.Binning.GPLAS_TWO:
@@ -269,19 +257,15 @@ def bins_to_plaseval(
                 )
 
         plaseval_bins_df.to_csv(
-            output_dir / f"{smp_id}.tsv",
+            output_dir / pe_bins.fname(smp_id),
             sep="\t",
             index=False,
         )
 
         count += 1
 
-    log.CONSOLE.print(
-        ":white_check_mark:"
-        f" [green]Created {count} files in"
-        f" :file_folder: [bold]{output_dir}[/bold] directory[/green]",
+    log.print_done(
+        f"Created {count} files in {log.fmt_dir(output_dir)} directory",
     )
     if no_bins_count:
-        log.CONSOLE.print(
-            f":warning: [yellow]No bins for {no_bins_count} samples[/yellow]",
-        )
+        log.print_warning(f"No bins for {no_bins_count} samples")

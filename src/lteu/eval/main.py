@@ -3,6 +3,8 @@
 import numpy as np
 import pandas as pd
 
+from lteu.data.plaseval import bins as pe_bins
+
 
 def get_unweighted_contingency_table(
     ground_truth: pd.DataFrame,
@@ -18,13 +20,13 @@ def get_unweighted_contingency_table(
         The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
-    ground_truth = ground_truth.rename(columns={"plasmid": "K"})
-    predictions = predictions.rename(columns={"plasmid": "C"})
+    ground_truth = ground_truth.rename(columns={pe_bins.Header.PLASMID: "K"})
+    predictions = predictions.rename(columns={pe_bins.Header.PLASMID: "C"})
 
     # Merge on contig (outer=union, inner=intersection)
-    merge_df = ground_truth[["K", "contig"]].merge(
-        predictions[["C", "contig"]],
-        on="contig",
+    merge_df = ground_truth[["K", pe_bins.Header.CONTIG]].merge(
+        predictions[["C", pe_bins.Header.CONTIG]],
+        on=pe_bins.Header.CONTIG,
         how="outer",
         suffixes=("_true", "_pred"),
     )
@@ -55,13 +57,13 @@ def get_weighted_contingency_table(
         The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
-    ground_truth = ground_truth.rename(columns={"plasmid": "K"})
-    predictions = predictions.rename(columns={"plasmid": "C"})
+    ground_truth = ground_truth.rename(columns={pe_bins.Header.PLASMID: "K"})
+    predictions = predictions.rename(columns={pe_bins.Header.PLASMID: "C"})
 
     # Merge on contig (outer=union, inner=intersection)
-    merge_df = ground_truth[["K", "contig", "contig_len"]].merge(
-        predictions[["C", "contig"]],
-        on="contig",
+    merge_df = ground_truth[["K", pe_bins.Header.CONTIG, pe_bins.Header.CTG_LEN]].merge(
+        predictions[["C", pe_bins.Header.CONTIG]],
+        on=pe_bins.Header.CONTIG,
         how="outer",
         suffixes=("_true", "_pred"),
     )
@@ -70,7 +72,7 @@ def get_weighted_contingency_table(
     return merge_df.pivot_table(
         index="C",
         columns="K",
-        values="contig_len",
+        values=pe_bins.Header.CTG_LEN,
         aggfunc="sum",
     ).fillna(0)
 
