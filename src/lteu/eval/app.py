@@ -40,7 +40,7 @@ def eval_all(
     samples_tsv: Annotated[Path, CommonArgs.SAMPLES_TSV],
     eval_tsv: Annotated[Path, CommonArgs.EVAL_TSV],
 ) -> None:
-    """Compute completeness."""
+    """Compute the completeness and homogeneity."""
     log.print_title("Compute the completeness and homogeneity")
 
     log.print_inputs(
