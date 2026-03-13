@@ -36,8 +36,8 @@ class GtToPlasEval:
     class Opts:
         """Ground-truth to PlasEval opts."""
 
-        WITH_CHROMOSOME = typer.Option(
-            "--with-chromosome/--without-chromosome",
+        WITH_CHROMOSOMES = typer.Option(
+            "--with-chromosomes/--without-chromosomes",
             help="Format to PlasEval union chromosomal bin.",
         )
 
@@ -46,12 +46,12 @@ class GtToPlasEval:
 def gt_to_plaseval(
     xlsx_path: Annotated[Path, GtToPlasEval.Args.XLSX_PATH],
     output_dir: Annotated[Path, GtToPlasEval.Args.OUTPUT_DIR],
-    with_chromosome: Annotated[bool, GtToPlasEval.Opts.WITH_CHROMOSOME] = False,
+    with_chromosomes: Annotated[bool, GtToPlasEval.Opts.WITH_CHROMOSOMES] = False,
 ) -> None:
     """Format paper ground truth to PlasEval ground truth."""
     log.print_title("Format paper ground-truth to PlasEval ground truth")
 
-    if with_chromosome:
+    if with_chromosomes:
         log.print_msg(":microbe: With chromosomal bin")
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -84,7 +84,7 @@ def gt_to_plaseval(
 
         plaseval_gt_df = keep_plaseval_and_rename_cols(plm_smp_df)
 
-        if with_chromosome:  # i.e. with_chromosome
+        if with_chromosomes:  # i.e. with_chromosomes
             chr_smp_df: pd.DataFrame = smp_df[
                 smp_df[origin_gt.Header.GT_CLASS] == "chromosome"
             ]
@@ -168,8 +168,8 @@ class BinToPlasEval:
     class Opts:
         """Plasmid reconstruction to PlasEval opts."""
 
-        WITH_CHROMOSOME = typer.Option(
-            "--with-chromosome/--without-chromosome",
+        WITH_CHROMOSOMES = typer.Option(
+            "--with-chromosomes/--without-chromosomes",
             help="Format to PlasEval union chromosomal bin.",
         )
 
@@ -179,7 +179,7 @@ def bins_to_plaseval(
     xlsx_path: Annotated[Path, BinToPlasEval.Args.XLSX_PATH],
     tool: Annotated[tools.Binning, BinToPlasEval.Args.TOOL],
     output_dir: Annotated[Path, BinToPlasEval.Args.OUTPUT_DIR],
-    with_chromosome: Annotated[bool, BinToPlasEval.Opts.WITH_CHROMOSOME] = False,
+    with_chromosomes: Annotated[bool, BinToPlasEval.Opts.WITH_CHROMOSOMES] = False,
 ) -> None:
     """Format paper bins to PlasEval bins."""
     log.print_title("Format paper bins to PlasEval bins")
@@ -213,7 +213,7 @@ def bins_to_plaseval(
     no_bins_count = 0
     smp_id: str
     for smp_id, smp_df in bins_per_smp_df:  # ty:ignore[invalid-assignment]
-        if not with_chromosome:
+        if not with_chromosomes:
             smp_df = smp_df[smp_df[tool_col] != "chromosome"]  # noqa: PLW2901
         if tool == tools.Binning.GPLAS_TWO:
             smp_df = smp_df[~smp_df[tool_col].str.contains("Unbinned")]  # noqa: PLW2901

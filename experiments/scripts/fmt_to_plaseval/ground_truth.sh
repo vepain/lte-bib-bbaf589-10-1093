@@ -38,6 +38,6 @@ gt_content_dir="$gt_dir/only_plasmids"
 mkdir -p "$gt_content_dir"
 lteu fmt gt-to-plaseval "$original_predictions" "$gt_content_dir"
 
-gt_content_dir="$gt_dir/with_chromosome"
+gt_content_dir="$gt_dir/with_chromosomes"
 mkdir -p "$gt_content_dir"
-lteu fmt gt-to-plaseval "$original_predictions" "$gt_content_dir" --with-chromosome
+lteu fmt gt-to-plaseval "$original_predictions" "$gt_content_dir" --with-chromosomes

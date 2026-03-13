@@ -14,7 +14,7 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r content="only_plasmids" # In only_plasmids, with_chromosome
+declare -r content="only_plasmids" # In only_plasmids, with_chromosomes
 declare -r method_code="hyasp"     # In hyasp, mob, pbf, gplas2
 declare -r alpha=0.5               # between 0 and 1
 # ---------------------------------------------------------------------------- #

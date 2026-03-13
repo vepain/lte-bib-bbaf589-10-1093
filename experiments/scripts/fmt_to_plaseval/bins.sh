@@ -40,7 +40,7 @@ for tool in $tools; do
     mkdir -p "$bin_content_dir"
     lteu fmt bins-to-plaseval "$original_predictions" "$tool" "$bin_content_dir"
 
-    bin_content_dir="$bins_dir/with_chromosome/$tool"
+    bin_content_dir="$bins_dir/with_chromosomes/$tool"
     mkdir -p "$bin_content_dir"
-    lteu fmt bins-to-plaseval "$original_predictions" "$tool" "$bin_content_dir" --with-chromosome
+    lteu fmt bins-to-plaseval "$original_predictions" "$tool" "$bin_content_dir" --with-chromosomes
 done
