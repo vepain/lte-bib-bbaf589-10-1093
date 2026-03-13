@@ -11,11 +11,11 @@ from lteu.data.plaseval import bins as pe_bins
 
 from . import files, main
 
-APP = typer.Typer(name="eval", help="Evaluation commands.")
+APP = typer.Typer(help="Evaluation commands.")
 
 
-class CommonArgs:
-    """Common arguments."""
+class Args:
+    """Arguments."""
 
     PREDICTIONS_DIR = typer.Argument(
         help="Path to the predictions directory.",
@@ -33,12 +33,12 @@ class CommonArgs:
     )
 
 
-@APP.command("all")
-def eval_all(
-    preds_dir: Annotated[Path, CommonArgs.PREDICTIONS_DIR],
-    gt_dir: Annotated[Path, CommonArgs.GROUND_TRUTH_DIR],
-    samples_tsv: Annotated[Path, CommonArgs.SAMPLES_TSV],
-    eval_tsv: Annotated[Path, CommonArgs.EVAL_TSV],
+@APP.command("eval")
+def evaluate(
+    preds_dir: Annotated[Path, Args.PREDICTIONS_DIR],
+    gt_dir: Annotated[Path, Args.GROUND_TRUTH_DIR],
+    samples_tsv: Annotated[Path, Args.SAMPLES_TSV],
+    eval_tsv: Annotated[Path, Args.EVAL_TSV],
 ) -> None:
     """Compute the completeness and homogeneity."""
     log.print_title("Compute the completeness and homogeneity")
@@ -73,8 +73,8 @@ def eval_all(
             }
             continue
 
-        pred_df = files.to_dataframe(preds_dir / pe_bins.fname(smp_id))
-        gt_df = files.to_dataframe(gt_dir / pe_bins.fname(smp_id))
+        pred_df = pe_bins.to_dataframe(preds_dir / pe_bins.fname(smp_id))
+        gt_df = pe_bins.to_dataframe(gt_dir / pe_bins.fname(smp_id))
 
         unw_completeness = main.completeness(pred_df, gt_df, weight=False)
         unw_homogeneity = main.homogeneity(pred_df, gt_df, weight=False)
@@ -90,7 +90,8 @@ def eval_all(
             files.Header.W_HOMOGENEITY: w_homogeneity,
         }
 
-    log.print_warning(f"{nb_no_eval} samples on {len(smp_df)} have no evaluation")
+    if nb_no_eval:
+        log.print_warning(f"{nb_no_eval} samples on {len(smp_df)} have no evaluation")
 
     eval_tsv.parent.mkdir(parents=True, exist_ok=True)
     eval_df.to_csv(eval_tsv, sep="\t", index=False)
