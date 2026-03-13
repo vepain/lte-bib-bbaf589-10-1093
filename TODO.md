@@ -11,14 +11,14 @@
 * [x] Format their ground truth to Plaseval [in `format.py` file](./src/lteu/format.py)
   * [x] Define original ground truth format
   * [x] Define PlasEval ground truth format
-* [ ] @vepain Retrieve only sample ID with "Has complete hybrid assembly" set to true in the `Ground-truth` excel sheet
+* [ ] @vepain Retrieve only sample ID with "Has complete hybrid assembly" set to true in the `Ground-truth` Excel sheet
 * [ ] @vepain Format binning tools predictions for PlasEval
   * [ ] @vepain Define original format
 
 ## Evaluation measures
 
 * [ ] @aniket Homogeneity
-* [ ] @aniket Completness
+* [ ] @aniket Completeness
 
 ## Chromosomal bin
 
@@ -59,7 +59,7 @@ On samples with complete hybrid assemblies.
   * [x] mob
 * [ ] With chromosome?
 
-### Original homogeneity and completness measures
+### Original homogeneity and completeness measures
 
 * Only plasmids
   * [ ] hyasp
