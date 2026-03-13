@@ -41,7 +41,7 @@ letter_to_editor_dir="$wg_anoph_bench_dir/2026_letter_to_editor"
 
 data_dir="$letter_to_editor_dir/data"
 
-gt_dir="$data_dir/ground_truth/$content"
+gt_dir="$data_dir/ground_truths/$content"
 bins_dir="$data_dir/binning/$content/$method_code"
 
 alpha_dir="alpha_${alpha//./}"
