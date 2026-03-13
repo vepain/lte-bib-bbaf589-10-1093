@@ -7,25 +7,26 @@ import pandas as pd
 def get_unweighted_contingency_table(
     ground_truth: pd.DataFrame,
     predictions: pd.DataFrame,
-):
+) -> pd.DataFrame:
     """Obtain the unweighted contingency table.
 
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
     ground_truth = ground_truth.rename(columns={"plasmid": "K"})
     predictions = predictions.rename(columns={"plasmid": "C"})
 
-    # Merge on contig (contigs unique to only one set of bins will be removed in this step)
+    # Merge on contig (outer=union, inner=intersection)
     merge_df = ground_truth[["K", "contig"]].merge(
         predictions[["C", "contig"]],
         on="contig",
         how="outer",
+        suffixes=("_true", "_pred"),
     )
 
     # Assign each contig weight 1
@@ -38,32 +39,32 @@ def get_unweighted_contingency_table(
         values="weight",
         aggfunc="sum",
     ).fillna(0)
-    print(contingency_tab)
     return contingency_tab
 
 
 def get_weighted_contingency_table(
     ground_truth: pd.DataFrame,
     predictions: pd.DataFrame,
-):
+) -> pd.DataFrame:
     """Obtain the weighted contingency table.
 
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
     ground_truth = ground_truth.rename(columns={"plasmid": "K"})
     predictions = predictions.rename(columns={"plasmid": "C"})
 
-    # Merge on contig (contigs unique to only one set of bins will be removed in this step)
+    # Merge on contig (outer=union, inner=intersection)
     merge_df = ground_truth[["K", "contig", "contig_len"]].merge(
         predictions[["C", "contig"]],
         on="contig",
         how="outer",
+        suffixes=("_true", "_pred"),
     )
 
     # Build weighted contingency table
@@ -73,11 +74,12 @@ def get_weighted_contingency_table(
         values="contig_len",
         aggfunc="sum",
     ).fillna(0)
-    print(contingency_tab)
     return contingency_tab
 
 
-def get_prob_matrix(contingency_tab):
+def get_prob_matrix(
+    contingency_tab: pd.DataFrame,
+) -> np.ndarray:
     """Obtain the unweighted contingency table.
 
     Arguments
@@ -87,8 +89,7 @@ def get_prob_matrix(contingency_tab):
     # Convert to probabilities
     contingency_mat = contingency_tab.to_numpy(dtype=float)
     total = contingency_mat.sum()
-    P = contingency_mat / total
-    return P
+    return contingency_mat / total
 
 
 def homogeneity(
@@ -101,39 +102,36 @@ def homogeneity(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     weight: bool
         Consider using the contig length as a weight or not.
     """
     if weight:
-        print("Here")
         contingency_tab = get_weighted_contingency_table(ground_truth, predictions)
     else:
-        print("No, no, here")
         contingency_tab = get_unweighted_contingency_table(ground_truth, predictions)
-    P = get_prob_matrix(contingency_tab)
+    p = get_prob_matrix(contingency_tab)
 
     # Marginal probabilities
-    P_C = P.sum(axis=1, keepdims=True)  # sum over K (rows)
-    P_K = P.sum(axis=0, keepdims=True)  # sum over C (columns)
+    p_k = p.sum(axis=0, keepdims=True)  # sum over C (columns)
 
     # Joint entropy H(C,K)
-    mask = P > 0
-    H_CK = -np.sum(P[mask] * np.log2(P[mask]))
+    mask = p > 0
+    h_ck = -np.sum(p[mask] * np.log2(p[mask]))
 
     # Entropy H(K)
-    maskK = P_K > 0
-    H_K = -np.sum(P_K[maskK] * np.log2(P_K[maskK]))
+    mask_k = p_k > 0
+    h_k = -np.sum(p_k[mask_k] * np.log2(p_k[mask_k]))
 
     # Conditional entropy H(C|K)
-    H_C_given_K = H_CK - H_K
+    h_c_given_k = h_ck - h_k
 
     # Homogeneity
-    if H_CK == 0:
+    if h_ck == 0:
         return 0.0
-    return 1 - H_C_given_K / H_CK
+    return 1 - h_c_given_k / h_ck
 
 
 def completeness(
@@ -146,9 +144,9 @@ def completeness(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     weight: bool
         Consider using the contig length as a weight or not.
     """
@@ -156,24 +154,23 @@ def completeness(
         contingency_tab = get_weighted_contingency_table(ground_truth, predictions)
     else:
         contingency_tab = get_unweighted_contingency_table(ground_truth, predictions)
-    P = get_prob_matrix(contingency_tab)
+    p = get_prob_matrix(contingency_tab)
 
     # Marginal probabilities
-    P_K = P.sum(axis=0, keepdims=True)  # sum over C (columns)
-    P_C = P.sum(axis=1, keepdims=True)  # sum over K (rows)
+    p_c = p.sum(axis=1, keepdims=True)  # sum over K (rows)
 
     # Joint entropy H(K,C)
-    mask = P > 0
-    H_KC = -np.sum(P[mask] * np.log2(P[mask]))
+    mask = p > 0
+    h_kc = -np.sum(p[mask] * np.log2(p[mask]))
 
     # Entropy H(C)
-    maskC = P_C > 0
-    H_C = -np.sum(P_C[maskC] * np.log2(P_C[maskC]))
+    mask_c = p_c > 0
+    h_c = -np.sum(p_c[mask_c] * np.log2(p_c[mask_c]))
 
     # Conditional entropy H(K|C)
-    H_K_given_C = H_KC - H_C
+    h_k_given_c = h_kc - h_c
 
     # Completeness
-    if H_KC == 0:
+    if h_kc == 0:
         return 0.0
-    return 1 - H_K_given_C / H_KC
+    return 1 - h_k_given_c / h_kc
