@@ -13,20 +13,20 @@ def get_unweighted_contingency_table(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
     ground_truth = ground_truth.rename(columns={"plasmid": "K"})
     predictions = predictions.rename(columns={"plasmid": "C"})
 
-    # Merge on contig
-    # (contigs unique to only one set of bins will be removed in this step)
+    # Merge on contig (outer=union, inner=intersection)
     merge_df = ground_truth[["K", "contig"]].merge(
         predictions[["C", "contig"]],
         on="contig",
         how="outer",
+        suffixes=("_true", "_pred"),
     )
 
     # Assign each contig weight 1
@@ -50,20 +50,20 @@ def get_weighted_contingency_table(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     """
     # Rename columns to differentiate betweens ground truth and prediction set ids
     ground_truth = ground_truth.rename(columns={"plasmid": "K"})
     predictions = predictions.rename(columns={"plasmid": "C"})
 
-    # Merge on contig
-    # (contigs unique to only one set of bins will be removed in this step)
+    # Merge on contig (outer=union, inner=intersection)
     merge_df = ground_truth[["K", "contig", "contig_len"]].merge(
         predictions[["C", "contig"]],
         on="contig",
         how="outer",
+        suffixes=("_true", "_pred"),
     )
 
     # Build weighted contingency table
@@ -98,9 +98,9 @@ def homogeneity(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     weight: bool
         Consider using the contig length as a weight or not.
     """
@@ -140,9 +140,9 @@ def completeness(
     Arguments
     ---------
     ground_truth: pd.DataFrame
-        The ground truth (PlasEval format).
+        The ground truth (plasEval format).
     predictions: pd.DataFrame
-        The predictions (PlasEval format).
+        The predictions (plasEval format).
     weight: bool
         Consider using the contig length as a weight or not.
     """
