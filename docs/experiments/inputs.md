@@ -5,7 +5,7 @@ icon: lucide/file-input
 # Formatting data in PlasEval format
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package.
+> Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
 ```sh
 .
@@ -37,7 +37,7 @@ lteu fmt plaseval gt original/predictions.xlsx ground_truths/only_plasmids
 With the chromosomal bin:
 
 ```sh
-lteu fmt plaseval gt original/predictions.xlsx ground_truths/with_chromosomes
+lteu fmt plaseval gt original/predictions.xlsx ground_truths/with_chromosomes --with-chromosomes
 ```
 
 ## Format the bins to the PlasEval format
