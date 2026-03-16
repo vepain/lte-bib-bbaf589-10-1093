@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from lteu.eval import files as eval_files
+from lteu.eval.run import files as eval_files
 
 
 class Header(StrEnum):
