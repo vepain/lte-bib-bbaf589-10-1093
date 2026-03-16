@@ -35,3 +35,6 @@ target/
 
 # Ruff stuff:
 .ruff_cache/
+
+# Zensical
+site/

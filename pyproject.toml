@@ -8,7 +8,12 @@
         { name = "amane", email = "aniket_mane@sfu.ca" },
     ]
     requires-python = ">=3.13"
-    dependencies = ["pandas[excel]>=3.0", "rich>=14.3", "typer>=0.24"]
+    dependencies = [
+        "numpy>=2.4.2",
+        "pandas[excel]>=3.0",
+        "rich>=14.3",
+        "typer>=0.24",
+    ]
 
     [project.scripts]
         lteu = "lteu.__main__:main"
@@ -21,7 +26,13 @@
     dev = [
         { include-group = "lint" },
         { include-group = "stubs" },
+        { include-group = "docs" },
         "deptry>=0.24.0",
+    ]
+    docs = [
+        "markdown-gfm-admonition>=0.3.0",
+        "pygments>=2.19.2",
+        "zensical>=0.0.27",
     ]
     lint = ["ruff>=0.15.4", "ty>=0.0.19"]
     stubs = ["pandas-stubs>=3.0.0.260204"]

@@ -6,8 +6,8 @@
 #SBATCH --mem=4G
 #SBATCH --time=3:00:00
 #SBATCH --account=def-chauvec
-#SBATCH --output=/scratch/vepain/2026_letter_to_editor/fmt/samples_complete_hybrid_asm/stdout.log
-#SBATCH --error=/scratch/vepain/2026_letter_to_editor/fmt/samples_complete_hybrid_asm/stderr.log
+#SBATCH --output=/scratch/vepain/2026_letter_to_editor/fmt/bins/stdout.log
+#SBATCH --error=/scratch/vepain/2026_letter_to_editor/fmt/bins/stderr.log
 #SBATCH --mail-user=victorepain@disroot.org
 #SBATCH --mail-type=ALL
 
@@ -18,7 +18,7 @@ home_dir="/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/"
 data_dir="$home_dir/data"
 
 original_predictions="$data_dir/original/predictions.xlsx"
-samples_dir="$data_dir/samples/"
+bins_dir="$data_dir/binning/"
 
 tools_dir="$home_dir/tools"
 lteu_dir="$tools_dir/lte-bib-bbaf589-10-1093"
@@ -34,4 +34,13 @@ pip install uv-build
 pip install "$lteu_dir"
 # ------------------------------------------------------------------------------------ #
 
-lteu fmt complete-hybrid-asm "$original_predictions" "$samples_dir/complete_hybrid_asm.tsv"
+tools="hyasp mob pbf gplas2"
+for tool in $tools; do
+    bin_content_dir="$bins_dir/only_plasmids/$tool"
+    mkdir -p "$bin_content_dir"
+    lteu fmt plaseval bins "$original_predictions" "$tool" "$bin_content_dir"
+
+    bin_content_dir="$bins_dir/with_chromosomes/$tool"
+    mkdir -p "$bin_content_dir"
+    lteu fmt plaseval bins "$original_predictions" "$tool" "$bin_content_dir" --with-chromosomes
+done

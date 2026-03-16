@@ -57,7 +57,7 @@ def distinguish_repeats(
 
     smp_df = smp.to_dataframe(samples_tsv)
 
-    out_preds_dir = output_dir / "predictions"
+    out_preds_dir = output_dir / "binning"
     out_gt_dir = output_dir / "ground_truths"
 
     out_preds_dir.mkdir(parents=True, exist_ok=True)

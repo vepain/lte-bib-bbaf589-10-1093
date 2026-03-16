@@ -6,8 +6,8 @@
 #SBATCH --mem=4G
 #SBATCH --time=3:00:00
 #SBATCH --account=def-chauvec
-#SBATCH --output=/scratch/vepain/2026_letter_to_editor/fmt/gt/stdout.log
-#SBATCH --error=/scratch/vepain/2026_letter_to_editor/fmt/gt/stderr.log
+#SBATCH --output=/scratch/vepain/2026_letter_to_editor/fmt/samples_complete_hybrid_asm/stdout.log
+#SBATCH --error=/scratch/vepain/2026_letter_to_editor/fmt/samples_complete_hybrid_asm/stderr.log
 #SBATCH --mail-user=victorepain@disroot.org
 #SBATCH --mail-type=ALL
 
@@ -18,7 +18,7 @@ home_dir="/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/"
 data_dir="$home_dir/data"
 
 original_predictions="$data_dir/original/predictions.xlsx"
-gt_dir="$data_dir/ground_truths/"
+samples_dir="$data_dir/samples/"
 
 tools_dir="$home_dir/tools"
 lteu_dir="$tools_dir/lte-bib-bbaf589-10-1093"
@@ -34,10 +34,4 @@ pip install uv-build
 pip install "$lteu_dir"
 # ------------------------------------------------------------------------------------ #
 
-gt_content_dir="$gt_dir/only_plasmids"
-mkdir -p "$gt_content_dir"
-lteu fmt gt-to-plaseval "$original_predictions" "$gt_content_dir"
-
-gt_content_dir="$gt_dir/with_chromosome"
-mkdir -p "$gt_content_dir"
-lteu fmt gt-to-plaseval "$original_predictions" "$gt_content_dir" --with-chromosome
+lteu fmt smp complete-hybrid-asm "$original_predictions" "$samples_dir/complete_hybrid_asm.tsv"

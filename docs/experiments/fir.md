@@ -1,8 +1,12 @@
-# Experiment
+---
+icon: lucide/cloud-cog
+---
+
+# On Fir cluster
 
 > [!NOTE]
-> The experiments description concerns the run on the `Fir` Alliance Canada cluster.
-> In order to share the files, make sure to configurate the `umask`: `umask 007`.
+> The following descriptions concern the run on the `Fir` Alliance Canada cluster.
+> In order to share the files, make sure to have configured the `umask`: `umask 007`.
 
 ## Fir file structure
 
@@ -17,30 +21,30 @@ In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 │   │   └── predictions.xlsx
 │   ├── ground_truths  # PlasEval formatted ground-truths
 │   │   ├── only_plasmids
-│   │   └── with_chromosome
+│   │   └── with_chromosomes
 │   ├── binning  # PlasEval formatted bins
 │   │   ├── only_plasmids
 │   │   │   └── $tool
-│   │   └── with_chromosome  # Same subtree as only_plasmids/
-│   ├── uniqify  # Predictions and ground-truths after uniqify
+│   │   └── with_chromosomes  # Same subtree as only_plasmids/
+│   ├── uniqify  # Predictions and ground-truths after uniqify (complete hybrid assemblies only)
 │   │   ├── only_plasmids
 │   │   │   └── $tool
-│   │   │       ├── predictions # one file per sample
+│   │   │       ├── binning # one file per sample
 │   │   │       ├── ground_truths # idem
 │   │   │       └── nb_matches.tsv
-│   │   └── with_chromosome # Same subtree as only_plasmids/
-│   ├── comp_hom  # Completeness and homogeneity
+│   │   └── with_chromosomes # Same subtree as only_plasmids/
+│   ├── comp_hom  # Completeness and homogeneity (complete hybrid assemblies only)
 │   │   ├── only_plasmids
 │   │   │   ├── repeats
 │   │   │   │   └── $tool.tsv
 │   │   │   └── uniqify # Same subtree as repeats/
-│   │   └── with_chromosome # Same subtree as only_plasmids/
+│   │   └── with_chromosomes # Same subtree as only_plasmids/
 │   └── plaseval  # PlasEval results
 │       ├── only_plasmids
 │       │   └──comp  # comp subcommand
 │       │      └── alpha_05  # For alpha = 0.5
 │       │          └── $tool
-│       └── with_chromosome # Same subtree as only_plasmids/
+│       └── with_chromosomes # Same subtree as only_plasmids/
 ├── scripts  # SBATCH scripts
 └── tools  # Tools cloned repositories
 ```
@@ -48,7 +52,7 @@ In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 Two variables:
 
 ```sh
-content="only_plasmids"  # or "with_chromosome"
+content="only_plasmids"  # or "with_chromosomes"
 tool="gplas2"  # or "hyasp" or "mob" or "pbf"
 #
 # Path structure
