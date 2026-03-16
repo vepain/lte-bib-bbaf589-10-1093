@@ -47,6 +47,11 @@ def print_warning(msg: str) -> None:
     CONSOLE.print(f":warning: [yellow]{msg}[/yellow]")
 
 
+def print_error(msg: str) -> None:
+    """Print error message."""
+    CONSOLE.print(f":x: [red]{msg}[/red]")
+
+
 def fmt_dir(path: Path) -> str:
     """Format directory path for print."""
     return f":file_folder: [bold]{path}[/bold]"

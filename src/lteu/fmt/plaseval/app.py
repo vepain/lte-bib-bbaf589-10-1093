@@ -9,44 +9,36 @@ from typing import Annotated
 import pandas as pd
 import typer
 
-from . import log
-from .data import samples as smp_data
-from .data import tools
-from .data.origin import bins as origin_bins
-from .data.origin import gt as origin_gt
-from .data.plaseval import bins as pe_bins
+from lteu import log
+from lteu.data import tools
+from lteu.data.origin import bins as origin_bins
+from lteu.data.origin import gt as origin_gt
+from lteu.data.plaseval import bins as pe_bins
 
-APP = typer.Typer(name="fmt", help="Formatting files.")
+APP = typer.Typer(name="plaseval", help="Formatting inputs to PlasEval format.")
 
 
-class GtToPlasEval:
+class GroundTruthsInputs:
     """Ground-truth to PlasEval args and opts."""
 
-    class Args:
-        """Ground-truth to PlasEval args."""
+    XLSX_PATH = typer.Argument(
+        help="Path to the predictions.xlsx file.",
+    )
 
-        XLSX_PATH = typer.Argument(
-            help="Path to the predictions.xlsx file.",
-        )
-
-        OUTPUT_DIR = typer.Argument(
-            help="Path to the output directory.",
-        )
-
-    class Opts:
-        """Ground-truth to PlasEval opts."""
-
-        WITH_CHROMOSOMES = typer.Option(
-            "--with-chromosomes/--without-chromosomes",
-            help="Format to PlasEval union chromosomal bin.",
-        )
+    OUTPUT_DIR = typer.Argument(
+        help="Path to the output directory.",
+    )
+    WITH_CHROMOSOMES = typer.Option(
+        "--with-chromosomes/--without-chromosomes",
+        help="Format to PlasEval union chromosomal bin.",
+    )
 
 
-@APP.command("gt-to-plaseval")
+@APP.command("gt")
 def gt_to_plaseval(
-    xlsx_path: Annotated[Path, GtToPlasEval.Args.XLSX_PATH],
-    output_dir: Annotated[Path, GtToPlasEval.Args.OUTPUT_DIR],
-    with_chromosomes: Annotated[bool, GtToPlasEval.Opts.WITH_CHROMOSOMES] = False,
+    xlsx_path: Annotated[Path, GroundTruthsInputs.XLSX_PATH],
+    output_dir: Annotated[Path, GroundTruthsInputs.OUTPUT_DIR],
+    with_chromosomes: Annotated[bool, GroundTruthsInputs.WITH_CHROMOSOMES] = False,
 ) -> None:
     """Format paper ground truth to PlasEval ground truth."""
     log.print_title("Format paper ground-truth to PlasEval ground truth")
@@ -103,83 +95,33 @@ def gt_to_plaseval(
     log.print_done(f"Created {count} files in {log.fmt_dir(output_dir)} directory")
 
 
-class CompleteHybridAsm:
-    """Complete hybrid assembly args and opts."""
-
-    class Args:
-        """Complete hybrid assembly args."""
-
-        XLSX_PATH = typer.Argument(
-            help="Path to the predictions.xlsx file.",
-        )
-
-        TSV_OUTPUT = typer.Argument(
-            help="Path to the output TSV file.",
-        )
-
-
-@APP.command("complete-hybrid-asm")
-def extract_complete_assembly(
-    xlsx_path: Annotated[Path, CompleteHybridAsm.Args.XLSX_PATH],
-    tsv_output: Annotated[Path, CompleteHybridAsm.Args.TSV_OUTPUT],
-) -> None:
-    """Extract complete hybrid assemblies."""
-    log.print_title("Extract complete hybrid assemblies")
-
-    tsv_output.parent.mkdir(parents=True, exist_ok=True)
-
-    gt_df = origin_gt.to_dataframe(xlsx_path)
-    gt_df = gt_df[gt_df[origin_gt.Header.HAS_COMPLETE_HYBRID_ASM]]
-
-    final_smps = pd.Series(
-        gt_df[origin_gt.Header.SAMPLE_ID].unique(),
-        name=smp_data.Header.SAMPLE_ID,
-    )
-
-    log.print_info(f"{final_smps.size} samples with complete hybrid assemblies")
-
-    final_smps.to_csv(
-        tsv_output,
-        sep="\t",
-        index=False,
-    )
-
-    log.print_done(f"Created {log.fmt_file(tsv_output)} file")
-
-
-class BinToPlasEval:
+class BinsInputs:
     """Plasmid reconstruction to PlasEval args and opts."""
 
-    class Args:
-        """Plasmid reconstruction to PlasEval args."""
+    XLSX_PATH = typer.Argument(
+        help="Path to the predictions.xlsx file.",
+    )
 
-        XLSX_PATH = typer.Argument(
-            help="Path to the predictions.xlsx file.",
-        )
+    OUTPUT_DIR = typer.Argument(
+        help="Path to the output directory.",
+    )
 
-        OUTPUT_DIR = typer.Argument(
-            help="Path to the output directory.",
-        )
+    TOOL = typer.Argument(
+        help="Binning tool code.",
+    )
 
-        TOOL = typer.Argument(
-            help="Binning tool code.",
-        )
-
-    class Opts:
-        """Plasmid reconstruction to PlasEval opts."""
-
-        WITH_CHROMOSOMES = typer.Option(
-            "--with-chromosomes/--without-chromosomes",
-            help="Format to PlasEval union chromosomal bin.",
-        )
+    WITH_CHROMOSOMES = typer.Option(
+        "--with-chromosomes/--without-chromosomes",
+        help="Format to PlasEval union chromosomal bin.",
+    )
 
 
-@APP.command("bins-to-plaseval")
+@APP.command("bins")
 def bins_to_plaseval(
-    xlsx_path: Annotated[Path, BinToPlasEval.Args.XLSX_PATH],
-    tool: Annotated[tools.Binning, BinToPlasEval.Args.TOOL],
-    output_dir: Annotated[Path, BinToPlasEval.Args.OUTPUT_DIR],
-    with_chromosomes: Annotated[bool, BinToPlasEval.Opts.WITH_CHROMOSOMES] = False,
+    xlsx_path: Annotated[Path, BinsInputs.XLSX_PATH],
+    tool: Annotated[tools.Binning, BinsInputs.TOOL],
+    output_dir: Annotated[Path, BinsInputs.OUTPUT_DIR],
+    with_chromosomes: Annotated[bool, BinsInputs.WITH_CHROMOSOMES] = False,
 ) -> None:
     """Format paper bins to PlasEval bins."""
     log.print_title("Format paper bins to PlasEval bins")
