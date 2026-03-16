@@ -45,7 +45,7 @@ Manually:
 ```sh
 tool=hyasp # mob | pbf | gplas2
 content=only_plasmids # | with_chromosomes
-lteu ops uniqify tool binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv uniqify/$content/$tool
+lteu uniqify tool binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv uniqify/$content/$tool
 ```
 
 Or executing the script `scripts/uniqify/tools/inputs.sh` in `data` directory.

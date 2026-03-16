@@ -80,3 +80,29 @@ def unify_repeats(
         pred_bin_id = next(pred_bin_names_iter, None)
 
     return ground_truth, predictions, nb_matchs
+
+
+def uniqify_ground_truth(ground_truth: pd.DataFrame) -> pd.DataFrame:
+    """Unify the repeats in the ground truth.
+
+    When one predicted bin equals one ground truth bin,
+    their contigs are renamed such that they do not appear in other bins.
+
+    Arguments
+    ---------
+    ground_truth: pd.DataFrame
+        The ground truth (plasEval format).
+
+    Returns
+    -------
+    ground_truth: pd.DataFrame
+        The new ground truth (plasEval format).
+    """
+    bin_ids = ground_truth[pe_bins.Header.PLASMID].unique()
+    for k, bin_id in enumerate(bin_ids):
+        ground_truth.loc[
+            ground_truth[pe_bins.Header.PLASMID] == bin_id,
+            pe_bins.Header.CONTIG,
+        ] += f"_{k}"
+
+    return ground_truth

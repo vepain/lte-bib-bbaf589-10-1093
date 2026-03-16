@@ -5,13 +5,16 @@ icon: lucide/copy
 # Repeat bias
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package.
+> Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
 ```sh
 .
 └── data
     ├── samples
-    │   └── complete_hybrid_asm.tsv
+    │   ├── complete_hybrid_asm.tsv
+    │   └── repeats  # samples with repeats in ground truth bins
+    │       ├── only_plasmids.tsv
+    │       └── with_chromosomes.tsv
     ├── ground_truths  # PlasEval formatted ground-truths
     │   ├── only_plasmids
     │   └── with_chromosomes
@@ -19,7 +22,7 @@ icon: lucide/copy
     │   ├── only_plasmids
     │   │   └── $tool
     │   └── with_chromosomes  # Same subtree as only_plasmids/
-    ├── uniqify  # Predictions and ground-truths after uniqify (complete hybrid assemblies only)
+    ├── uniqify  # Predictions and ground-truths after uniqify (complete hybrid assemblies only and with repeats)
     │   ├── only_plasmids
     │   │   └── ground_truths # Same subtree as in ground_truths/only_plasmids/
     │   └── with_chromosomes # Same subtree as only_plasmids/
@@ -38,11 +41,13 @@ cd data
 
 ## Preparing the input data
 
+<!-- TODO samples only with repeats -->
+
 Manually:
 
 ```sh
 content=only_plasmids # | with_chromosomes
-lteu ops uniqify gt ground_truths/$content samples/complete_hybrid_asm.tsv uniqify/$content/ground_truths
+lteu uniqify gt ground_truths/$content samples/repeats/$content.tsv uniqify/$content/ground_truths
 ```
 
 Or executing the script `scripts/uniqify/ground_truths/inputs.sh` in `data` directory.
@@ -53,44 +58,18 @@ Or executing the script `scripts/uniqify/ground_truths/inputs.sh` in `data` dire
 
 ```sh
 content=only_plasmids # | with_chromosomes
-gt_tsv=ground_truths/$content
-lteu eval $gt_tsv $gt_tsv samples/complete_hybrid_asm.tsv comp_hom/$content/repeats/ground_truths.tsv
+gt_dir=ground_truths/$content
+lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/repeats/ground_truths.tsv
 ```
 
 Or executing the script `scripts/uniqify/ground_truths/eval_repeats.sh` in `data` directory.
 
-Merge the evaluations:
-
-```sh
-content=only_plasmids # | with_chromosomes
-eval_dir=comp_hom/$content/repeats
-lteu fmt merge-eval \
-    -i $eval_dir/hyasp.tsv -t hyasp \
-    -i $eval_dir/mob.tsv -t mob \
-    -i $eval_dir/pbf.tsv -t pbf \
-    -i $eval_dir/gplas2.tsv -t gplas2 \
-    $eval_dir/merge.tsv
-```
-
 ### With uniqify
 
 ```sh
-tool=hyasp # mob | pbf | gplas2
 content=only_plasmids # | with_chromosomes
-lteu eval uniqify/$content/$tool/binning uniqify/$content/$tool/ground_truths samples/complete_hybrid_asm.tsv comp_hom/$content/uniqify/$tool.tsv
+gt_dir=uniqify/$content/ground_truths
+lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/uniqify/ground_truth.tsv
 ```
 
-Or executing the script `scripts/uniqify/tools/eval_uniqify.sh` in `data` directory.
-
-Merge the evaluations:
-
-```sh
-content=only_plasmids # | with_chromosomes
-eval_dir=comp_hom/$content/uniqify
-lteu fmt merge-eval \
-    -i $eval_dir/hyasp.tsv -t hyasp \
-    -i $eval_dir/mob.tsv -t mob \
-    -i $eval_dir/pbf.tsv -t pbf \
-    -i $eval_dir/gplas2.tsv -t gplas2 \
-    $eval_dir/merge.tsv
-```
+Or executing the script `scripts/uniqify/ground_truths/eval_uniqify.sh` in `data` directory.
