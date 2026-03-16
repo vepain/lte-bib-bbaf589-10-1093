@@ -2,10 +2,10 @@
 icon: lucide/copy
 ---
 
-# Repeat bias
+# Repeat bias for each tool
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package.
+> Make sure you have installed the `lteu` package, see [Installation](../../install.md).
 
 ```sh
 .
@@ -45,10 +45,10 @@ Manually:
 ```sh
 tool=hyasp # mob | pbf | gplas2
 content=only_plasmids # | with_chromosomes
-lteu ops uniqify binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv uniqify/$content/$tool
+lteu ops uniqify tool binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv uniqify/$content/$tool
 ```
 
-Or using the script in `experiments/scripts/uniqify/inputs.sh` in `data` directory.
+Or executing the script `scripts/uniqify/tools/inputs.sh` in `data` directory.
 
 ## Evaluating the completeness and the homogeneity
 
@@ -57,17 +57,17 @@ Or using the script in `experiments/scripts/uniqify/inputs.sh` in `data` directo
 ```sh
 tool=hyasp # mob | pbf | gplas2
 content=only_plasmids # | with_chromosomes
-lteu eval binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv comp_hom/$content/repeats/$tool.tsv
+lteu eval run binning/$content/$tool ground_truths/$content samples/complete_hybrid_asm.tsv comp_hom/$content/repeats/$tool.tsv
 ```
 
-Or using the script in `experiments/scripts/uniqify/eval_repeats.sh` in `data` directory.
+Or executing the script `scripts/uniqify/tools/eval_repeats.sh` in `data` directory.
 
 Merge the evaluations:
 
 ```sh
 content=only_plasmids # | with_chromosomes
 eval_dir=comp_hom/$content/repeats
-lteu fmt merge-eval \
+lteu eval merge \
     -i $eval_dir/hyasp.tsv -t hyasp \
     -i $eval_dir/mob.tsv -t mob \
     -i $eval_dir/pbf.tsv -t pbf \
@@ -80,17 +80,17 @@ lteu fmt merge-eval \
 ```sh
 tool=hyasp # mob | pbf | gplas2
 content=only_plasmids # | with_chromosomes
-lteu eval uniqify/$content/$tool/binning uniqify/$content/$tool/ground_truths samples/complete_hybrid_asm.tsv comp_hom/$content/uniqify/$tool.tsv
+lteu eval run uniqify/$content/$tool/binning uniqify/$content/$tool/ground_truths samples/complete_hybrid_asm.tsv comp_hom/$content/uniqify/$tool.tsv
 ```
 
-Or using the script in `experiments/scripts/uniqify/eval_uniqify.sh` in `data` directory.
+Or executing the script `scripts/uniqify/tools/eval_uniqify.sh` in `data` directory.
 
 Merge the evaluations:
 
 ```sh
 content=only_plasmids # | with_chromosomes
 eval_dir=comp_hom/$content/uniqify
-lteu fmt merge-eval \
+lteu eval merge \
     -i $eval_dir/hyasp.tsv -t hyasp \
     -i $eval_dir/mob.tsv -t mob \
     -i $eval_dir/pbf.tsv -t pbf \

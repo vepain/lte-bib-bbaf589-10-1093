@@ -11,3 +11,5 @@ Then, follow the steps:
 1. [Formatting the inputs](inputs.md)
 2. [Subsampling the dataset](samples.md)
 3. [First experiment: the repeat bias](repeats.md)
+
+See also the [appendix](appendix/index.md)
