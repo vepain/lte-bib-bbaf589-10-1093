@@ -34,4 +34,4 @@ pip install uv-build
 pip install "$lteu_dir"
 # ------------------------------------------------------------------------------------ #
 
-lteu fmt complete-hybrid-asm "$original_predictions" "$samples_dir/complete_hybrid_asm.tsv"
+lteu fmt smp complete-hybrid-asm "$original_predictions" "$samples_dir/complete_hybrid_asm.tsv"

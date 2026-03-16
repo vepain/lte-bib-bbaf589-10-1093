@@ -14,6 +14,9 @@ module name: lteu
   * [Git](#git-1)
     * [Developing a feature](#developing-a-feature)
   * [Linting and format](#linting-and-format)
+* [Documentations](#documentations)
+  * [Installation](#installation)
+  * [Preview in live server](#preview-in-live-server)
 
 ## Conventions
 
@@ -179,4 +182,35 @@ With [ty](https://docs.astral.sh/ty/):
 
 ```sh
 uv run ty check src/lteu
+```
+
+## Documentations
+
+We use [zensical](https://zensical.org) static website generator based on Markdown.
+
+### Installation
+
+Add dependencies via `uv`:
+
+```sh
+uv add --group docs zensical
+```
+
+Add group `docs` to group `dev`:
+
+```toml
+[dependency-groups]
+  dev = [
+    # ...
+    { include-group = "docs" }
+  ]
+```
+
+Other dependencies: are listed in the group `docs`.
+
+### Preview in live server
+
+```sh
+uv run zensical serve
+open http://localhost:8000 # May be different, use the adress given by the command in stdout
 ```

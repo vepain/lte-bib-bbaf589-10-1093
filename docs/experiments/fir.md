@@ -1,8 +1,12 @@
-# Experiment
+---
+icon: lucide/cloud-cog
+---
+
+# On Fir cluster
 
 > [!NOTE]
-> The experiments description concerns the run on the `Fir` Alliance Canada cluster.
-> In order to share the files, make sure to configurate the `umask`: `umask 007`.
+> The following descriptions concern the run on the `Fir` Alliance Canada cluster.
+> In order to share the files, make sure to have configured the `umask`: `umask 007`.
 
 ## Fir file structure
 
@@ -22,14 +26,14 @@ In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.
 │   │   ├── only_plasmids
 │   │   │   └── $tool
 │   │   └── with_chromosomes  # Same subtree as only_plasmids/
-│   ├── uniqify  # Predictions and ground-truths after uniqify
+│   ├── uniqify  # Predictions and ground-truths after uniqify (complete hybrid assemblies only)
 │   │   ├── only_plasmids
 │   │   │   └── $tool
-│   │   │       ├── predictions # one file per sample
+│   │   │       ├── binning # one file per sample
 │   │   │       ├── ground_truths # idem
 │   │   │       └── nb_matches.tsv
 │   │   └── with_chromosomes # Same subtree as only_plasmids/
-│   ├── comp_hom  # Completeness and homogeneity
+│   ├── comp_hom  # Completeness and homogeneity (complete hybrid assemblies only)
 │   │   ├── only_plasmids
 │   │   │   ├── repeats
 │   │   │   │   └── $tool.tsv

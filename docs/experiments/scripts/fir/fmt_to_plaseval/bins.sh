@@ -38,9 +38,9 @@ tools="hyasp mob pbf gplas2"
 for tool in $tools; do
     bin_content_dir="$bins_dir/only_plasmids/$tool"
     mkdir -p "$bin_content_dir"
-    lteu fmt bins-to-plaseval "$original_predictions" "$tool" "$bin_content_dir"
+    lteu fmt plaseval bins "$original_predictions" "$tool" "$bin_content_dir"
 
     bin_content_dir="$bins_dir/with_chromosomes/$tool"
     mkdir -p "$bin_content_dir"
-    lteu fmt bins-to-plaseval "$original_predictions" "$tool" "$bin_content_dir" --with-chromosomes
+    lteu fmt plaseval bins "$original_predictions" "$tool" "$bin_content_dir" --with-chromosomes
 done
