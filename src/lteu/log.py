@@ -60,3 +60,15 @@ def fmt_dir(path: Path) -> str:
 def fmt_file(path: Path) -> str:
     """Format file path for print."""
     return f":page_facing_up: [bold]{path}[/bold]"
+
+
+def fmt_tool(tool: str) -> str:
+    """Format tool for print."""
+    return f":hammer_and_wrench: [bold]{tool}[/bold]"
+
+
+def fmt_with_chr_input(with_chromosomes: bool) -> str:  # noqa: FBT001
+    """Format with chromosomes input for print."""
+    if with_chromosomes:
+        return ":microbe: With chromosomal bin"
+    return ":microbe: Only plasmid bins"

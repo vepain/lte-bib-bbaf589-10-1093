@@ -1,7 +1,5 @@
 """Merge evaluations application."""
 
-# Due to typer
-
 from pathlib import Path
 from typing import Annotated
 
@@ -13,7 +11,7 @@ from lteu.data import tools
 
 from . import files
 
-APP = typer.Typer(help="Merge evaluations.")
+APP = typer.Typer()
 
 
 class Inputs:
@@ -36,7 +34,7 @@ class Inputs:
     )
 
 
-@APP.command("merge-eval")
+@APP.command("merge")
 def merge_evaluations(
     eval_tsv_files: Annotated[list[Path], Inputs.EVAL_TSV],
     tool_codes: Annotated[list[tools.Binning], Inputs.TOOL_CODE],

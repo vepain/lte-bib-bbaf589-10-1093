@@ -15,7 +15,7 @@ from lteu.data.origin import bins as origin_bins
 from lteu.data.origin import gt as origin_gt
 from lteu.data.plaseval import bins as pe_bins
 
-APP = typer.Typer(name="plaseval", help="Formatting inputs to PlasEval format.")
+APP = typer.Typer()
 
 
 class GroundTruthsInputs:
@@ -34,17 +34,22 @@ class GroundTruthsInputs:
     )
 
 
-@APP.command("gt")
+@APP.command("ground-truths")
 def gt_to_plaseval(
     xlsx_path: Annotated[Path, GroundTruthsInputs.XLSX_PATH],
     output_dir: Annotated[Path, GroundTruthsInputs.OUTPUT_DIR],
     with_chromosomes: Annotated[bool, GroundTruthsInputs.WITH_CHROMOSOMES] = False,
 ) -> None:
-    """Format paper ground truth to PlasEval ground truth."""
-    log.print_title("Format paper ground-truth to PlasEval ground truth")
+    """Format paper ground truth bins to PlasEval ground truths."""
+    log.print_title("Format paper ground-truth bins to PlasEval ground truths")
 
-    if with_chromosomes:
-        log.print_msg(":microbe: With chromosomal bin")
+    log.print_inputs(
+        (
+            f"XLSX file: {log.fmt_file(xlsx_path)}",
+            f"Output directory: {log.fmt_dir(output_dir)}",
+            log.fmt_with_chr_input(with_chromosomes),
+        ),
+    )
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -89,6 +94,22 @@ def gt_to_plaseval(
                 ignore_index=True,
             )
 
+        #
+        # Duplicate contigs when they belong to several bins
+        #
+        several_bins_rows = plaseval_gt_df[
+            plaseval_gt_df[pe_bins.Header.PLASMID].str.contains(";")
+        ]
+        plaseval_gt_df = plaseval_gt_df.drop(several_bins_rows.index)
+        for _, row in several_bins_rows.iterrows():
+            for bin_id in row[pe_bins.Header.PLASMID].split(";"):
+                new_row = row.copy()
+                new_row[pe_bins.Header.PLASMID] = bin_id
+                plaseval_gt_df = pd.concat(
+                    [plaseval_gt_df, new_row.to_frame().T],
+                    ignore_index=True,
+                )
+
         plaseval_gt_df.to_csv(output_dir / pe_bins.fname(smp_id), sep="\t", index=False)
         count += 1
 
@@ -125,6 +146,15 @@ def bins_to_plaseval(
 ) -> None:
     """Format paper bins to PlasEval bins."""
     log.print_title("Format paper bins to PlasEval bins")
+
+    log.print_inputs(
+        (
+            f"XLSX file: {log.fmt_file(xlsx_path)}",
+            f"Binning tool: {log.fmt_tool(tool)}",
+            f"Output directory: {log.fmt_dir(output_dir)}",
+            log.fmt_with_chr_input(with_chromosomes),
+        ),
+    )
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -186,9 +216,7 @@ def bins_to_plaseval(
         several_bins_rows = plaseval_bins_df[
             plaseval_bins_df[pe_bins.Header.PLASMID].str.contains(";")
         ]
-        plaseval_bins_df = plaseval_bins_df[
-            ~plaseval_bins_df[pe_bins.Header.PLASMID].str.contains(";")
-        ]
+        plaseval_bins_df = plaseval_bins_df.drop(several_bins_rows.index)
         for _, row in several_bins_rows.iterrows():
             for bin_id in row[pe_bins.Header.PLASMID].split(";"):
                 new_row = row.copy()

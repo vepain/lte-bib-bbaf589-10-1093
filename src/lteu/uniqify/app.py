@@ -6,16 +6,16 @@ from typing import Annotated
 import typer
 
 from lteu import log
-from lteu.data import samples as smp
 from lteu.data.plaseval import bins as pe_bins
+from lteu.samples import files as smp_files
 
 from . import files, main
 
-APP = typer.Typer(help="Uniqify commands.")
+APP = typer.Typer(name="uniqify", help="Uniqify commands.")
 
 
-class Args:
-    """Arguments."""
+class ToolInputs:
+    """Inputs for tool command."""
 
     PREDICTIONS_DIR = typer.Argument(
         help="Path to the predictions directory.",
@@ -36,12 +36,12 @@ class Args:
     )
 
 
-@APP.command("uniqify")
+@APP.command("tool")
 def distinguish_repeats(
-    preds_dir: Annotated[Path, Args.PREDICTIONS_DIR],
-    gt_dir: Annotated[Path, Args.GROUND_TRUTH_DIR],
-    samples_tsv: Annotated[Path, Args.SAMPLES_TSV],
-    output_dir: Annotated[Path, Args.OUTPUT_DIR],
+    preds_dir: Annotated[Path, ToolInputs.PREDICTIONS_DIR],
+    gt_dir: Annotated[Path, ToolInputs.GROUND_TRUTH_DIR],
+    samples_tsv: Annotated[Path, ToolInputs.SAMPLES_TSV],
+    output_dir: Annotated[Path, ToolInputs.OUTPUT_DIR],
 ) -> None:
     """Distinguish the repeats in the bins for a list of samples."""
     log.print_title("Distinguish the repeats in the bins for a list of samples")
@@ -55,7 +55,7 @@ def distinguish_repeats(
         ),
     )
 
-    smp_df = smp.to_dataframe(samples_tsv)
+    smp_df = smp_files.to_dataframe(samples_tsv)
 
     out_preds_dir = output_dir / "binning"
     out_gt_dir = output_dir / "ground_truths"
@@ -67,7 +67,7 @@ def distinguish_repeats(
 
     nb_no_eval = 0
 
-    for smp_id in smp_df[smp.Header.SAMPLE_ID]:
+    for smp_id in smp_df[smp_files.Header.SAMPLE_ID]:
         pred_file = preds_dir / pe_bins.fname(smp_id)
         gt_file = gt_dir / pe_bins.fname(smp_id)
 
@@ -79,8 +79,8 @@ def distinguish_repeats(
             }
             continue
 
-        pred_df = pe_bins.to_dataframe(preds_dir / pe_bins.fname(smp_id))
-        gt_df = pe_bins.to_dataframe(gt_dir / pe_bins.fname(smp_id))
+        pred_df = pe_bins.to_dataframe(pred_file)
+        gt_df = pe_bins.to_dataframe(gt_file)
 
         gt_df, pred_df, nb_match = main.unify_repeats(gt_df, pred_df)
 
@@ -100,3 +100,52 @@ def distinguish_repeats(
 
     log.print_done(f"Created {log.fmt_dir(out_preds_dir)} directory")
     log.print_done(f"Created {log.fmt_dir(out_gt_dir)} directory")
+
+
+class GTInputs:
+    """Inputs for gt command."""
+
+    GROUND_TRUTH_DIR = typer.Argument(
+        help="Path to the ground truth directory.",
+    )
+
+    SAMPLES_TSV = typer.Argument(
+        help="Path to the samples TSV file.",
+    )
+
+    NEW_GT_DIR = typer.Argument(
+        help="Path to the new ground truths directory.",
+    )
+
+
+@APP.command("gt")
+def distinguish_repeats_in_ground_truth(
+    gt_dir: Annotated[Path, GTInputs.GROUND_TRUTH_DIR],
+    samples_tsv: Annotated[Path, GTInputs.SAMPLES_TSV],
+    new_gt_dir: Annotated[Path, GTInputs.NEW_GT_DIR],
+) -> None:
+    """Distinguish the repeats in the ground truth bins for a list of samples."""
+    log.print_title(
+        "Distinguish the repeats in the ground truth bins for a list of samples",
+    )
+
+    log.print_inputs(
+        (
+            f"Ground truth directory: {log.fmt_dir(gt_dir)}",
+            f"Samples TSV file: {log.fmt_file(samples_tsv)}",
+            f"New ground truth directory: {log.fmt_dir(new_gt_dir)}",
+        ),
+    )
+
+    smp_df = smp_files.to_dataframe(samples_tsv)
+
+    new_gt_dir.mkdir(parents=True, exist_ok=True)
+
+    for smp_id in smp_df[smp_files.Header.SAMPLE_ID]:
+        gt_df = pe_bins.to_dataframe(gt_dir / pe_bins.fname(smp_id))
+
+        new_gt_df = main.uniqify_ground_truth(gt_df)
+
+        pe_bins.to_file(new_gt_df, new_gt_dir / pe_bins.fname(smp_id))
+
+    log.print_done(f"Created {log.fmt_dir(new_gt_dir)} directory")

@@ -125,7 +125,7 @@ mkdir -p scripts/samples
 From here:
 
 ```sh
-scp ./scripts/samples/complete_hybrid_asm.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
+scp ./scripts/fir/samples/complete_hybrid_asm.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/samples
 ```
 
 On fir:
@@ -146,7 +146,7 @@ sbatch complete_hybrid_asm.sh
 
 With and without the chromosomal bin.
 
-C.f. `./scripts/fmt_to_plaseval/ground_truth.sh`
+C.f. `./scripts/fir/fmt_to_plaseval/ground_truth.sh`
 
 ### installation
 
@@ -160,7 +160,7 @@ mkdir -p scripts/fmt_to_plaseval
 From here:
 
 ```sh
-scp ./scripts/fmt_to_plaseval/ground_truth.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+scp ./scripts/fir/fmt_to_plaseval/ground_truth.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 ```
 
 On fir:
@@ -181,7 +181,7 @@ sbatch ground_truth.sh
 
 With and without the chromosomal bin.
 
-C.f. `./scripts/fmt_to_plaseval/bins.sh`
+C.f. `./scripts/fir/fmt_to_plaseval/bins.sh`
 
 ### installation
 
@@ -195,7 +195,7 @@ mkdir -p scripts/fmt_to_plaseval
 From here:
 
 ```sh
-scp ./scripts/fmt_to_plaseval/bins.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
+scp ./scripts/fir/fmt_to_plaseval/bins.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/fmt_to_plaseval
 ```
 
 On fir:
@@ -216,7 +216,7 @@ sbatch bins.sh
 
 With or without the chromosomal bin, for one given method.
 
-C.f. `./scripts/plaseval/comp.sh`
+C.f. `./scripts/fir/plaseval/comp.sh`
 
 ### installation
 
@@ -241,7 +241,7 @@ mkdir -p scripts/plaseval
 From here:
 
 ```sh
-scp ./scripts/plaseval/comp.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
+scp ./scripts/fir/plaseval/comp.sh fir:/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor/scripts/plaseval
 ```
 
 On fir:
