@@ -6,8 +6,8 @@ from typing import Annotated
 import typer
 
 from lteu import log
-from lteu.data import samples as smp
 from lteu.data.plaseval import bins as pe_bins
+from lteu.samples import files as smp_files
 
 from . import files, main
 
@@ -55,7 +55,7 @@ def distinguish_repeats(
         ),
     )
 
-    smp_df = smp.to_dataframe(samples_tsv)
+    smp_df = smp_files.to_dataframe(samples_tsv)
 
     out_preds_dir = output_dir / "binning"
     out_gt_dir = output_dir / "ground_truths"
@@ -67,7 +67,7 @@ def distinguish_repeats(
 
     nb_no_eval = 0
 
-    for smp_id in smp_df[smp.Header.SAMPLE_ID]:
+    for smp_id in smp_df[smp_files.Header.SAMPLE_ID]:
         pred_file = preds_dir / pe_bins.fname(smp_id)
         gt_file = gt_dir / pe_bins.fname(smp_id)
 
@@ -137,11 +137,11 @@ def distinguish_repeats_in_ground_truth(
         ),
     )
 
-    smp_df = smp.to_dataframe(samples_tsv)
+    smp_df = smp_files.to_dataframe(samples_tsv)
 
     new_gt_dir.mkdir(parents=True, exist_ok=True)
 
-    for smp_id in smp_df[smp.Header.SAMPLE_ID]:
+    for smp_id in smp_df[smp_files.Header.SAMPLE_ID]:
         gt_df = pe_bins.to_dataframe(gt_dir / pe_bins.fname(smp_id))
 
         new_gt_df = main.uniqify_ground_truth(gt_df)
