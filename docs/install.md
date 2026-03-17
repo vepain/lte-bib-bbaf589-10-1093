@@ -18,8 +18,10 @@ cd lte-bib-bbaf589-10-1093
 Install thanks to [uv](https://docs.astral.sh/uv/):
 
 ```sh
-uv sync
+uv install .
 ```
+
+The commands described in the [experiments](experiments/index.md) can be prepended by `uv run` e.g. `uv run lteu --help`.
 
 ### Without uv
 
@@ -28,6 +30,9 @@ Create a virtual environment, source it, and install `lteu`:
 ```sh
 pip install .
 ```
+
+>[!WARNING]
+> If you use this method, make sure you have sourced your virtual environment before running the commands in the [experiments](experiments/index.md).
 
 ## Prepare working space
 
