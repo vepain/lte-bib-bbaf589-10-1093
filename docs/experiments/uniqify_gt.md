@@ -96,3 +96,25 @@ lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/uniqify
 
 >[!TIP]
 > You can execute the script `scripts/uniqify/ground_truths/eval_uniqify.sh` in the `data` directory.
+
+## Generating figures
+
+```sh
+content=only_plasmids # | with_chromosomes
+measure="unw_comp" # | unw_hom | w_comp | w_hom
+
+x_evals_tsv=comp_hom/$content/repeats/ground_truths.tsv
+x_label="Original"
+
+y_evals_tsv=comp_hom/$content/uniqify/ground_truth.tsv
+y_label="Uniqify"
+
+fig_pdf="figs/uniqify/$content/ground_truths/$measure.pdf"
+
+lteu figs vs gt "$measure" "$fig_pdf" \
+    --x-axis "$x_evals_tsv" --x-label "$x_label" \
+    --y-axis "$y_evals_tsv" --y-label "$y_label"
+```
+
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/fig_vs.sh` in the `data` directory.
