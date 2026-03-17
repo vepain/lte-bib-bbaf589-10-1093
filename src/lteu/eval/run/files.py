@@ -30,6 +30,7 @@ def to_dataframe(path: Path) -> pd.DataFrame:
     return pd.read_csv(
         path,
         sep="\t",
+        dtype=HEADER_TYPES,  # ty:ignore[invalid-argument-type]
     )
 
 

@@ -31,7 +31,7 @@ HEADER_TYPES = {
 
 def to_dataframe(path: Path) -> pd.DataFrame:
     """Convert a file to a pandas DataFrame."""
-    return pd.read_csv(path, sep="\t")
+    return pd.read_csv(path, sep="\t", dtype=HEADER_TYPES)  # ty:ignore[invalid-argument-type]
 
 
 def new_dataframe() -> pd.DataFrame:
