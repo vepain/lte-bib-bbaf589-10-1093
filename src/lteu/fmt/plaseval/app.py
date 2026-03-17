@@ -9,11 +9,10 @@ from typing import Annotated
 import pandas as pd
 import typer
 
-from lteu import log
-from lteu.data import tools
-from lteu.data.origin import bins as origin_bins
-from lteu.data.origin import gt as origin_gt
-from lteu.data.plaseval import bins as pe_bins
+from lteu import log, tools
+from lteu.origin import bins as origin_bins
+from lteu.origin import gt as origin_gt
+from lteu.plaseval import bins as pe_bins
 
 APP = typer.Typer()
 

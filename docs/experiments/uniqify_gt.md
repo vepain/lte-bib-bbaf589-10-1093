@@ -11,32 +11,35 @@ icon: lucide/copy
 .
 └── data
     ├── samples
-    │   ├── complete_hybrid_asm.tsv
-    │   └── repeats  # samples with repeats in ground truth bins
-    │       ├── only_plasmids.tsv
-    │       └── with_chromosomes.tsv
+    │   └── complete_hybrid_asm.tsv
     ├── ground_truths  # PlasEval formatted ground-truths
     │   ├── only_plasmids
     │   └── with_chromosomes
-    ├── binning  # PlasEval formatted bins
-    │   ├── only_plasmids
-    │   │   └── $tool
-    │   └── with_chromosomes  # Same subtree as only_plasmids/
-    ├── uniqify  # Predictions and ground-truths after uniqify (complete hybrid assemblies only and with repeats)
-    │   ├── only_plasmids
-    │   │   └── ground_truths # Same subtree as in ground_truths/only_plasmids/
-    │   └── with_chromosomes # Same subtree as only_plasmids/
-    └── comp_hom  # Completeness and homogeneity (complete hybrid assemblies only)
-        ├── only_plasmids
-        │   ├── repeats
-        │   │   └── ground_truth.tsv
-        │   └── uniqify
-        │       └── ground_truth.tsv
-        └── with_chromosomes # Same subtree as only_plasmids/
+    └── experiments
+        └── uniqify
+            └── ground_truths
+                ├── only_plasmids
+                │   ├── samples.tsv
+                │   ├── ground_truths
+                │   ├── evals
+                │   │   ├── repeats.tsv
+                │   │   └── uniqify.tsv
+                │   └── figs # Contains figures in PDF format
+                └── with_chromosomes # Same subtree as experiments/uniqify/only_plasmids/
 ```
 
+>[!IMPORTANT]
+> The following commands are run in the `data` directory.
+>
+> ```sh
+> cd data
+> ```
+
+## Initializing the experiment space
+
 ```sh
-cd data
+exp_dir=experiments/uniqify/ground_truths
+mkdir -p $exp_dir
 ```
 
 ## Preparing the input data
@@ -45,7 +48,7 @@ cd data
 
 ```sh
 content=only_plasmids # | with_chromosomes
-lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content samples/repeats/$content.tsv
+lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content $exp_dir/$content/samples.tsv
 ```
 
 >[!TIP]
@@ -54,7 +57,7 @@ lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content samples/
 <!-- to avoid merge of admonitions -->
 
 >[!NOTE]
-> The lists from `only_plasmids` and `with_chromosomes` must be the same.
+> The sample lists from `only_plasmids` and `with_chromosomes` must be the same.
 > In fact, authors wrote
 >
 > !!! quote
@@ -67,7 +70,7 @@ lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content samples/
 
 ```sh
 content=only_plasmids # | with_chromosomes
-lteu uniqify gt ground_truths/$content samples/repeats/$content.tsv uniqify/$content/ground_truths
+lteu uniqify gt ground_truths/$content $exp_dir/$content/samples.tsv $exp_dir/$content/ground_truths
 ```
 
 >[!TIP]
@@ -80,7 +83,7 @@ lteu uniqify gt ground_truths/$content samples/repeats/$content.tsv uniqify/$con
 ```sh
 content=only_plasmids # | with_chromosomes
 gt_dir=ground_truths/$content
-lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/repeats/ground_truths.tsv
+lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/repeats.tsv
 ```
 
 >[!TIP]
@@ -90,9 +93,31 @@ lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/repeats
 
 ```sh
 content=only_plasmids # | with_chromosomes
-gt_dir=uniqify/$content/ground_truths
-lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/uniqify/ground_truth.tsv
+gt_dir=$exp_dir/$content/ground_truths
+lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/uniqify.tsv
 ```
 
 >[!TIP]
 > You can execute the script `scripts/uniqify/ground_truths/eval_uniqify.sh` in the `data` directory.
+
+## Generating figures
+
+```sh
+content=only_plasmids # | with_chromosomes
+measure="unw_comp" # | unw_hom | w_comp | w_hom
+
+x_evals_tsv=$exp_dir/$content/evals/repeats.tsv
+x_label="Original"
+
+y_evals_tsv=$exp_dir/$content/evals/uniqify.tsv
+y_label="Uniqify"
+
+fig_pdf="$exp_dir/$content/figs/$measure.pdf"
+
+lteu figs vs gt "$measure" "$fig_pdf" \
+    --x-axis "$x_evals_tsv" --x-label "$x_label" \
+    --y-axis "$y_evals_tsv" --y-label "$y_label"
+```
+
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/fig_vs.sh` in the `data` directory.

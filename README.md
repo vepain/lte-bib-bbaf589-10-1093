@@ -19,10 +19,19 @@ See also:
 
 ## Installation
 
+>[!NOTE]
+> For developpers see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 With [uv](https://docs.astral.sh/uv/):
 
 ```sh
-uv sync
+uv install .
+```
+
+With pip in a virtual environment:
+
+```sh
+pip install .
 ```
 
 ## Usage

@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from lteu.data.plaseval import bins as pe_bins
+from lteu.plaseval import bins as pe_bins
 
 
 def unify_repeats(

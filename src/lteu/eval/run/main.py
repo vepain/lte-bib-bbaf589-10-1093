@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from lteu.data.plaseval import bins as pe_bins
+from lteu.plaseval import bins as pe_bins
 
 
 def get_unweighted_contingency_table(

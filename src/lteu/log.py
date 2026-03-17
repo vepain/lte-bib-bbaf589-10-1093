@@ -67,6 +67,11 @@ def fmt_tool(tool: str) -> str:
     return f":hammer_and_wrench: [bold]{tool}[/bold]"
 
 
+def fmt_img(path: Path) -> str:
+    """Format image path for print."""
+    return f":bar_chart: [bold]{path}[/bold]"
+
+
 def fmt_with_chr_input(with_chromosomes: bool) -> str:  # noqa: FBT001
     """Format with chromosomes input for print."""
     if with_chromosomes:
