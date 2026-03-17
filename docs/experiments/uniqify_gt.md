@@ -41,16 +41,37 @@ cd data
 
 ## Preparing the input data
 
-<!-- TODO samples only with repeats -->
+### Get the list to samples for which there are repeats among the ground-truth bins
 
-Manually:
+```sh
+content=only_plasmids # | with_chromosomes
+lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content samples/repeats/$content.tsv
+```
+
+>[!TIP]
+> You can execute the script `scripts/uniqify/sampling.sh` in the `data` directory.
+
+<!--  -->
+
+>[!NOTE]
+> The lists from `only_plasmids` and `with_chromosomes` must be the same.
+> In fact, authors wrote
+>
+> !!! quote
+>
+>     Contigs mapping equally well to a hybrid-assembly chromosome and plasmid contig were excluded from downstream analyses. <!--  markdownlint-disable MD046  -->
+
+### Create the uniqify versions of the samples
+
+`uniqify` command formats the contig names such that there is a null contig names intersection between the ground-truth bins:
 
 ```sh
 content=only_plasmids # | with_chromosomes
 lteu uniqify gt ground_truths/$content samples/repeats/$content.tsv uniqify/$content/ground_truths
 ```
 
-Or executing the script `scripts/uniqify/ground_truths/inputs.sh` in `data` directory.
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/inputs.sh` in the `data` directory.
 
 ## Evaluating the completeness and the homogeneity
 
@@ -62,7 +83,8 @@ gt_dir=ground_truths/$content
 lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/repeats/ground_truths.tsv
 ```
 
-Or executing the script `scripts/uniqify/ground_truths/eval_repeats.sh` in `data` directory.
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/eval_repeats.sh` in the `data` directory.
 
 ### With uniqify
 
@@ -72,4 +94,5 @@ gt_dir=uniqify/$content/ground_truths
 lteu eval $gt_dir $gt_dir samples/repeats/$content.tsv comp_hom/$content/uniqify/ground_truth.tsv
 ```
 
-Or executing the script `scripts/uniqify/ground_truths/eval_uniqify.sh` in `data` directory.
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/eval_uniqify.sh` in the `data` directory.

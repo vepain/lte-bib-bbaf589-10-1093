@@ -39,9 +39,9 @@ Copyright &copy; 2026 The authors
     nav = [
         "index.md",
         "install.md",
+        "inputs.md",
         { "Experiments" = [
             "experiments/index.md",
-            "experiments/inputs.md",
             "experiments/uniqify_gt.md",
             "experiments/appendix/index.md",
         ] },
