@@ -41,7 +41,7 @@ cd data
 
 ## Preparing the input data
 
-### Get the list to samples for which there are repeats among the ground-truth bins
+### Get the list of samples for which there are repeats among the ground-truth bins
 
 ```sh
 content=only_plasmids # | with_chromosomes
@@ -51,7 +51,7 @@ lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content samples/
 >[!TIP]
 > You can execute the script `scripts/uniqify/sampling.sh` in the `data` directory.
 
-<!--  -->
+<!-- to avoid merge of admonitions -->
 
 >[!NOTE]
 > The lists from `only_plasmids` and `with_chromosomes` must be the same.
