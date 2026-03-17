@@ -6,8 +6,8 @@ from typing import Annotated
 import typer
 
 from lteu import log
-from lteu.data import samples as smp
 from lteu.data.plaseval import bins as pe_bins
+from lteu.samples import files as smp_files
 
 from . import files, main
 
@@ -52,12 +52,12 @@ def evaluate(
         ),
     )
 
-    smp_df = smp.to_dataframe(samples_tsv)
+    smp_df = smp_files.to_dataframe(samples_tsv)
     eval_df = files.new_dataframe()
 
     nb_no_eval = 0
 
-    for smp_id in smp_df[smp.Header.SAMPLE_ID]:
+    for smp_id in smp_df[smp_files.Header.SAMPLE_ID]:
         pred_file = preds_dir / pe_bins.fname(smp_id)
         gt_file = gt_dir / pe_bins.fname(smp_id)
 

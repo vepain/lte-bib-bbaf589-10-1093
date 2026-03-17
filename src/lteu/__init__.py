@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from lteu!")
+"""Utilities for the letter to the Editor."""
