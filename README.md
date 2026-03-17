@@ -42,6 +42,21 @@ uv run lteu --help
 
 ## Experiments
 
+### Reading the documentation in a web viewer (recommended)
+
+With [uv](https://docs.astral.sh/uv/):
+
+>[!NOTE]
+> It will install all the dependencies for the developpers.
+
+```sh
+uv sync
+uv run zensical serve
+open http://localhost:8000
+```
+
+### Reading the documentation in raw Markdown
+
 The experiments running tutorial is in [./experiments/README.md](./experiments/README.md).
 
 ## To-do
