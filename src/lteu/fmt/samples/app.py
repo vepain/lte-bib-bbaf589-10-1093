@@ -9,7 +9,7 @@ import pandas as pd
 import typer
 
 from lteu import log
-from lteu.data.origin import gt as origin_gt
+from lteu.origin import gt as origin_gt
 from lteu.samples import files as smp_files
 
 APP = typer.Typer()

@@ -35,4 +35,4 @@ HEADER_TYPES = {
 
 def to_dataframe(xlsx_path: Path) -> pd.DataFrame:
     """Load the ground truth Excel sheet."""
-    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME, dtype=HEADER_TYPES)
+    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME)

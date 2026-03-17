@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from lteu.data import tools
+from lteu import tools
 
 SHEET_NAME = "Plasmid Reconstruction"
 
@@ -46,4 +46,4 @@ HEADER_TYPES = {
 
 def to_dataframe(xlsx_path: Path) -> pd.DataFrame:
     """Load the plasmid reconstruction Excel sheet."""
-    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME, dtype=HEADER_TYPES)
+    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME)

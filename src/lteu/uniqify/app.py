@@ -6,7 +6,7 @@ from typing import Annotated
 import typer
 
 from lteu import log
-from lteu.data.plaseval import bins as pe_bins
+from lteu.plaseval import bins as pe_bins
 from lteu.samples import files as smp_files
 
 from . import files, main

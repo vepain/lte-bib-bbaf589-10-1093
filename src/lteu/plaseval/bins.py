@@ -23,7 +23,7 @@ HEADER_TYPES = {
 
 def to_dataframe(tsv_path: Path) -> pd.DataFrame:
     """Load the plasmid bins TSV file."""
-    return pd.read_csv(tsv_path, dtype=HEADER_TYPES, sep="\t")
+    return pd.read_csv(tsv_path, sep="\t")
 
 
 def fname(sample_id: str) -> str:

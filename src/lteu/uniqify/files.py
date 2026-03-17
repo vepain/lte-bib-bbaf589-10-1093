@@ -26,7 +26,7 @@ def new_dataframe() -> pd.DataFrame:
 
 def to_dataframe(path: Path) -> pd.DataFrame:
     """Convert a file to a pandas DataFrame."""
-    return pd.read_csv(path, sep="\t", dtype=HEADER_TYPES)
+    return pd.read_csv(path, sep="\t")
 
 
 def fname() -> str:
