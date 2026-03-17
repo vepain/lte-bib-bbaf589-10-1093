@@ -94,6 +94,22 @@ def gt_to_plaseval(
                 ignore_index=True,
             )
 
+        #
+        # Duplicate contigs when they belong to several bins
+        #
+        several_bins_rows = plaseval_gt_df[
+            plaseval_gt_df[pe_bins.Header.PLASMID].str.contains(";")
+        ]
+        plaseval_gt_df = plaseval_gt_df.drop(several_bins_rows.index)
+        for _, row in several_bins_rows.iterrows():
+            for bin_id in row[pe_bins.Header.PLASMID].split(";"):
+                new_row = row.copy()
+                new_row[pe_bins.Header.PLASMID] = bin_id
+                plaseval_gt_df = pd.concat(
+                    [plaseval_gt_df, new_row.to_frame().T],
+                    ignore_index=True,
+                )
+
         plaseval_gt_df.to_csv(output_dir / pe_bins.fname(smp_id), sep="\t", index=False)
         count += 1
 
@@ -200,9 +216,7 @@ def bins_to_plaseval(
         several_bins_rows = plaseval_bins_df[
             plaseval_bins_df[pe_bins.Header.PLASMID].str.contains(";")
         ]
-        plaseval_bins_df = plaseval_bins_df[
-            ~plaseval_bins_df[pe_bins.Header.PLASMID].str.contains(";")
-        ]
+        plaseval_bins_df = plaseval_bins_df.drop(several_bins_rows.index)
         for _, row in several_bins_rows.iterrows():
             for bin_id in row[pe_bins.Header.PLASMID].split(";"):
                 new_row = row.copy()
