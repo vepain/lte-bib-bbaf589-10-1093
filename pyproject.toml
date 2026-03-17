@@ -9,9 +9,11 @@
     ]
     requires-python = ">=3.13"
     dependencies = [
+        "matplotlib>=3.10.8",
         "numpy>=2.4.2",
         "pandas[excel]>=3.0",
         "rich>=14.3",
+        "seaborn>=0.13.2",
         "typer>=0.24",
     ]
 
@@ -34,8 +36,11 @@
         "pygments>=2.19.2",
         "zensical>=0.0.27",
     ]
-    lint = ["ruff>=0.15.4", "ty>=0.0.19"]
-    stubs = ["pandas-stubs>=3.0.0.260204"]
+    lint = [
+    "ruff>=0.15.4",
+    "ty>=0.0.19",
+]
+    stubs = ["pandas-stubs>=3.0.0.260204", "types-seaborn>=0.13.2.20251221"]
 
 [tool.ruff.lint]
     select = ["ALL"]
