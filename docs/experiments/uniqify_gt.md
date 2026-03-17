@@ -26,13 +26,18 @@ icon: lucide/copy
     │   ├── only_plasmids
     │   │   └── ground_truths # Same subtree as in ground_truths/only_plasmids/
     │   └── with_chromosomes # Same subtree as only_plasmids/
-    └── comp_hom  # Completeness and homogeneity (complete hybrid assemblies only)
-        ├── only_plasmids
-        │   ├── repeats
-        │   │   └── ground_truth.tsv
-        │   └── uniqify
-        │       └── ground_truth.tsv
-        └── with_chromosomes # Same subtree as only_plasmids/
+    ├── comp_hom  # Completeness and homogeneity (complete hybrid assemblies only)
+    │   ├── only_plasmids
+    │   │   ├── repeats
+    │   │   │   └── ground_truth.tsv
+    │   │   └── uniqify
+    │   │       └── ground_truth.tsv
+    │   └── with_chromosomes # Same subtree as only_plasmids/
+    └── figs  # Figures
+        └── uniqify
+            ├── only_plasmids
+            │   └── ground_truths # Contains figures in PDF format
+            └── with_chromosomes # Same subtree as only_plasmids/
 ```
 
 ```sh
