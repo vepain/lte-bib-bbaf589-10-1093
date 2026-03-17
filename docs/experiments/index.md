@@ -9,7 +9,6 @@ Make sure you have configurated your working space, see [Installation](../instal
 Then, follow the steps:
 
 1. [Formatting the inputs](inputs.md)
-2. [Subsampling the dataset](samples.md)
-3. [First experiment: the repeat bias](repeats.md)
+2. [First experiment: the repeat bias](uniqify_gt.md)
 
 See also the [appendix](appendix/index.md)
