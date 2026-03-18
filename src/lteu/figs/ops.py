@@ -30,25 +30,6 @@ class RmSamplesModes(StrEnum):
     NOTHING = "nothing"
 
 
-def get_gt_evals(
-    v1_merge_tool_evals_tsv: Path,
-    v2_merge_tool_evals_tsv: Path,
-    remove_samples: RmSamplesModes,
-) -> pd.DataFrame:
-    """Read the TSV file and filter it."""
-    df = merge_versions(v1_merge_tool_evals_tsv, v2_merge_tool_evals_tsv)
-
-    match remove_samples:
-        case RmSamplesModes.FAILS:
-            df = remove_samples_with_nan(df)
-        case RmSamplesModes.NOTHING:
-            pass
-        case _:
-            assert_never(remove_samples)
-
-    return df
-
-
 def get_tools_evals(
     v1_merge_tool_evals_tsv: Path,
     v2_merge_tool_evals_tsv: Path,
@@ -57,7 +38,9 @@ def get_tools_evals(
     purpose: Literal["figures", "stats"],
 ) -> pd.DataFrame:
     """Read the TSV file and filter it."""
-    df = merge_versions(v1_merge_tool_evals_tsv, v2_merge_tool_evals_tsv)
+    v1_df = merge_files.to_dataframe(v1_merge_tool_evals_tsv)
+    v2_df = merge_files.to_dataframe(v2_merge_tool_evals_tsv)
+    df = merge_versions(v1_df, v2_df)
     df = _keep_only_methods(df, methods)
 
     match remove_samples:
@@ -81,12 +64,10 @@ def get_tools_evals(
 
 
 def merge_versions(
-    v1_merge_tool_evals_tsv: Path,
-    v2_merge_tool_evals_tsv: Path,
+    v1_df: pd.DataFrame,
+    v2_df: pd.DataFrame,
 ) -> pd.DataFrame:
     """Merge the TSV files from different versions."""
-    v1_df = merge_files.to_dataframe(v1_merge_tool_evals_tsv)
-    v2_df = merge_files.to_dataframe(v2_merge_tool_evals_tsv)
     v1_df[items.Header.VERSION] = items.Versions.V1
     v2_df[items.Header.VERSION] = items.Versions.V2
     return pd.concat([v1_df, v2_df])
