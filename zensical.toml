@@ -42,7 +42,7 @@ Copyright &copy; 2026 The authors
         "inputs.md",
         { "Experiments" = [
             "experiments/index.md",
-            "experiments/uniqify_gt.md",
+            "experiments/uniqify_gt/index.md",
             "experiments/appendix/index.md",
         ] },
     ] # Zensical supports both implicit navigation and explicitly defined navigation.
@@ -338,3 +338,8 @@ Copyright &copy; 2026 The authors
                 "index.md",
             ] },
         ]
+
+    # Images: https://zensical.org/docs/authoring/images/
+    # [project.markdown_extensions.attr_list]
+    [project.markdown_extensions.md_in_html]
+    [project.markdown_extensions.pymdownx.blocks.caption]
