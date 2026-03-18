@@ -2,13 +2,12 @@
 
 import enum
 from pathlib import Path
-from typing import assert_never
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from lteu.figs import aes, items, ops
+from lteu.figs import aes, items
 
 CLASS_COL = "Class"
 
@@ -21,36 +20,14 @@ class Class(enum.StrEnum):
     BELOW = "Below"
 
 
-def get_dataframe_gt(
-    x_evals_tsv: Path,
-    y_evals_tsv: Path,
-    measure: items.MeasureCodes,
-    remove_samples: ops.RmSamplesModes,
-) -> pd.DataFrame:
-    """Get the dataframe for a versus figure for ground truths."""
-    df = ops.get_gt_evals(x_evals_tsv, y_evals_tsv, remove_samples)
-
-    # Keep only intersection samples between the two versions
-    match remove_samples:
-        case ops.RmSamplesModes.FAILS:
-            pass  # Already done before
-        case ops.RmSamplesModes.NOTHING:
-            df = ops.remove_samples_with_nan(df)
-        case _:
-            assert_never(remove_samples)
-
-    df = pd.pivot_table(
-        df,
-        index=items.Header.SAMPLE_ID,
-        columns=items.Header.VERSION,
-        values=measure.to_column(),
-    )
+def add_class_column(df: pd.DataFrame, x_col: str, y_col: str) -> pd.DataFrame:
+    """Add a class column to a dataframe."""
 
     # class column is either Below, Equal or Above the diagonal
     def _class_value(row: pd.Series) -> str:
-        if row[items.Versions.V1] > row[items.Versions.V2]:
+        if row[x_col] > row[y_col]:
             return Class.BELOW
-        if row[items.Versions.V1] < row[items.Versions.V2]:
+        if row[x_col] < row[y_col]:
             return Class.ABOVE
         return Class.EQUAL
 
@@ -64,11 +41,17 @@ class Labels:
 
     def __init__(
         self,
+        title: str,
         x_label: str,
         y_label: str,
     ) -> None:
+        self._title: str = title
         self._x_label: str = x_label
         self._y_label: str = y_label
+
+    def title(self) -> str:
+        """Get title."""
+        return self._title
 
     def x(self) -> str:
         """Get x label."""
@@ -101,7 +84,6 @@ class Aes:
 
 def gt(
     df: pd.DataFrame,
-    measure: items.MeasureCodes,
     aes_cfg: Aes,
     pdf_path: Path,
 ) -> None:
@@ -139,7 +121,7 @@ def gt(
         #
         # Legends
         #
-        ax.set_title("" if aes_cfg.base().focus() else f"{measure.to_label('plural')}")
+        ax.set_title("" if aes_cfg.base().focus() else f"{aes_cfg.labels().title()}")
 
         ax.set_xlabel(f"{aes_cfg.labels().x()}\n(n = {df.shape[0]})")
         ax.set_ylabel(aes_cfg.labels().y())

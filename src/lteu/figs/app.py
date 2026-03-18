@@ -2,8 +2,8 @@
 
 import typer
 
-from .versus import app as vs_app
+from .uniqify import app as uniqify_app
 
 APP = typer.Typer(name="figs", help="Figures commands.")
 
-APP.add_typer(vs_app.APP)
+APP.add_typer(uniqify_app.APP)

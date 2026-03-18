@@ -8,6 +8,12 @@ icon: lucide/cloud-cog
 > The following descriptions concern the run on the `Fir` Alliance Canada cluster.
 > In order to share the files, make sure to have configured the `umask`: `umask 007`.
 
+<!--  -->
+
+!!! danger
+
+    The following section is old such that some informations may be out of date.  <!-- markdownlint-disable MD046  -->
+
 ## Fir file structure
 
 In `/project/def-chauvec/wg-anoph/benchmarking/2026_letter_to_editor` directory.

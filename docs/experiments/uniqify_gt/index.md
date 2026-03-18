@@ -64,7 +64,7 @@ lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/$content $exp_dir
 >
 >     Contigs mapping equally well to a hybrid-assembly chromosome and plasmid contig were excluded from downstream analyses. <!--  markdownlint-disable MD046  -->
 
-### Create the uniqify versions of the samples
+### Create the uniqify versions of the ground truth bins
 
 `uniqify` command formats the contig names such that there is a null contig names intersection between the ground-truth bins:
 
@@ -77,6 +77,8 @@ lteu uniqify gt ground_truths/$content $exp_dir/$content/samples.tsv $exp_dir/$c
 > You can execute the script `scripts/uniqify/ground_truths/inputs.sh` in the `data` directory.
 
 ## Evaluating the completeness and the homogeneity
+
+For each of the ground truths (original and uniqified), we provide the completeness and the homogeneity measures by evaluating the ground truth bins against themselves.
 
 ### Without uniqify
 
@@ -102,6 +104,8 @@ lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/
 
 ## Generating figures
 
+### The versus figure (original ground truths vs uniqified ground truths)
+
 ```sh
 content=only_plasmids # | with_chromosomes
 measure="unw_comp" # | unw_hom | w_comp | w_hom
@@ -121,3 +125,43 @@ lteu figs vs gt "$measure" "$fig_pdf" \
 
 >[!TIP]
 > You can execute the script `scripts/uniqify/ground_truths/fig_vs.sh` in the `data` directory.
+
+??? note "Figures for only plasmids"
+
+    [Unweighted completeness](figs/only_plasmids/unw_comp.pdf){ target="_blank" }
+
+    [Unweighted homogeneity](figs/only_plasmids/unw_hom.pdf){ target="_blank" }
+
+    [Weighted completeness](figs/only_plasmids/w_comp.pdf){ target="_blank" }
+
+    [Weighted homogeneity](figs/only_plasmids/w_hom.pdf){ target="_blank" }
+
+??? note "Figures for with chromosomes"
+
+    [Unweighted completeness](figs/with_chromosomes/unw_comp.pdf){ target="_blank" }
+
+    [Unweighted homogeneity](figs/with_chromosomes/unw_hom.pdf){ target="_blank" }
+
+    [Weighted completeness](figs/with_chromosomes/w_comp.pdf){ target="_blank" }
+
+    [Weighted homogeneity](figs/with_chromosomes/w_hom.pdf){ target="_blank" }
+
+### The distribution of the measures for the original ground truths
+
+As for the uniqified ground truths the measures all equal to 1 (theoretically expected, one can verify that on the previous versus figures)
+
+```sh
+only_plm_eval_tsv=$exp_dir/only_plasmids/evals/repeats.tsv
+with_chm_eval_tsv=$exp_dir/with_chromosomes/evals/repeats.tsv
+
+fig_pdf="$exp_dir/figs/distributions.pdf"
+
+lteu figs uniqify gt dist "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf"
+```
+
+>[!TIP]
+> You can execute the script `scripts/uniqify/ground_truths/fig_dist.sh` in the `data` directory.
+
+??? note "Figure"
+
+    [Distribution](figs/distribution.pdf){ target="_blank" }
