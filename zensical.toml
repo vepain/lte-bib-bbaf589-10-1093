@@ -43,6 +43,7 @@ Copyright &copy; 2026 The authors
         { "Experiments" = [
             "experiments/index.md",
             "experiments/uniqify_gt/index.md",
+            "experiments/chromosomes/index.md",
             "experiments/appendix/index.md",
         ] },
     ] # Zensical supports both implicit navigation and explicitly defined navigation.

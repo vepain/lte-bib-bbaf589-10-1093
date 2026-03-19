@@ -43,7 +43,7 @@ def do_remove_samples_strategy(
         case RmSamplesModes.FAILS:
             return remove_samples_with_nan(df, sample_id_col)
         case RmSamplesModes.NOTHING:
-            return df
+            return df[~df.isna().any(axis=1)]
         case _:
             assert_never(mode)
 

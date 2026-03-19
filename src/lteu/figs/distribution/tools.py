@@ -28,7 +28,6 @@ class Columns(StrEnum):
     MEASURE_CLASS = "Measure class"
     MEASURE_MODE = "Measure mode"
     VALUE = "Value"
-    HUE = "hue"
 
 
 def get_dataframe(
@@ -49,7 +48,7 @@ def get_dataframe(
     ):
         new_eval_df = dist_data.replace_measures_cols_to_class_mode_val_cols(
             eval_df,
-            [merge_files.Header.TOOL_CODE],
+            [merge_files.Header.SAMPLE_ID, merge_files.Header.TOOL_CODE],
             Columns.MEASURE_CLASS,
             Columns.MEASURE_MODE,
             Columns.VALUE,
@@ -65,7 +64,7 @@ def get_dataframe(
     return figs_data.do_remove_samples_strategy(df, remove_samples, Columns.SAMPLE_ID)
 
 
-class Orders:
+class FullOrders:
     """Orders."""
 
     def __init__(
@@ -97,29 +96,30 @@ class Orders:
         return self._hue
 
 
-class Aes:
+class FullAes:
     """Distributions aesthetics."""
 
     def __init__(
         self,
         base_aes: figs_aes.Base,
-        orders: Orders,
+        orders: FullOrders,
     ) -> None:
         self._base_aes: figs_aes.Base = base_aes
-        self._orders: Orders = orders
+        self._orders: FullOrders = orders
 
     def base(self) -> figs_aes.Base:
         """Get base aesthetic configuration."""
         return self._base_aes
 
-    def orders(self) -> Orders:
+    def orders(self) -> FullOrders:
         """Get orders."""
         return self._orders
 
 
-def violins_plot(
+def full_violins_plot(
     df: pd.DataFrame,
-    aes_cfg: Aes,
+    aes_cfg: FullAes,
+    remove_samples: figs_data.RmSamplesModes,
     pdf: Path,
 ) -> None:
     """Create a violins plot for the tools."""
@@ -136,9 +136,10 @@ def violins_plot(
         col_order=aes_cfg.orders().col(),
         sharex=True,
         sharey=True,
+        legend=False,
         margin_titles=True,
         # Violinplot options
-        x=Columns.CONTENT,
+        x=Columns.TOOL_CODE,
         order=aes_cfg.orders().x(),
         hue=Columns.CONTENT,
         hue_order=aes_cfg.orders().hue(),
@@ -147,14 +148,27 @@ def violins_plot(
         cut=1,
         linewidth=1,
         fill=True,
+        split=True,
+        gap=0.2,
     )
+
     #
     # Title
     #
+    def get_subtitle() -> str:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return f"\n({df[Columns.SAMPLE_ID].nunique()!s} samples)"
+            case figs_data.RmSamplesModes.NOTHING:
+                return ""
+
     g.figure.suptitle(
         ""
         if aes_cfg.base().focus()
-        else "Evaluation measures for original ground truths against themselves",
+        else (
+            "Evaluation measures for each tool"
+            "\nhalf left: only plasmids; half right: with chromosomes" + get_subtitle()
+        ),
     )
     #
     # Subplot titles
@@ -163,11 +177,27 @@ def violins_plot(
 
     g.set_xlabels("")
     g.set_ylabels("")
+
     #
     # Sub X axis tick labels
     #
+    def tool_nsamples_labels() -> dict[tools.Binning, str]:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return dict.fromkeys(aes_cfg.orders().x(), "")
+            case figs_data.RmSamplesModes.NOTHING:
+                labels = {}
+                for tool in aes_cfg.orders().x():
+                    nsamples = df[df[Columns.TOOL_CODE] == tool][
+                        Columns.SAMPLE_ID
+                    ].nunique()
+                    labels[tool] = f"\n({nsamples})"
+                return labels
+
+    sub_x_labels = tool_nsamples_labels()
+
     g.set_xticklabels(
-        labels=[content.to_label() for content in aes_cfg.orders().x()],
+        labels=[tool.to_label() + sub_x_labels[tool] for tool in aes_cfg.orders().x()],
         ha="center",
     )
     g.tight_layout()
@@ -180,6 +210,310 @@ def violins_plot(
         for ind, violin in enumerate(ax.findobj(PolyCollection)):
             rgb = to_rgb(colors[ind])
             violin.set_facecolor(rgb)
+
+    g.savefig(pdf)
+    plt.close()
+
+
+def get_content_dataframe(
+    only_plm_tools_evals_tsv: Path,
+    with_chm_tools_evals_tsv: Path,
+    tools: list[tools.Binning],
+    remove_samples: figs_data.RmSamplesModes,
+    measure_mode: measures.Mode,
+) -> pd.DataFrame:
+    """Get dataframe for chromosomes bias focus."""
+    df = get_dataframe(
+        only_plm_tools_evals_tsv,
+        with_chm_tools_evals_tsv,
+        tools,
+        remove_samples,
+    )
+    return df[df[Columns.MEASURE_MODE] == measure_mode]
+
+
+class ContentOrders:
+    """Orders for chromosomes bias focus."""
+
+    def __init__(
+        self,
+        row: list[measures.Class],
+        col: list[dist_data.Contents],
+        x: list[tools.Binning],
+        # hue: tuple[dist_data.Contents, dist_data.Contents],
+    ) -> None:
+        self._row: list[measures.Class] = row
+        self._col: list[dist_data.Contents] = col
+        self._x: list[tools.Binning] = x
+
+    def row(self) -> list[measures.Class]:
+        """Get row order."""
+        return self._row
+
+    def col(self) -> list[dist_data.Contents]:
+        """Get column order."""
+        return self._col
+
+    def x(self) -> list[tools.Binning]:
+        """Get x order."""
+        return self._x
+
+
+class ContentAes:
+    """Distributions aesthetics for chromosomes bias focus."""
+
+    def __init__(
+        self,
+        base_aes: figs_aes.Base,
+        orders: ContentOrders,
+    ) -> None:
+        self._base_aes: figs_aes.Base = base_aes
+        self._orders: ContentOrders = orders
+
+    def base(self) -> figs_aes.Base:
+        """Get base aesthetic configuration."""
+        return self._base_aes
+
+    def orders(self) -> ContentOrders:
+        """Get orders."""
+        return self._orders
+
+
+def content_violins_plot(
+    df: pd.DataFrame,
+    aes_cfg: ContentAes,
+    measure_mode: measures.Mode,
+    remove_samples: figs_data.RmSamplesModes,
+    pdf: Path,
+) -> None:
+    """Create a violins plot for the tools comparing bin contents."""
+    sns.set_context(aes_cfg.base().context())  # ty:ignore[invalid-argument-type]
+
+    g = sns.catplot(
+        data=df,
+        y=Columns.VALUE,
+        # FacedGrid
+        kind="violin",
+        row=Columns.MEASURE_CLASS,
+        row_order=aes_cfg.orders().row(),
+        col=Columns.CONTENT,
+        col_order=aes_cfg.orders().col(),
+        sharex=True,
+        sharey=True,
+        legend=False,
+        margin_titles=True,
+        # Violinplot options
+        x=Columns.TOOL_CODE,
+        order=aes_cfg.orders().x(),
+        hue=Columns.TOOL_CODE,
+        hue_order=aes_cfg.orders().x(),
+        palette="Set3",
+        bw_adjust=0.5,
+        cut=1,
+        linewidth=1,
+        fill=True,
+    )
+
+    #
+    # Title
+    #
+    def get_subtitle() -> str:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return f"\n({df[Columns.SAMPLE_ID].nunique()!s} samples)"
+            case figs_data.RmSamplesModes.NOTHING:
+                return ""
+
+    g.figure.suptitle(
+        ""
+        if aes_cfg.base().focus()
+        else (f"{measure_mode} evaluation measures for each tool" + get_subtitle()),
+    )
+    #
+    # Subplot titles
+    #
+    g.set_titles(col_template="{col_name}", row_template="{row_name}")
+    # fix the col titles
+    g.figure.axes[0].set_title(aes_cfg.orders().col()[0].to_label())
+    g.figure.axes[1].set_title(aes_cfg.orders().col()[1].to_label())
+
+    g.set_xlabels("")
+    g.set_ylabels("")
+
+    #
+    # Sub X axis tick labels
+    #
+    def tool_nsamples_labels() -> dict[tools.Binning, str]:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return dict.fromkeys(aes_cfg.orders().x(), "")
+            case figs_data.RmSamplesModes.NOTHING:
+                labels = {}
+                for tool in aes_cfg.orders().x():
+                    nsamples = df[df[Columns.TOOL_CODE] == tool][
+                        Columns.SAMPLE_ID
+                    ].nunique()
+                    labels[tool] = f"\n({nsamples})"
+                return labels
+
+    sub_x_labels = tool_nsamples_labels()
+
+    g.set_xticklabels(
+        labels=[tool.to_label() + sub_x_labels[tool] for tool in aes_cfg.orders().x()],
+        ha="center",
+    )
+    g.tight_layout()
+
+    g.savefig(pdf)
+    plt.close()
+
+
+def get_mode_dataframe(
+    only_plm_tools_evals_tsv: Path,
+    with_chm_tools_evals_tsv: Path,
+    tools: list[tools.Binning],
+    remove_samples: figs_data.RmSamplesModes,
+    content: dist_data.Contents,
+) -> pd.DataFrame:
+    """Get dataframe for measures modes."""
+    df = get_dataframe(
+        only_plm_tools_evals_tsv,
+        with_chm_tools_evals_tsv,
+        tools,
+        remove_samples,
+    )
+    return df[df[Columns.CONTENT] == content]
+
+
+class ModeOrders:
+    """Orders for measures modes."""
+
+    def __init__(
+        self,
+        row: list[measures.Class],
+        col: list[measures.Mode],
+        x: list[tools.Binning],
+    ) -> None:
+        self._row: list[measures.Class] = row
+        self._col: list[measures.Mode] = col
+        self._x: list[tools.Binning] = x
+
+    def row(self) -> list[measures.Class]:
+        """Get row order."""
+        return self._row
+
+    def col(self) -> list[measures.Mode]:
+        """Get column order."""
+        return self._col
+
+    def x(self) -> list[tools.Binning]:
+        """Get x order."""
+        return self._x
+
+
+class ModeAes:
+    """Distributions aesthetics for measures modes."""
+
+    def __init__(
+        self,
+        base_aes: figs_aes.Base,
+        orders: ModeOrders,
+    ) -> None:
+        self._base_aes: figs_aes.Base = base_aes
+        self._orders: ModeOrders = orders
+
+    def base(self) -> figs_aes.Base:
+        """Get base aesthetic configuration."""
+        return self._base_aes
+
+    def orders(self) -> ModeOrders:
+        """Get orders."""
+        return self._orders
+
+
+def mode_violins_plot(
+    df: pd.DataFrame,
+    aes_cfg: ModeAes,
+    content: dist_data.Contents,
+    remove_samples: figs_data.RmSamplesModes,
+    pdf: Path,
+) -> None:
+    """Create a violins plot for the tools comparing measures modes."""
+    sns.set_context(aes_cfg.base().context())  # ty:ignore[invalid-argument-type]
+
+    g = sns.catplot(
+        data=df,
+        y=Columns.VALUE,
+        # FacedGrid
+        kind="violin",
+        row=Columns.MEASURE_CLASS,
+        row_order=aes_cfg.orders().row(),
+        col=Columns.MEASURE_MODE,
+        col_order=aes_cfg.orders().col(),
+        sharex=True,
+        sharey=True,
+        legend=False,
+        margin_titles=True,
+        # Violinplot options
+        x=Columns.TOOL_CODE,
+        order=aes_cfg.orders().x(),
+        hue=Columns.TOOL_CODE,
+        hue_order=aes_cfg.orders().x(),
+        palette="Set3",
+        bw_adjust=0.5,
+        cut=1,
+        linewidth=1,
+        fill=True,
+    )
+
+    #
+    # Title
+    #
+    def get_subtitle() -> str:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return f"\n({df[Columns.SAMPLE_ID].nunique()!s} samples)"
+            case figs_data.RmSamplesModes.NOTHING:
+                return ""
+
+    g.figure.suptitle(
+        ""
+        if aes_cfg.base().focus()
+        else (
+            f"Evaluation measures for each tool ({content.to_label()})" + get_subtitle()
+        ),
+    )
+    #
+    # Subplot titles
+    #
+    g.set_titles(col_template="{col_name}", row_template="{row_name}")
+
+    g.set_xlabels("")
+    g.set_ylabels("")
+
+    #
+    # Sub X axis tick labels
+    #
+    def tool_nsamples_labels() -> dict[tools.Binning, str]:
+        match remove_samples:
+            case figs_data.RmSamplesModes.FAILS:
+                return dict.fromkeys(aes_cfg.orders().x(), "")
+            case figs_data.RmSamplesModes.NOTHING:
+                labels = {}
+                for tool in aes_cfg.orders().x():
+                    nsamples = df[df[Columns.TOOL_CODE] == tool][
+                        Columns.SAMPLE_ID
+                    ].nunique()
+                    labels[tool] = f"\n({nsamples})"
+                return labels
+
+    sub_x_labels = tool_nsamples_labels()
+
+    g.set_xticklabels(
+        labels=[tool.to_label() + sub_x_labels[tool] for tool in aes_cfg.orders().x()],
+        ha="center",
+    )
+    g.tight_layout()
 
     g.savefig(pdf)
     plt.close()

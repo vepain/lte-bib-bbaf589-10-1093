@@ -136,8 +136,8 @@ def tools_all(
     ] = figs_aes.Base.DEF_CONTEXT,
     focus: Annotated[bool, figs_aes.TyperInputs.FOCUS] = figs_aes.Base.DEF_FOCUS,
 ) -> None:
-    """Distribution figure for tools."""
-    log.print_title("Uniqify tools distribution figure")
+    """Distributions figure for tools."""
+    log.print_title("Distributions figure for tools")
     log.print_inputs(
         (
             f"Only plasmids eval TSV: {log.fmt_file(only_plasmids_tools_evals_tsv)}",
@@ -157,9 +157,9 @@ def tools_all(
         remove_samples,
     )
 
-    aes_cfg = dist_tools.Aes(
+    aes_cfg = dist_tools.FullAes(
         figs_aes.Base(context, focus),
-        dist_tools.Orders(
+        dist_tools.FullOrders(
             row=[
                 measures.Class.COMPLETENESS,
                 measures.Class.HOMOGENEITY,
@@ -175,6 +175,154 @@ def tools_all(
 
     pdf_path.parent.mkdir(exist_ok=True, parents=True)
 
-    dist_tools.violins_plot(df, aes_cfg, pdf_path)
+    dist_tools.full_violins_plot(df, aes_cfg, remove_samples, pdf_path)
+
+    log.print_done(f"Figure generated: {log.fmt_img(pdf_path)}")
+
+
+@APP.command(name="tools-content")
+def tools_chrm(
+    only_plasmids_tools_evals_tsv: Annotated[
+        Path,
+        InputsTools.ONLY_PLASMIDS_EVAL_TSV,
+    ],
+    with_chromosomes_tools_evals_tsv: Annotated[
+        Path,
+        InputsTools.WITH_CHROMOSOMES_EVAL_TSV,
+    ],
+    tools: Annotated[
+        list[main_tools.Binning],
+        InputsTools.TOOLS,
+    ],
+    measure_mode: Annotated[
+        measures.Mode,
+        typer.Argument(
+            help="Measure mode",
+        ),
+    ],
+    pdf_path: Annotated[Path, InputsTools.PDF],
+    remove_samples: Annotated[
+        figs_data.RmSamplesModes,
+        InputsTools.REMOVE_SAMPLES,
+    ] = figs_data.RmSamplesModes.NOTHING,
+    # AES
+    context: Annotated[
+        figs_aes.SeabornContext,
+        figs_aes.TyperInputs.CONTEXT,
+    ] = figs_aes.Base.DEF_CONTEXT,
+    focus: Annotated[bool, figs_aes.TyperInputs.FOCUS] = figs_aes.Base.DEF_FOCUS,
+) -> None:
+    """Distributions figure for tools to focus on the chromosomes bias."""
+    log.print_title("Distributions figure for tools to focus on the chromosomes bias")
+    log.print_inputs(
+        (
+            f"Only plasmids eval TSV: {log.fmt_file(only_plasmids_tools_evals_tsv)}",
+            (
+                f"With chromosomes eval TSV:"
+                f" {log.fmt_file(with_chromosomes_tools_evals_tsv)}"
+            ),
+            f"Measure mode: {measure_mode}",
+            f"Aesthetics:\n* Context: {context}\n* Focus: {focus}",
+            f"PDF: {log.fmt_img(pdf_path)}",
+        ),
+    )
+
+    df = dist_tools.get_content_dataframe(
+        only_plasmids_tools_evals_tsv,
+        with_chromosomes_tools_evals_tsv,
+        tools,
+        remove_samples,
+        measure_mode,
+    )
+
+    aes_cfg = dist_tools.ContentAes(
+        figs_aes.Base(context, focus),
+        dist_tools.ContentOrders(
+            row=[
+                measures.Class.COMPLETENESS,
+                measures.Class.HOMOGENEITY,
+            ],
+            col=[data.Contents.ONLY_PLASMIDS, data.Contents.WITH_CHROMOSOMES],
+            x=tools,
+        ),
+    )
+
+    pdf_path.parent.mkdir(exist_ok=True, parents=True)
+
+    dist_tools.content_violins_plot(df, aes_cfg, measure_mode, remove_samples, pdf_path)
+
+    log.print_done(f"Figure generated: {log.fmt_img(pdf_path)}")
+
+
+@APP.command(name="tools-mode")
+def tools_mode(
+    only_plasmids_tools_evals_tsv: Annotated[
+        Path,
+        InputsTools.ONLY_PLASMIDS_EVAL_TSV,
+    ],
+    with_chromosomes_tools_evals_tsv: Annotated[
+        Path,
+        InputsTools.WITH_CHROMOSOMES_EVAL_TSV,
+    ],
+    tools: Annotated[
+        list[main_tools.Binning],
+        InputsTools.TOOLS,
+    ],
+    content: Annotated[
+        data.Contents,
+        typer.Argument(
+            help="Content",
+        ),
+    ],
+    pdf_path: Annotated[Path, InputsTools.PDF],
+    remove_samples: Annotated[
+        figs_data.RmSamplesModes,
+        InputsTools.REMOVE_SAMPLES,
+    ] = figs_data.RmSamplesModes.NOTHING,
+    # AES
+    context: Annotated[
+        figs_aes.SeabornContext,
+        figs_aes.TyperInputs.CONTEXT,
+    ] = figs_aes.Base.DEF_CONTEXT,
+    focus: Annotated[bool, figs_aes.TyperInputs.FOCUS] = figs_aes.Base.DEF_FOCUS,
+) -> None:
+    """Distributions figure for tools to focus on the measures modes."""
+    log.print_title("Distributions figure for tools to focus on the measures modes")
+    log.print_inputs(
+        (
+            f"Only plasmids eval TSV: {log.fmt_file(only_plasmids_tools_evals_tsv)}",
+            (
+                f"With chromosomes eval TSV:"
+                f" {log.fmt_file(with_chromosomes_tools_evals_tsv)}"
+            ),
+            f"Content: {content}",
+            f"Aesthetics:\n* Context: {context}\n* Focus: {focus}",
+            f"PDF: {log.fmt_img(pdf_path)}",
+        ),
+    )
+
+    df = dist_tools.get_mode_dataframe(
+        only_plasmids_tools_evals_tsv,
+        with_chromosomes_tools_evals_tsv,
+        tools,
+        remove_samples,
+        content,
+    )
+
+    aes_cfg = dist_tools.ModeAes(
+        figs_aes.Base(context, focus),
+        dist_tools.ModeOrders(
+            row=[
+                measures.Class.COMPLETENESS,
+                measures.Class.HOMOGENEITY,
+            ],
+            col=[measures.Mode.UNWEIGHTED, measures.Mode.WEIGHTED],
+            x=tools,
+        ),
+    )
+
+    pdf_path.parent.mkdir(exist_ok=True, parents=True)
+
+    dist_tools.mode_violins_plot(df, aes_cfg, content, remove_samples, pdf_path)
 
     log.print_done(f"Figure generated: {log.fmt_img(pdf_path)}")

@@ -75,13 +75,15 @@ lteu eval merge \
 
 ## Generating figures
 
-### The distributions figure
+### The full distributions figure
+
+To generate a complete figure of the distributions.
 
 ```sh
 only_plm_tools_evals_tsv=$exp_dir/only_plasmids/evals/merge.tsv
 with_chm_tools_evals_tsv=$exp_dir/with_chromosomes/evals/merge.tsv
 
-fig_pdf="$exp_dir/figs/distributions.pdf"
+fig_pdf="$exp_dir/figs/distribution.pdf"
 
 lteu figs dist tools \
     $only_plm_tools_evals_tsv $with_chm_tools_evals_tsv $fig_pdf \
@@ -94,3 +96,65 @@ lteu figs dist tools \
 
 >[!TIP]
 > You can execute the script `scripts/chromosomes/fig_dist.sh` in the `data` directory.
+
+??? note "Figure"
+
+    [Distribution](figs/distribution.pdf){ target="_blank" } <!--  markdownlint-disable MD046  -->
+
+### Easier-to-read figures
+
+#### Comparing the only plasmids and the with chromosomes cases
+
+```sh
+mode=Unweighted # | Weighted
+
+only_plm_tools_evals_tsv=$exp_dir/only_plasmids/evals/merge.tsv
+with_chm_tools_evals_tsv=$exp_dir/with_chromosomes/evals/merge.tsv
+
+fig_pdf="$exp_dir/figs/distribution_content_$mode.pdf"
+
+lteu figs dist tools-content \
+    $only_plm_tools_evals_tsv $with_chm_tools_evals_tsv $mode $fig_pdf \
+    --tool hyasp \
+    --tool mob \
+    --tool pbf \
+    --tool gplas2 \
+    --remove-samples fails
+```
+
+>[!TIP]
+> You can execute the script `scripts/chromosomes/fig_dist_content.sh` in the `data` directory.
+
+??? note "Figures"
+
+    [Unweighted distributions](figs/distribution_content_Unweighted.pdf){ target="_blank" } <!--  markdownlint-disable MD046  -->
+
+    [Weighted distributions](figs/distribution_content_Weighted.pdf){ target="_blank" }
+
+#### Comparing the unweighted and weighted completeness and homogeneity
+
+```sh
+content=only_plasmids # | with_chromosomes
+
+only_plm_tools_evals_tsv=$exp_dir/only_plasmids/evals/merge.tsv
+with_chm_tools_evals_tsv=$exp_dir/with_chromosomes/evals/merge.tsv
+
+fig_pdf="$exp_dir/figs/distribution_mode_$content.pdf"
+
+lteu figs dist tools-mode \
+    $only_plm_tools_evals_tsv $with_chm_tools_evals_tsv $content $fig_pdf \
+    --tool hyasp \
+    --tool mob \
+    --tool pbf \
+    --tool gplas2 \
+    --remove-samples fails
+```
+
+>[!TIP]
+> You can execute the script `scripts/chromosomes/fig_dist_mode.sh` in the `data` directory.
+
+??? note "Figures"
+
+    [Only plasmids distributions](figs/distribution_mode_only_plasmids.pdf){ target="_blank" } <!--  markdownlint-disable MD046  -->
+
+    [With chromosomes distributions](figs/distribution_mode_with_chromosomes.pdf){ target="_blank" }
