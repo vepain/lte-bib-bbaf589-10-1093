@@ -1,6 +1,7 @@
 """Distribution figure for tools."""
 
 from enum import StrEnum
+from itertools import product
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -116,7 +117,7 @@ class FullAes:
         return self._orders
 
 
-def full_violins_plot(
+def full_violins_plot(  # noqa: C901
     df: pd.DataFrame,
     aes_cfg: FullAes,
     remove_samples: figs_data.RmSamplesModes,
@@ -206,10 +207,46 @@ def full_violins_plot(
     # Custom colors by x times hue
     #
     colors = sns.color_palette("Paired")
-    for ax in g.figure.axes:
-        for ind, violin in enumerate(ax.findobj(PolyCollection)):
-            rgb = to_rgb(colors[ind])
-            violin.set_facecolor(rgb)
+
+    def fix_violins_colors() -> None:
+
+        def get_axes_violins_indices() -> list[list[int]]:
+            # Get violin plots indices ("flat violin plot" <=> no violin plot)
+            # According to the row and the columns orders, flattened
+            axes_violins_indices: list[list[int]] = []
+
+            for row in aes_cfg.orders().row():
+                for col in aes_cfg.orders().col():
+                    violin_indices: list[int] = []
+
+                    df_row_col = df[
+                        (df[Columns.MEASURE_CLASS] == row)
+                        & (df[Columns.MEASURE_MODE] == col)
+                    ]
+
+                    for ind, (x, hue) in enumerate(
+                        product(aes_cfg.orders().x(), aes_cfg.orders().hue()),
+                    ):
+                        values = df_row_col[
+                            (df_row_col[Columns.TOOL_CODE] == x)
+                            & (df_row_col[Columns.CONTENT] == hue)
+                        ][Columns.VALUE].to_numpy()
+
+                        if values.shape[0] > 0 and (values[0] != values).any():
+                            violin_indices.append(ind)
+
+                    axes_violins_indices.append(violin_indices)
+
+            return axes_violins_indices
+
+        axes_violins_indices = get_axes_violins_indices()
+
+        for ax_ind, ax in enumerate(g.figure.axes):
+            for ind, violin in enumerate(ax.findobj(PolyCollection)):
+                rgb = to_rgb(colors[axes_violins_indices[ax_ind][ind]])
+                violin.set_facecolor(rgb)
+
+    fix_violins_colors()
 
     g.savefig(pdf)
     plt.close()
