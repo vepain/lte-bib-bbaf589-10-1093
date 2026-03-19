@@ -22,13 +22,11 @@ icon: lucide/ungroup
     └── experiments
         └── chromosomes
             ├── only_plasmids
-            │   ├── evals
-            │   │   ├── $tool.tsv
-            │   │   └── merge.tsv
-            │   └── figs # Contains figures in PDF format
+            │   └──  evals
+            │       ├── $tool.tsv
+            │       └── merge.tsv
             ├── with_chromosomes # Same subtree as experiments/chromosomes/only_plasmids/
             └── figs
-                └── distributions.pdf
 ```
 
 >[!IMPORTANT]

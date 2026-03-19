@@ -334,9 +334,10 @@ Copyright &copy; 2026 The authors
     [project.markdown_extensions.zensical.extensions.preview]
         configurations = [
             { targets.include = [
-                "install.md",
-                "experiments/*",
                 "index.md",
+                "install.md",
+                "inputs.md",
+                "experiments/*",
             ] },
         ]
 
