@@ -2,7 +2,7 @@
 icon: lucide/ungroup
 ---
 
-# Chromosomal bin bias
+# Measures modes and bins content
 
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
