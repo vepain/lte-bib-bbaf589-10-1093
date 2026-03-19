@@ -25,7 +25,10 @@ icon: lucide/copy
                 │   │   ├── repeats.tsv
                 │   │   └── uniqify.tsv
                 │   └── figs # Contains figures in PDF format
-                └── with_chromosomes # Same subtree as experiments/uniqify/only_plasmids/
+                ├── with_chromosomes # Same subtree as experiments/uniqify/only_plasmids/
+                └── figs
+                    └── distributions.pdf
+
 ```
 
 >[!IMPORTANT]
@@ -156,7 +159,7 @@ with_chm_eval_tsv=$exp_dir/with_chromosomes/evals/repeats.tsv
 
 fig_pdf="$exp_dir/figs/distributions.pdf"
 
-lteu figs uniqify gt dist "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf"
+lteu figs dist gt "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf"
 ```
 
 >[!TIP]

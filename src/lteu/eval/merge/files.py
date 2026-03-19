@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from lteu.eval import measures
 from lteu.eval.run import files as eval_files
 
 
@@ -13,10 +14,10 @@ class Header(StrEnum):
 
     SAMPLE_ID = eval_files.Header.SAMPLE_ID
     TOOL_CODE = "tool_code"
-    UNW_COMPLETENESS = eval_files.Header.UNW_COMPLETENESS
-    UNW_HOMOGENEITY = eval_files.Header.UNW_HOMOGENEITY
-    W_COMPLETENESS = eval_files.Header.W_COMPLETENESS
-    W_HOMOGENEITY = eval_files.Header.W_HOMOGENEITY
+    UNW_COMPLETENESS = measures.Items.UNW_COMPLETENESS
+    UNW_HOMOGENEITY = measures.Items.UNW_HOMOGENEITY
+    W_COMPLETENESS = measures.Items.W_COMPLETENESS
+    W_HOMOGENEITY = measures.Items.W_HOMOGENEITY
 
 
 HEADER_TYPES = {
