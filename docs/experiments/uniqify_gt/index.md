@@ -2,7 +2,7 @@
 icon: lucide/copy
 ---
 
-# Repeat bias
+# Analyzing the repeat bias
 
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
@@ -88,7 +88,7 @@ For each of the ground truths (original and uniqified), we provide the completen
 ```sh
 content=only_plasmids # | with_chromosomes
 gt_dir=ground_truths/$content
-lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/repeats.tsv
+lteu eval run $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/repeats.tsv
 ```
 
 >[!TIP]
@@ -99,7 +99,7 @@ lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/
 ```sh
 content=only_plasmids # | with_chromosomes
 gt_dir=$exp_dir/$content/ground_truths
-lteu eval $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/uniqify.tsv
+lteu eval run $gt_dir $gt_dir $exp_dir/$content/samples.tsv $exp_dir/$content/evals/uniqify.tsv
 ```
 
 >[!TIP]
