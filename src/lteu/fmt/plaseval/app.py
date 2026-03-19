@@ -184,14 +184,21 @@ def bins_to_plaseval(
     no_bins_count = 0
     smp_id: str
     for smp_id, smp_df in bins_per_smp_df:  # ty:ignore[invalid-assignment]
-        if not with_chromosomes:
-            smp_df = smp_df[smp_df[tool_col] != "chromosome"]  # noqa: PLW2901
-        if tool == tools.Binning.GPLAS_TWO:
-            smp_df = smp_df[~smp_df[tool_col].str.contains("Unbinned")]  # noqa: PLW2901
-
         if smp_df[tool_col].isna().any():  # no bins
             no_bins_count += 1
             continue
+
+        if tool == tools.Binning.GPLAS_TWO:
+            if not with_chromosomes:
+                smp_df = smp_df[~smp_df[tool_col].str.contains("Unbinned")]  # noqa: PLW2901
+            else:
+                smp_df.loc[
+                    smp_df[tool_col].str.contains("Unbinned"),
+                    tool_col,
+                ] = "chromosome"
+
+        if not with_chromosomes:
+            smp_df = smp_df[smp_df[tool_col] != "chromosome"]  # noqa: PLW2901
 
         plaseval_bins_df = keep_plaseval_and_rename_cols(smp_df)
 

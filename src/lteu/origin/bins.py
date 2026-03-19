@@ -46,4 +46,4 @@ HEADER_TYPES = {
 
 def to_dataframe(xlsx_path: Path) -> pd.DataFrame:
     """Load the plasmid reconstruction Excel sheet."""
-    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME)
+    return pd.read_excel(xlsx_path, sheet_name=SHEET_NAME, dtype=HEADER_TYPES)  # ty:ignore[no-matching-overload]
