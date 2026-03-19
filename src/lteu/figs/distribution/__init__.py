@@ -1,1 +1,1 @@
-"""Distribution plots module."""
+"""Distributions figures."""

@@ -1,1 +1,0 @@
-"""Uniqify figures."""

@@ -1,1 +1,0 @@
-"""Uniqify ground truths figures."""

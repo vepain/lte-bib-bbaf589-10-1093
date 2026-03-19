@@ -5,15 +5,17 @@ from pathlib import Path
 
 import pandas as pd
 
+from lteu.eval import measures
+
 
 class Header(StrEnum):
     """Evaluation file header."""
 
     SAMPLE_ID = "sample_id"
-    UNW_COMPLETENESS = "unweighted_completeness"
-    UNW_HOMOGENEITY = "unweighted_homogeneity"
-    W_COMPLETENESS = "weighted_completeness"
-    W_HOMOGENEITY = "weighted_homogeneity"
+    UNW_COMPLETENESS = measures.Items.UNW_COMPLETENESS
+    UNW_HOMOGENEITY = measures.Items.UNW_HOMOGENEITY
+    W_COMPLETENESS = measures.Items.W_COMPLETENESS
+    W_HOMOGENEITY = measures.Items.W_HOMOGENEITY
 
 
 HEADER_TYPES = {

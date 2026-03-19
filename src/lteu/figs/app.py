@@ -2,8 +2,10 @@
 
 import typer
 
-from .uniqify import app as uniqify_app
+from .distribution import app as dist_app
+from .versus import app as versus_app
 
 APP = typer.Typer(name="figs", help="Figures commands.")
 
-APP.add_typer(uniqify_app.APP)
+APP.add_typer(versus_app.APP)
+APP.add_typer(dist_app.APP)

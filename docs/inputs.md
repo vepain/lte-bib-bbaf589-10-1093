@@ -69,3 +69,8 @@ lteu fmt bins original/predictions.xlsx $tool binning/with_chromosomes/$tool --w
 
 >[!TIP]
 > You can execute the script `scripts/inputs/with_chromosomes.sh` in the `data` directory.
+
+<!--  -->
+
+>[!NOTE]
+> gplas2 can label a contig `Unbinned_k`, with `k` an integer. In that case, we consider the contig labelled chromosome.
