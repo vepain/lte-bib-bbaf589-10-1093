@@ -36,10 +36,7 @@
         "pygments>=2.19.2",
         "zensical>=0.0.27",
     ]
-    lint = [
-    "ruff>=0.15.4",
-    "ty>=0.0.19",
-]
+    lint = ["ruff>=0.15.4", "ty>=0.0.19"]
     stubs = ["pandas-stubs>=3.0.0.260204", "types-seaborn>=0.13.2.20251221"]
 
 [tool.ruff.lint]
