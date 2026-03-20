@@ -3,31 +3,7 @@
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
-<!-- DOCU Fix experiment tree -->
-
-```sh
-.
-└── data
-    ├── samples
-    │   └── complete_hybrid_asm.tsv
-    ├── ground_truths  # PlasEval formatted ground-truths
-    │   ├── only_plasmids
-    │   └── with_chromosomes
-    └── experiments
-        └── uniqify
-            └── ground_truths
-                ├── only_plasmids
-                │   ├── samples.tsv
-                │   ├── ground_truths
-                │   ├── evals
-                │   │   ├── repeats.tsv
-                │   │   └── uniqify.tsv
-                │   └── figs # Contains figures in PDF format
-                ├── with_chromosomes # Same subtree as experiments/uniqify/only_plasmids/
-                └── figs
-                    └── distributions.pdf
-
-```
+<!--  -->
 
 >[!IMPORTANT]
 > The following commands are run in the `data` directory.
@@ -36,30 +12,128 @@
 > cd data
 > ```
 
+Initializing the experiment:
+
+```sh
+exp_dir=experiments/one_bin/binning
+
+mkdir -p $exp_dir
+```
+
+<!-- markdownlint-disable MD046 -->
+??? tip "Running everything in once"
+
+    ```sh
+    scripts_dir=scripts/one_bin/binning  # use the correct path (absolute path recommended)
+
+    $scripts_dir/samples.sh
+    $scripts_dir/evals.sh
+    $scripts_dir/merge_evals.sh
+    $scripts_dir/fig_dist.sh
+    $scripts_dir/fig_dist_no_pbf.sh
+    ```
+<!-- markdownlint-enable MD046 -->
+
+<!-- markdownlint-disable MD046 -->
+??? info "File tree structure"
+
+    ```sh
+    📁 data
+    ├── 📁 samples
+    │   └── complete_hybrid_asm.tsv
+    ├── 📁 ground_truths  # PlasEval formatted ground-truths
+    │   ├── 📁 only_plasmids
+    │   └── 📁 with_chromosomes
+    ├── 📁 binning  # PlasEval formatted binning predictions
+    │   ├── 📁 only_plasmids
+    │   │   └── 📁 $tool
+    │   └── 📁 with_chromosomes  # Same subtree as only_plasmids/
+    └── 📁 experiments
+        └── 📁 one_bin
+            └── 📁 binning
+                ├── samples.tsv
+                ├── 📁 evals
+                │   ├── 📁 only_plasmids
+                │   │   └── $tool.tsv
+                │   └── 📁 with_chromosomes # Same subtree as only_plasmids/
+                └── 📁 figs # Contains figures in PDF format
+    ```
+<!-- markdownlint-enable MD046 -->
+
 <!-- DOCU Commands -->
 
-## Generating figures
+The next sections detail the experiment steps.
 
-### Versus figures
+## Get the list of samples such that the ground truth has only one plasmid bin
+
+It creates the files `binning/samples.tsv`.
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/one_bin/binning/samples.sh"
+    --8<-- "scripts/one_bin/binning/samples.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
+
+## Evaluating the completeness and the homogeneity
+
+For each bin content (only plasmid bins and with chromosomal bin), it creates the files `binning/evals/only_plasmids/$tool.tsv` and `binning/evals/with_chromosomes/$tool.tsv`, where `$tool` is the code of the binning tool (`hyasp`, `mob`, `pbf` or `gplas2`).
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/one_bin/binning/evals.sh"
+    --8<-- "scripts/one_bin/binning/evals.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
+
+### Merge the evaluations
+
+To create the files `binning/evals/only_plasmids/merge.tsv` and `binning/evals/with_chromosomes/merge.tsv`
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/one_bin/binning/merge_evals.sh"
+    --8<-- "scripts/one_bin/binning/merge_evals.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
+
+## Generating distributions figures
+
+### With all tools
+
+To create the figure `figs/distributions.pdf`.
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/one_bin/binning/fig_dist.sh"
+    --8<-- "scripts/one_bin/binning/fig_dist.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  markdownlint-disable MD046  -->
-??? note "Figures"
+!!! note "Figure"
 
-    [Unweighted completeness](figs/unw_comp.pdf){ target="_blank" }
-
-    [Unweighted homogeneity](figs/unw_hom.pdf){ target="_blank" }
-
-    [Weighted completeness](figs/w_comp.pdf){ target="_blank" }
-
-    [Weighted homogeneity](figs/w_hom.pdf){ target="_blank" }
+    [All the tools](figs/distributions.pdf){ target="_blank" }
 <!--  markdownlint-enable MD046  -->
 
-### Distributions figures
+### Without PlasBin-flow
+
+Because PlasBin-flow do not return enought results for the subset of samples, we create the figure `figs/distributions_no_pbf.pdf`
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/one_bin/binning/fig_dist_no_pbf.sh"
+    --8<-- "scripts/one_bin/binning/fig_dist_no_pbf.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  markdownlint-disable MD046  -->
-??? note "Figures"
+!!! note "Figure"
 
-    [All the tools](figs/distribution.pdf){ target="_blank" }
-
-    [Without PlasBin-flow](figs/distribution_no_pbf.pdf){ target="_blank" }
+    [Without PlasBin-flow](figs/distributions_no_pbf.pdf){ target="_blank" }
 <!--  markdownlint-enable MD046  -->

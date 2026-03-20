@@ -3,6 +3,8 @@
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
+<!--  -->
+
 >[!IMPORTANT]
 > The following commands are run in the `data` directory.
 >
@@ -25,10 +27,11 @@ mkdir -p $exp_dir
     scripts_dir=scripts/one_bin/gt_vs_gt  # use the correct path (absolute path recommended)
 
     $scripts_dir/samples.sh
+    $scripts_dir/evals.sh
+    $scripts_dir/fig_vs.sh
+    $scripts_dir/fig_dist.sh
     ```
 <!-- markdownlint-enable MD046 -->
-
-<!-- DOCU Fix experiment tree -->
 
 <!-- markdownlint-disable MD046 -->
 ??? info "File tree structure"
