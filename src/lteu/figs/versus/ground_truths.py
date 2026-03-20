@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from lteu.eval import measures
 from lteu.eval.run import files as eval_files
 from lteu.figs import data as figs_data
 from lteu.figs.versus import data as vs_data
@@ -25,7 +26,7 @@ class Columns(StrEnum):
 def get_dataframe(
     x_evals_tsv: Path,
     y_evals_tsv: Path,
-    measure: figs_data.MeasureCodes,
+    measure: measures.Items,
 ) -> pd.DataFrame:
     """Get the dataframe for a versus figure for ground truths."""
     x_df = eval_files.to_dataframe(x_evals_tsv)
@@ -38,7 +39,7 @@ def get_dataframe(
         df,
         index=Columns.SAMPLE_ID,
         columns=Columns.VERSION,
-        values=measure.to_column(),
+        values=eval_files.Header.from_measure(measure),
     )
 
     return vs_data.add_class_column(

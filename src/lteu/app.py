@@ -3,7 +3,6 @@
 import typer
 
 from .eval import app as eval_app
-from .exp import app as exp_app
 from .figs import app as figs_app
 from .fmt import app as fmt_app
 from .samples import app as smp_app
@@ -16,4 +15,3 @@ APP.add_typer(eval_app.APP)
 APP.add_typer(uniqify_app.APP)
 APP.add_typer(smp_app.APP)
 APP.add_typer(figs_app.APP)
-APP.add_typer(exp_app.APP)

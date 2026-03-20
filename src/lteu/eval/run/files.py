@@ -1,11 +1,16 @@
 """Evaluation files."""
 
+from __future__ import annotations
+
 from enum import StrEnum
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pandas as pd
 
 from lteu.eval import measures
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class Header(StrEnum):
@@ -16,6 +21,19 @@ class Header(StrEnum):
     UNW_HOMOGENEITY = measures.Items.UNW_HOMOGENEITY
     W_COMPLETENESS = measures.Items.W_COMPLETENESS
     W_HOMOGENEITY = measures.Items.W_HOMOGENEITY
+
+    @classmethod
+    def from_measure(cls, measure: measures.Items) -> Header:
+        """Create a header from a measure."""
+        match measure:
+            case measures.Items.UNW_COMPLETENESS:
+                return cls.UNW_COMPLETENESS
+            case measures.Items.UNW_HOMOGENEITY:
+                return cls.UNW_HOMOGENEITY
+            case measures.Items.W_COMPLETENESS:
+                return cls.W_COMPLETENESS
+            case measures.Items.W_HOMOGENEITY:
+                return cls.W_HOMOGENEITY
 
 
 HEADER_TYPES = {
