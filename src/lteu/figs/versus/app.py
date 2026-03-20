@@ -8,8 +8,8 @@ from typing import Annotated
 import typer
 
 from lteu import log
+from lteu.eval import measures
 from lteu.figs import aes as figs_aes
-from lteu.figs import data as figs_data
 
 from . import aes, main
 from . import ground_truths as gt
@@ -37,7 +37,7 @@ def ground_truths(
     y_evals_tsv: Annotated[Path, InputsGT.Y_AXIS],
     x_label: Annotated[str, InputsGT.X_LABEL],
     y_label: Annotated[str, InputsGT.Y_LABEL],
-    measure: Annotated[figs_data.MeasureCodes, InputsGT.MEASURE],
+    measure_code: Annotated[measures.Codes, InputsGT.MEASURE],
     pdf_path: Annotated[Path, InputsGT.PDF],
     # AES
     context: Annotated[
@@ -47,7 +47,7 @@ def ground_truths(
     focus: Annotated[bool, figs_aes.TyperInputs.FOCUS] = figs_aes.Base.DEF_FOCUS,
 ) -> None:
     """Versus figure for ground truths."""
-    log.print_title("Uniqify ground truths versus figure")
+    log.print_title("Ground truths versus figure")
 
     log.print_inputs(
         (
@@ -55,17 +55,21 @@ def ground_truths(
             f"X evals TSV: {log.fmt_file(x_evals_tsv)}",
             f"Y label: {y_label}",
             f"Y evals TSV: {log.fmt_file(y_evals_tsv)}",
-            f"Measure: {measure}",
+            f"Measure code: {measure_code} ({measure_code.to_measure().to_label()})",
             f"Aesthetics:\n* Context: {context}\n* Focus: {focus}",
             f"PDF: {log.fmt_img(pdf_path)}",
         ),
     )
 
-    df = gt.get_dataframe(x_evals_tsv, y_evals_tsv, measure)
+    df = gt.get_dataframe(x_evals_tsv, y_evals_tsv, measure_code.to_measure())
 
     aes_cfg = aes.Config(
         figs_aes.Base(context, focus),
-        aes.Labels(title=measure.to_label("plural"), x_label=x_label, y_label=y_label),
+        aes.Labels(
+            title=measure_code.to_measure().to_label("plural"),
+            x_label=x_label,
+            y_label=y_label,
+        ),
     )
 
     pdf_path.parent.mkdir(exist_ok=True, parents=True)

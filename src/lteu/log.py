@@ -27,6 +27,11 @@ def print_inputs(inputs: Iterable[str]) -> None:
     )
 
 
+def print_empty_line() -> None:
+    """Print empty line."""
+    CONSOLE.print("")
+
+
 def print_msg(msg: str) -> None:
     """Print message."""
     CONSOLE.print(msg)

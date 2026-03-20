@@ -31,7 +31,7 @@ class SeabornContext(StrEnum):
 class Base:
     """Base aesthetics."""
 
-    DEF_CONTEXT = SeabornContext.NOTEBOOK
+    DEF_CONTEXT: SeabornContext = SeabornContext.NOTEBOOK
     DEF_FOCUS = False
 
     def __init__(

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+from lteu import bins
 from lteu.eval import measures
 from lteu.eval.run import files as eval_files
 
@@ -35,37 +36,37 @@ class HueValues(StrEnum):
     """Hue values."""
 
     COMPLETENESS_ONLY_PLASMIDS = (
-        f"{measures.Class.COMPLETENESS}-{dist_data.Contents.ONLY_PLASMIDS}"
+        f"{measures.Class.COMPLETENESS}-{bins.Contents.ONLY_PLASMIDS}"
     )
     COMPLETENESS_WITH_CHROMOSOMES = (
-        f"{measures.Class.COMPLETENESS}-{dist_data.Contents.WITH_CHROMOSOMES}"
+        f"{measures.Class.COMPLETENESS}-{bins.Contents.WITH_CHROMOSOMES}"
     )
     HOMOGENEITY_ONLY_PLASMIDS = (
-        f"{measures.Class.HOMOGENEITY}-{dist_data.Contents.ONLY_PLASMIDS}"
+        f"{measures.Class.HOMOGENEITY}-{bins.Contents.ONLY_PLASMIDS}"
     )
     HOMOGENEITY_WITH_CHROMOSOMES = (
-        f"{measures.Class.HOMOGENEITY}-{dist_data.Contents.WITH_CHROMOSOMES}"
+        f"{measures.Class.HOMOGENEITY}-{bins.Contents.WITH_CHROMOSOMES}"
     )
 
     @classmethod
     def from_measure_and_content(
         cls,
         measure: measures.Class,
-        content: dist_data.Contents,
+        content: bins.Contents,
     ) -> HueValues:
         """Get hue value from measure and content."""
         match measure:
             case measures.Class.COMPLETENESS:
                 match content:
-                    case dist_data.Contents.ONLY_PLASMIDS:
+                    case bins.Contents.ONLY_PLASMIDS:
                         return cls.COMPLETENESS_ONLY_PLASMIDS
-                    case dist_data.Contents.WITH_CHROMOSOMES:
+                    case bins.Contents.WITH_CHROMOSOMES:
                         return cls.COMPLETENESS_WITH_CHROMOSOMES
             case measures.Class.HOMOGENEITY:
                 match content:
-                    case dist_data.Contents.ONLY_PLASMIDS:
+                    case bins.Contents.ONLY_PLASMIDS:
                         return cls.HOMOGENEITY_ONLY_PLASMIDS
-                    case dist_data.Contents.WITH_CHROMOSOMES:
+                    case bins.Contents.WITH_CHROMOSOMES:
                         return cls.HOMOGENEITY_WITH_CHROMOSOMES
 
 
@@ -80,8 +81,8 @@ def get_dataframe(
     df = pd.DataFrame(columns=list(Columns))
 
     for content, eval_df in (
-        (dist_data.Contents.ONLY_PLASMIDS, only_plm_df),
-        (dist_data.Contents.WITH_CHROMOSOMES, with_chm_df),
+        (bins.Contents.ONLY_PLASMIDS, only_plm_df),
+        (bins.Contents.WITH_CHROMOSOMES, with_chm_df),
     ):
         new_eval_df = dist_data.replace_measures_cols_to_class_mode_val_cols(
             eval_df,
@@ -112,12 +113,12 @@ class Orders:
         self,
         row: list[measures.Class],
         col: list[measures.Mode],
-        x: list[dist_data.Contents],
+        x: list[bins.Contents],
         hue: list[HueValues],
     ) -> None:
         self._row: list[measures.Class] = row
         self._col: list[measures.Mode] = col
-        self._x: list[dist_data.Contents] = x
+        self._x: list[bins.Contents] = x
         self._hue: list[HueValues] = hue
 
     def row(self) -> list[measures.Class]:
@@ -128,7 +129,7 @@ class Orders:
         """Get column."""
         return self._col
 
-    def x(self) -> list[dist_data.Contents]:
+    def x(self) -> list[bins.Contents]:
         """Get x."""
         return self._x
 

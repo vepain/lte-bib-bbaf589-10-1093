@@ -1,5 +1,5 @@
 ---
-icon: lucide/file-input
+icon: lucide/file-spreadsheet
 ---
 
 # Formatting data in PlasEval format
@@ -8,67 +8,87 @@ icon: lucide/file-input
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
 ```sh
-.
-└── data
-    ├── original  # Original data
-    │   └── predictions.xlsx
-    ├── samples
-    │   └── complete_hybrid_asm.tsv
-    ├── ground_truths  # PlasEval formatted ground-truths
-    │   ├── only_plasmids
-    │   └── with_chromosomes
-    └── binning  # PlasEval formatted bins
-        ├── only_plasmids
-        │   └── $tool
-        └── with_chromosomes  # Same subtree as only_plasmids/
-```
-
-```sh
 mkdir data
 cd data
 ```
 
+<!-- markdownlint-disable MD046 -->
+??? tip "Running everything in once"
+
+    ```sh
+    scripts_dir=scripts/inputs  # use the correct path (absolute path recommended)
+
+    $scripts_dir/download_original.sh
+    $scripts_dir/fmt_samples.sh
+    $scripts_dir/fmt_gt.sh
+    $scripts_dir/fmt_binning.sh
+    ```
+<!-- markdownlint-enable MD046 -->
+
+<!-- markdownlint-disable MD046 -->
+??? info "File tree structure"
+
+    ```sh
+    📁 data
+    ├── 📁 original  # Original data
+    │   └── predictions.xlsx
+    ├── 📁 samples
+    │   └── complete_hybrid_asm.tsv
+    ├── 📁 ground_truths  # PlasEval formatted ground-truths
+    │   ├── 📁 only_plasmids
+    │   └── 📁 with_chromosomes
+    └── 📁 binning  # PlasEval formatted bins
+        ├── 📁 only_plasmids
+        │   └── 📁 $tool
+        └── 📁 with_chromosomes  # Same subtree as only_plasmids/
+    ```
+<!-- markdownlint-enable MD046 -->
+
+The next sections detail the experiment steps.
+
+## Download the original data
+
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/inputs/download_original.sh"
+    --8<-- "scripts/inputs/download_original.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
+
 ## Format the samples to the PlasEval format
 
-```sh
-lteu fmt samples original/predictions.xlsx samples/complete_hybrid_asm.tsv
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-## Format the ground truth to the PlasEval format
+    ```sh title="scripts/inputs/fmt_samples.sh"
+    --8<-- "scripts/inputs/fmt_samples.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
-Without the chromosomal bin:
+## Format the ground truths to the PlasEval format
 
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/only_plasmids
-```
+Ground truths with only plasmid bins, and with chromosomal bin.
 
-With the chromosomal bin:
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/with_chromosomes --with-chromosomes
-```
+    ```sh title="scripts/inputs/fmt_gt.sh"
+    --8<-- "scripts/inputs/fmt_gt.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ## Format the bins to the PlasEval format
 
-Without the chromosomal bin:
+Binning predictions with only plasmid bins, and with chromosomal bin.
 
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/only_plasmids/$tool
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
->[!TIP]
-> You can execute the script `scripts/inputs/only_plasmids.sh` in the `data` directory.
-
-With the chromosomal bin:
-
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/with_chromosomes/$tool --with-chromosomes
-```
-
->[!TIP]
-> You can execute the script `scripts/inputs/with_chromosomes.sh` in the `data` directory.
+    ```sh title="scripts/inputs/fmt_binning.sh"
+    --8<-- "scripts/inputs/fmt_binning.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  -->
 

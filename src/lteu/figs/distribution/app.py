@@ -8,13 +8,12 @@ from typing import Annotated
 
 import typer
 
-from lteu import log
+from lteu import bins, log
 from lteu import tools as main_tools
 from lteu.eval import measures
 from lteu.figs import aes as figs_aes
 from lteu.figs import data as figs_data
 
-from . import data
 from . import ground_truths as gt
 from . import tools as dist_tools
 
@@ -69,7 +68,7 @@ def ground_truths(
                 measures.Class.HOMOGENEITY,
             ],
             col=[measures.Mode.UNWEIGHTED, measures.Mode.WEIGHTED],
-            x=[data.Contents.ONLY_PLASMIDS, data.Contents.WITH_CHROMOSOMES],
+            x=[bins.Contents.ONLY_PLASMIDS, bins.Contents.WITH_CHROMOSOMES],
             hue=[
                 gt.HueValues.COMPLETENESS_ONLY_PLASMIDS,
                 gt.HueValues.COMPLETENESS_WITH_CHROMOSOMES,
@@ -167,8 +166,8 @@ def tools_all(
             col=[measures.Mode.UNWEIGHTED, measures.Mode.WEIGHTED],
             x=tools,
             hue=(
-                data.Contents.ONLY_PLASMIDS,
-                data.Contents.WITH_CHROMOSOMES,
+                bins.Contents.ONLY_PLASMIDS,
+                bins.Contents.WITH_CHROMOSOMES,
             ),
         ),
     )
@@ -242,7 +241,7 @@ def tools_chrm(
                 measures.Class.COMPLETENESS,
                 measures.Class.HOMOGENEITY,
             ],
-            col=[data.Contents.ONLY_PLASMIDS, data.Contents.WITH_CHROMOSOMES],
+            col=[bins.Contents.ONLY_PLASMIDS, bins.Contents.WITH_CHROMOSOMES],
             x=tools,
         ),
     )
@@ -269,7 +268,7 @@ def tools_mode(
         InputsTools.TOOLS,
     ],
     content: Annotated[
-        data.Contents,
+        bins.Contents,
         typer.Argument(
             help="Content",
         ),

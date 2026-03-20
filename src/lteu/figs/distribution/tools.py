@@ -10,7 +10,7 @@ import seaborn as sns
 from matplotlib.collections import PolyCollection
 from matplotlib.colors import to_rgb
 
-from lteu import tools
+from lteu import bins, tools
 from lteu.eval import measures
 from lteu.eval.merge import files as merge_files
 from lteu.eval.run import files as eval_files
@@ -44,8 +44,8 @@ def get_dataframe(
     df = pd.DataFrame(columns=list(Columns))
 
     for content, eval_df in (
-        (dist_data.Contents.ONLY_PLASMIDS, only_plm_df),
-        (dist_data.Contents.WITH_CHROMOSOMES, with_chm_df),
+        (bins.Contents.ONLY_PLASMIDS, only_plm_df),
+        (bins.Contents.WITH_CHROMOSOMES, with_chm_df),
     ):
         new_eval_df = dist_data.replace_measures_cols_to_class_mode_val_cols(
             eval_df,
@@ -73,12 +73,12 @@ class FullOrders:
         row: list[measures.Class],
         col: list[measures.Mode],
         x: list[tools.Binning],
-        hue: tuple[dist_data.Contents, dist_data.Contents],
+        hue: tuple[bins.Contents, bins.Contents],
     ) -> None:
         self._row: list[measures.Class] = row
         self._col: list[measures.Mode] = col
         self._x: list[tools.Binning] = x
-        self._hue: tuple[dist_data.Contents, dist_data.Contents] = hue
+        self._hue: tuple[bins.Contents, bins.Contents] = hue
 
     def row(self) -> list[measures.Class]:
         """Get row order."""
@@ -92,7 +92,7 @@ class FullOrders:
         """Get x order."""
         return self._x
 
-    def hue(self) -> tuple[dist_data.Contents, dist_data.Contents]:
+    def hue(self) -> tuple[bins.Contents, bins.Contents]:
         """Get hue order."""
         return self._hue
 
@@ -275,19 +275,19 @@ class ContentOrders:
     def __init__(
         self,
         row: list[measures.Class],
-        col: list[dist_data.Contents],
+        col: list[bins.Contents],
         x: list[tools.Binning],
-        # hue: tuple[dist_data.Contents, dist_data.Contents],
+        # hue: tuple[bins.Contents, bins.Contents],
     ) -> None:
         self._row: list[measures.Class] = row
-        self._col: list[dist_data.Contents] = col
+        self._col: list[bins.Contents] = col
         self._x: list[tools.Binning] = x
 
     def row(self) -> list[measures.Class]:
         """Get row order."""
         return self._row
 
-    def col(self) -> list[dist_data.Contents]:
+    def col(self) -> list[bins.Contents]:
         """Get column order."""
         return self._col
 
@@ -410,7 +410,7 @@ def get_mode_dataframe(
     with_chm_tools_evals_tsv: Path,
     tools: list[tools.Binning],
     remove_samples: figs_data.RmSamplesModes,
-    content: dist_data.Contents,
+    content: bins.Contents,
 ) -> pd.DataFrame:
     """Get dataframe for measures modes."""
     df = get_dataframe(
@@ -471,7 +471,7 @@ class ModeAes:
 def mode_violins_plot(
     df: pd.DataFrame,
     aes_cfg: ModeAes,
-    content: dist_data.Contents,
+    content: bins.Contents,
     remove_samples: figs_data.RmSamplesModes,
     pdf: Path,
 ) -> None:
