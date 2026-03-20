@@ -1,5 +1,5 @@
 ---
-icon: lucide/file-input
+icon: lucide/file-spreadsheet
 ---
 
 # Formatting data in PlasEval format
@@ -9,66 +9,25 @@ icon: lucide/file-input
 
 ```sh
 .
-└── data
-    ├── original  # Original data
+└── 📁 data
+    ├── 📁 original  # Original data
     │   └── predictions.xlsx
-    ├── samples
+    ├── 📁 samples
     │   └── complete_hybrid_asm.tsv
-    ├── ground_truths  # PlasEval formatted ground-truths
-    │   ├── only_plasmids
-    │   └── with_chromosomes
-    └── binning  # PlasEval formatted bins
-        ├── only_plasmids
-        │   └── $tool
-        └── with_chromosomes  # Same subtree as only_plasmids/
+    ├── 📁 ground_truths  # PlasEval formatted ground-truths
+    │   ├── 📁 only_plasmids
+    │   └── 📁 with_chromosomes
+    └── 📁 binning  # PlasEval formatted bins
+        ├── 📁 only_plasmids
+        │   └── 📁 $tool
+        └── 📁 with_chromosomes  # Same subtree as only_plasmids/
 ```
+
+The `lteu exp init` command will create the above directory structure.
 
 ```sh
-mkdir data
-cd data
+lteu exp init data
 ```
-
-## Format the samples to the PlasEval format
-
-```sh
-lteu fmt samples original/predictions.xlsx samples/complete_hybrid_asm.tsv
-```
-
-## Format the ground truth to the PlasEval format
-
-Without the chromosomal bin:
-
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/only_plasmids
-```
-
-With the chromosomal bin:
-
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/with_chromosomes --with-chromosomes
-```
-
-## Format the bins to the PlasEval format
-
-Without the chromosomal bin:
-
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/only_plasmids/$tool
-```
-
->[!TIP]
-> You can execute the script `scripts/inputs/only_plasmids.sh` in the `data` directory.
-
-With the chromosomal bin:
-
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/with_chromosomes/$tool --with-chromosomes
-```
-
->[!TIP]
-> You can execute the script `scripts/inputs/with_chromosomes.sh` in the `data` directory.
 
 <!--  -->
 

@@ -34,14 +34,16 @@ pip install .
 >[!WARNING]
 > If you use this method, make sure you have sourced your virtual environment before running the commands in the [experiments](experiments/index.md).
 
-## Prepare working space
+## Usage
 
-Create a directory in which who will do the experiments, create the figures etc.
-
-We recommend creating the `data` directory in it:
+Test the installation with:
 
 ```sh
-mkdir data
+lteu --help
 ```
 
-The commands described in the [experiments](experiments/index.md) section will be executed in this directory.
+To run the [experiments](experiments/index.md), we will use the command:
+
+```sh
+lteu exp --help
+```
