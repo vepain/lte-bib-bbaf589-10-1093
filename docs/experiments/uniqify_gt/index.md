@@ -62,7 +62,7 @@ $scripts_dir/fig_vs.sh
 $scripts_dir/fig_dist.sh
 ```
 
-The next section detail the experiment steps.
+The next sections detail the experiment steps.
 
 ## Preparing the input data
 
