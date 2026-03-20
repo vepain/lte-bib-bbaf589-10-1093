@@ -7,9 +7,43 @@ icon: lucide/copy
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
+<!--  -->
+
+>[!IMPORTANT]
+> The following commands are run in the `data` directory.
+>
+> ```sh
+> cd data
+> ```
+
+Initializing the experiment:
+
 ```sh
-.
-└── 📁 data
+exp_dir=experiments/uniqify/gt_vs_gt
+
+mkdir -p $exp_dir
+```
+
+<!-- markdownlint-disable MD046 -->
+??? tip "Running everything in once"
+
+    ```sh
+    scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
+
+    $scripts_dir/samples.sh
+    $scripts_dir/uniqify.sh
+    $scripts_dir/eval_original.sh
+    $scripts_dir/eval_uniqify.sh
+    $scripts_dir/fig_vs.sh
+    $scripts_dir/fig_dist.sh
+    ```
+<!-- markdownlint-enable MD046 -->
+
+<!-- markdownlint-disable MD046 -->
+??? info "File tree structure"
+
+    ```sh
+    📁 data
     ├── 📁 samples
     │   └── complete_hybrid_asm.tsv
     ├── 📁 ground_truths  # PlasEval formatted ground-truths
@@ -31,36 +65,8 @@ icon: lucide/copy
                     ├── distributions.pdf
                     ├── 📁 only_plasmids
                     └── 📁 with_chromosomes
-
-```
-
->[!IMPORTANT]
-> The following commands are run in the `data` directory.
->
-> ```sh
-> cd data
-> ```
-
-Initializing the experiment:
-
-```sh
-exp_dir=experiments/uniqify/gt_vs_gt
-
-mkdir -p $exp_dir
-```
-
-To run everything in once:
-
-```sh
-scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
-
-$scripts_dir/samples.sh
-$scripts_dir/uniqify.sh
-$scripts_dir/eval_original.sh
-$scripts_dir/eval_uniqify.sh
-$scripts_dir/fig_vs.sh
-$scripts_dir/fig_dist.sh
-```
+    ```
+<!-- markdownlint-enable MD046 -->
 
 The next sections detail the experiment steps.
 
@@ -178,7 +184,7 @@ As for the uniqified ground truths the measures all equal to 1 (theoretically ex
 <!-- markdownlint-enable MD046 -->
 
 <!--  markdownlint-disable MD046  -->
-??? note "Figure"
+!!! note "Figure"
 
-    [Distribution](figs/distribution.pdf){ target="_blank" }
+    [Distribution](figs/distributions.pdf){ target="_blank" }
 <!--  markdownlint-enable MD046  -->

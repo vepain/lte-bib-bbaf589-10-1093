@@ -13,37 +13,45 @@ git clone -b develop git@github.com:vepain/lte-bib-bbaf589-10-1093.git
 cd lte-bib-bbaf589-10-1093
 ```
 
-### With uv (recommended)
+<!-- markdownlint-disable MD046 -->
+=== "With `uv` (recommended)"
 
-Install thanks to [uv](https://docs.astral.sh/uv/):
+    Install thanks to [uv](https://docs.astral.sh/uv/):
 
-```sh
-uv install .
-```
+    ```sh
+    uv install .
+    ```
 
-The commands described in the [experiments](experiments/index.md) can be prepended by `uv run` e.g. `uv run lteu --help`.
+    The commands described in the [experiments](experiments/index.md) are prepended by `uv run` e.g. `uv run lteu --help`.
 
-### Without uv
+=== "Without `uv`"
 
-Create a virtual environment, source it, and install `lteu`:
+    Create a virtual environment, source it, and install `lteu`:
 
-```sh
-pip install .
-```
+    ```sh
+    pip install .
+    ```
 
->[!WARNING]
-> If you use this method, make sure you have sourced your virtual environment before running the commands in the [experiments](experiments/index.md).
+    >[!WARNING]
+    > If you use this method, make sure you have sourced your virtual environment before running the commands in the [experiments](experiments/index.md).
+    > Also, all the commands in the scripts use `uv run lteu`. So you may have to remove the `uv run` prefix if you cannot use `uv`.
+
+<!-- markdownlint-enable MD046 -->
 
 ## Usage
 
 Test the installation with:
 
-```sh
-lteu --help
-```
+<!-- markdownlint-disable MD046 -->
+=== "With `uv` (recommended)"
 
-To run the [experiments](experiments/index.md), we will use the command:
+    ```sh
+    uv run lteu --help
+    ```
 
-```sh
-lteu exp --help
-```
+=== "Without `uv`"
+
+    ```sh
+    lteu --help
+    ```
+<!-- markdownlint-enable MD046 -->

@@ -8,8 +8,28 @@ icon: lucide/file-spreadsheet
 > Make sure you have installed the `lteu` package, see [Installation](../install.md).
 
 ```sh
-.
-└── 📁 data
+mkdir data
+cd data
+```
+
+<!-- markdownlint-disable MD046 -->
+??? tip "Running everything in once"
+
+    ```sh
+    scripts_dir=scripts/inputs  # use the correct path (absolute path recommended)
+
+    $scripts_dir/download_original.sh
+    $scripts_dir/fmt_samples.sh
+    $scripts_dir/fmt_gt.sh
+    $scripts_dir/fmt_binning.sh
+    ```
+<!-- markdownlint-enable MD046 -->
+
+<!-- markdownlint-disable MD046 -->
+??? info "File tree structure"
+
+    ```sh
+    📁 data
     ├── 📁 original  # Original data
     │   └── predictions.xlsx
     ├── 📁 samples
@@ -21,25 +41,10 @@ icon: lucide/file-spreadsheet
         ├── 📁 only_plasmids
         │   └── 📁 $tool
         └── 📁 with_chromosomes  # Same subtree as only_plasmids/
-```
-
-```sh
-mkdir data
-cd data
-```
-
-<!-- markdownlint-disable MD046 -->
-??? info "Running everything in once"
-
-    ```sh
-    scripts_dir=scripts/inputs  # use the correct path (absolute path recommended)
-
-    $scripts_dir/download_original.sh
-    $scripts_dir/fmt_samples.sh
-    $scripts_dir/fmt_gt.sh
-    $scripts_dir/fmt_binning.sh
     ```
 <!-- markdownlint-enable MD046 -->
+
+The next sections detail the experiment steps.
 
 ## Download the original data
 
@@ -75,7 +80,7 @@ Ground truths with only plasmid bins, and with chromosomal bin.
 
 ## Format the bins to the PlasEval format
 
-Binning predcitions with only plasmid bins, and with chromosomal bin.
+Binning predictions with only plasmid bins, and with chromosomal bin.
 
 <!-- markdownlint-disable MD046 -->
 ??? info "Script"

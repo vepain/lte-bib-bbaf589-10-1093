@@ -12,20 +12,20 @@ context=paper
 focus_mode="--full" # | --focus
 # ------------------------------------------------------------------------------------ #
 
-exp_dir=experiments/chromosomes
+exp_dir=experiments/overview
 
-only_plm_tools_evals_tsv=$exp_dir/only_plasmids/evals/merge.tsv
-with_chm_tools_evals_tsv=$exp_dir/with_chromosomes/evals/merge.tsv
+only_plm_tools_evals_tsv=$exp_dir/evals/only_plasmids/merge.tsv
+with_chm_tools_evals_tsv=$exp_dir/evals/with_chromosomes/merge.tsv
 
-fig_pdf="$exp_dir/figs/distribution.pdf"
+fig_pdf="$exp_dir/figs/distributions.pdf"
 
-sopt_meths=()
+sopt_tools=()
 for str in $tools; do
-    sopt_meths+=(--tool "$str")
+    sopt_tools+=(--tool "$str")
 done
 
 uv run lteu figs dist tools \
     "$only_plm_tools_evals_tsv" "$with_chm_tools_evals_tsv" "$fig_pdf" \
-    "${sopt_meths[@]}" \
+    "${sopt_tools[@]}" \
     --remove-samples "$rm_samples_mode" \
     --context "$context" "$focus_mode"
