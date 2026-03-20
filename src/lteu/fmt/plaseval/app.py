@@ -244,4 +244,4 @@ def bins_to_plaseval(
         f"Created {count} files in {log.fmt_dir(output_dir)} directory",
     )
     if no_bins_count:
-        log.print_warning(f"No bins for {no_bins_count} samples")
+        log.print_warning(f"No results for {no_bins_count} samples")
