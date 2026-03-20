@@ -12,10 +12,11 @@
         "matplotlib>=3.10.8",
         "numpy>=2.4.2",
         "pandas[excel]>=3.0",
+        "requests>=2.32.5",
         "rich>=14.3",
         "seaborn>=0.13.2",
         "typer>=0.24",
-    ]
+]
 
     [project.scripts]
         lteu = "lteu.__main__:main"
@@ -37,7 +38,11 @@
         "zensical>=0.0.27",
     ]
     lint = ["ruff>=0.15.4", "ty>=0.0.19"]
-    stubs = ["pandas-stubs>=3.0.0.260204", "types-seaborn>=0.13.2.20251221"]
+    stubs = [
+    "pandas-stubs>=3.0.0.260204",
+    "types-requests>=2.32.4.20260107",
+    "types-seaborn>=0.13.2.20251221",
+]
 
 [tool.ruff.lint]
     select = ["ALL"]
