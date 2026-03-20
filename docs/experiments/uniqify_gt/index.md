@@ -81,12 +81,13 @@ Create the sample lists `gt_vs_gt/samples.tsv`.
 >     Contigs mapping equally well to a hybrid-assembly chromosome and plasmid contig were excluded from downstream analyses.
 <!--  markdownlint-enable MD046  -->
 
-```sh
-lteu smp repeats samples/complete_hybrid_asm.tsv ground_truths/only_plasmids $exp_dir/samples.tsv
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
->[!TIP]
-> You can execute the script `scripts/uniqify/samples.sh` in the `data` directory.
+    ```sh title="scripts/uniqify/gt_vs_gt/samples.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/samples.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ### Create the uniqify versions of the ground truth bins
 
@@ -94,14 +95,13 @@ For each bin content (only plasmid bins and with chromosomal bin), we create the
 
 The uniqify versions of the ground truth bins consists in renaming the contigs names such that there is a null contig names intersection between the ground truth bins.
 
-```sh
-content=only_plasmids # | with_chromosomes
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-lteu uniqify gt ground_truths/$content $exp_dir/samples.tsv $exp_dir/ground_truths/$content
-```
-
->[!TIP]
-> You can execute the script `scripts/uniqify/gt_vs_gt/uniqify.sh` in the `data` directory.
+    ```sh title="scripts/uniqify/gt_vs_gt/uniqify.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/uniqify.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ## Evaluating the completeness and the homogeneity
 
@@ -111,53 +111,37 @@ For each of the ground truths (original and uniqified), we provide the completen
 
 It creates the files `gt_vs_gt/evals/only_plasmids/original.tsv` and `gt_vs_gt/evals/with_chromosomes/original.tsv`.
 
-```sh
-content=only_plasmids # | with_chromosomes
-gt_dir=ground_truths/$content
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-lteu eval run $gt_dir $gt_dir $exp_dir/samples.tsv $exp_dir/evals/$content/original.tsv
-```
-
->[!TIP]
-> You can execute the script `scripts/uniqify/gt_vs_gt/eval_repeats.sh` in the `data` directory.
+    ```sh title="scripts/uniqify/gt_vs_gt/eval_original.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/eval_original.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ### Uniqify ground truths versus themselves
 
 It creates the files `gt_vs_gt/evals/only_plasmids/uniqify.tsv` and `gt_vs_gt/evals/with_chromosomess/uniqify.tsv`.
 
-```sh
-content=only_plasmids # | with_chromosomes
-gt_dir=$exp_dir/ground_truths/$content
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-lteu eval run $gt_dir $gt_dir $exp_dir/samples.tsv $exp_dir/evals/$content/uniqify.tsv
-```
+    ```sh title="scripts/uniqify/gt_vs_gt/eval_uniqify.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/eval_uniqify.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
->[!TIP]
-> You can execute the script `scripts/uniqify/gt_vs_gt/eval_uniqify.sh` in the `data` directory.
->
 ## Generating figures
 
 ### The versus figure (original ground truths vs uniqified ground truths)
 
-```sh
-content=only_plasmids # | with_chromosomes
-measure="unw_comp" # | unw_hom | w_comp | w_hom
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-x_evals_tsv=$exp_dir/evals/$content/original.tsv
-x_label="Original"
-
-y_evals_tsv=$exp_dir/evals/$content/uniqify.tsv
-y_label="Uniqify"
-
-fig_pdf="$exp_dir/figs/$content/$measure.pdf"
-
-lteu figs vs gt "$measure" "$fig_pdf" \
-    --x-axis "$x_evals_tsv" --x-label "$x_label" \
-    --y-axis "$y_evals_tsv" --y-label "$y_label"
-```
-
->[!TIP]
-> You can execute the script `scripts/uniqify/gt_vs_gt/fig_vs.sh` in the `data` directory.
+    ```sh title="scripts/uniqify/gt_vs_gt/fig_vs.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/fig_vs.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  markdownlint-disable MD046  -->
 ??? note "Figures for only plasmids"
@@ -185,17 +169,13 @@ lteu figs vs gt "$measure" "$fig_pdf" \
 
 As for the uniqified ground truths the measures all equal to 1 (theoretically expected, one can verify that on the previous versus figures)
 
-```sh
-only_plm_eval_tsv=$exp_dir/evals/only_plasmids/original.tsv
-with_chm_eval_tsv=$exp_dir/evals/with_chromosomes/original.tsv
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-fig_pdf="$exp_dir/figs/distributions.pdf"
-
-lteu figs dist gt "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf"
-```
-
->[!TIP]
-> You can execute the script `scripts/uniqify/gt_vs_gt/fig_dist.sh` in the `data` directory.
+    ```sh title="scripts/uniqify/gt_vs_gt/fig_dist.sh"
+    --8<-- "scripts/uniqify/gt_vs_gt/fig_dist.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  markdownlint-disable MD046  -->
 ??? note "Figure"

@@ -28,8 +28,6 @@ mkdir data
 cd data
 ```
 
-<!-- DOCU write the full commands in once -->
-
 <!-- markdownlint-disable MD046 -->
 ??? info "Running everything in once"
 
