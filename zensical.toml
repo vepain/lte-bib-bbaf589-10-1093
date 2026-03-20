@@ -315,6 +315,7 @@ Copyright &copy; 2026 The authors
             #icon = "fontawesome/brands/github"
             #link = "https://github.com/user/repo"
 
+
     # Admonitions: https://zensical.org/docs/authoring/admonitions/
     [project.markdown_extensions.admonition]
     [project.markdown_extensions.pymdownx.details]

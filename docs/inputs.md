@@ -30,53 +30,61 @@ cd data
 
 <!-- DOCU write the full commands in once -->
 
+<!-- markdownlint-disable MD046 -->
+??? info "Running everything in once"
+
+    ```sh
+    scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
+
+    $scripts_dir/inputs/download_original.sh
+    $scripts_dir/inputs/fmt_samples.sh
+    $scripts_dir/inputs/fmt_gt.sh
+    ```
+<!-- markdownlint-enable MD046 -->
+
 ## Download the original data
 
-```sh
-wget https://github.com/broadinstitute/plasmid-detection-benchmark/raw/refs/heads/main/data/predictions.xlsx -O original/predictions.xlsx
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
+
+    ```sh title="scripts/inputs/download_original.sh"
+    --8<-- "scripts/inputs/download_original.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ## Format the samples to the PlasEval format
 
-```sh
-lteu fmt samples original/predictions.xlsx samples/complete_hybrid_asm.tsv
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-## Format the ground truth to the PlasEval format
+    ```sh title="scripts/inputs/fmt_samples.sh"
+    --8<-- "scripts/inputs/fmt_samples.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
-Without the chromosomal bin:
+## Format the ground truths to the PlasEval format
 
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/only_plasmids
-```
+Ground truths with only plasmid bins, and with chromosomal bin.
 
-With the chromosomal bin:
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
-```sh
-lteu fmt ground-truths original/predictions.xlsx ground_truths/with_chromosomes --with-chromosomes
-```
+    ```sh title="scripts/inputs/fmt_gt.sh"
+    --8<-- "scripts/inputs/fmt_gt.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 ## Format the bins to the PlasEval format
 
-Without the chromosomal bin:
+Binning predcitions with only plasmid bins, and with chromosomal bin.
 
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/only_plasmids/$tool
-```
+<!-- markdownlint-disable MD046 -->
+??? info "Script"
 
->[!TIP]
-> You can execute the script `scripts/inputs/only_plasmids.sh` in the `data` directory.
-
-With the chromosomal bin:
-
-```sh
-tool=hyasp # mob | pbf | gplas2
-lteu fmt bins original/predictions.xlsx $tool binning/with_chromosomes/$tool --with-chromosomes
-```
-
->[!TIP]
-> You can execute the script `scripts/inputs/with_chromosomes.sh` in the `data` directory.
+    ```sh title="scripts/inputs/fmt_binning.sh"
+    --8<-- "scripts/inputs/fmt_binning.sh"
+    ```
+<!-- markdownlint-enable MD046 -->
 
 <!--  -->
 
