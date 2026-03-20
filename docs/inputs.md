@@ -32,12 +32,12 @@ cd data
 ??? info "Running everything in once"
 
     ```sh
-    scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
+    scripts_dir=scripts/inputs  # use the correct path (absolute path recommended)
 
-    $scripts_dir/inputs/download_original.sh
-    $scripts_dir/inputs/fmt_samples.sh
-    $scripts_dir/inputs/fmt_gt.sh
-    $scripts_dir/inputs/fmt_binning.sh
+    $scripts_dir/download_original.sh
+    $scripts_dir/fmt_samples.sh
+    $scripts_dir/fmt_gt.sh
+    $scripts_dir/fmt_binning.sh
     ```
 <!-- markdownlint-enable MD046 -->
 

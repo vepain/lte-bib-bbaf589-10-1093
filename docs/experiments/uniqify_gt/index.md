@@ -52,7 +52,7 @@ mkdir -p $exp_dir
 To run everything in once:
 
 ```sh
-scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommanded)
+scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
 
 $scripts_dir/samples.sh
 $scripts_dir/uniqify.sh
