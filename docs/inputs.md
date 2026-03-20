@@ -23,11 +23,60 @@ icon: lucide/file-spreadsheet
         └── 📁 with_chromosomes  # Same subtree as only_plasmids/
 ```
 
-The `lteu exp init` command will create the above directory structure.
+```sh
+mkdir data
+cd data
+```
+
+<!-- DOCU write the full commands in once -->
+
+## Download the original data
 
 ```sh
-lteu exp init data
+wget https://github.com/broadinstitute/plasmid-detection-benchmark/raw/refs/heads/main/data/predictions.xlsx -O original/predictions.xlsx
 ```
+
+## Format the samples to the PlasEval format
+
+```sh
+lteu fmt samples original/predictions.xlsx samples/complete_hybrid_asm.tsv
+```
+
+## Format the ground truth to the PlasEval format
+
+Without the chromosomal bin:
+
+```sh
+lteu fmt ground-truths original/predictions.xlsx ground_truths/only_plasmids
+```
+
+With the chromosomal bin:
+
+```sh
+lteu fmt ground-truths original/predictions.xlsx ground_truths/with_chromosomes --with-chromosomes
+```
+
+## Format the bins to the PlasEval format
+
+Without the chromosomal bin:
+
+```sh
+tool=hyasp # mob | pbf | gplas2
+lteu fmt bins original/predictions.xlsx $tool binning/only_plasmids/$tool
+```
+
+>[!TIP]
+> You can execute the script `scripts/inputs/only_plasmids.sh` in the `data` directory.
+
+With the chromosomal bin:
+
+```sh
+tool=hyasp # mob | pbf | gplas2
+lteu fmt bins original/predictions.xlsx $tool binning/with_chromosomes/$tool --with-chromosomes
+```
+
+>[!TIP]
+> You can execute the script `scripts/inputs/with_chromosomes.sh` in the `data` directory.
 
 <!--  -->
 

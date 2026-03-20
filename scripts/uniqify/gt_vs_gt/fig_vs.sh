@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------------ #
-# Versus figures for uniqify ground truths.
+# Versus figures for uniqify gt versus gt.
 # ------------------------------------------------------------------------------------ #
 context=paper
 focus_mode="--full" # | --focus
 # ------------------------------------------------------------------------------------ #
 
-exp_dir=experiments/uniqify/ground_truths
+exp_dir=experiments/uniqify/gt_vs_gt
 
 contents="only_plasmids with_chromosomes"
 measures="unw_comp unw_hom w_comp w_hom"
 
 for content in $contents; do
 
-    x_evals_tsv=$exp_dir/$content/evals/repeats.tsv
+    x_evals_tsv=$exp_dir/evals/$content/original.tsv
     x_label="Original"
 
-    y_evals_tsv=$exp_dir/$content/evals/uniqify.tsv
+    y_evals_tsv=$exp_dir/evals/$content/uniqify.tsv
     y_label="Uniqify"
 
-    figs_dir="$exp_dir/$content/figs"
+    figs_dir="$exp_dir/figs/$content"
 
     for measure in $measures; do
         fig_pdf="$figs_dir/$measure.pdf"

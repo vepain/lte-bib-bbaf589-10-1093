@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------------ #
-# Distribution figure for uniqify ground truths.
+# Distribution figure for uniqify gt versus gt.
 # ------------------------------------------------------------------------------------ #
 context=paper
 focus_mode="--full" # | --focus
 # ------------------------------------------------------------------------------------ #
 
-exp_dir=experiments/uniqify/ground_truths
+exp_dir=experiments/uniqify/gt_vs_gt
 
-only_plm_eval_tsv=$exp_dir/only_plasmids/evals/repeats.tsv
-with_chm_eval_tsv=$exp_dir/with_chromosomes/evals/repeats.tsv
+only_plm_eval_tsv=$exp_dir/evals/only_plasmids/original.tsv
+with_chm_eval_tsv=$exp_dir/evals/with_chromosomes/original.tsv
 
-fig_pdf="$exp_dir/figs/distribution.pdf"
+fig_pdf="$exp_dir/figs/distributions.pdf"
 
 uv run lteu figs dist gt \
     "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf" \
