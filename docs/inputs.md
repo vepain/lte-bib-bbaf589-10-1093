@@ -39,6 +39,7 @@ cd data
     $scripts_dir/inputs/download_original.sh
     $scripts_dir/inputs/fmt_samples.sh
     $scripts_dir/inputs/fmt_gt.sh
+    $scripts_dir/inputs/fmt_binning.sh
     ```
 <!-- markdownlint-enable MD046 -->
 
