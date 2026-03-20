@@ -46,7 +46,7 @@ Copyright &copy; 2026 The authors
             "experiments/uniqify_gt/index.md",
             { "Analyzing the trivial case of only one plasmid bin" = [
                 "experiments/one_bin/index.md",
-                "experiments/one_bin/ground_truths/index.md",
+                "experiments/one_bin/gt_vs_gt/index.md",
                 "experiments/one_bin/binning/index.md",
             ] },
             "experiments/appendix/index.md",

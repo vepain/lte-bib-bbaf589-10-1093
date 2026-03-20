@@ -7,7 +7,7 @@ context=paper
 focus_mode="--full" # | --focus
 # ------------------------------------------------------------------------------------ #
 
-exp_dir=experiments/one_bin
+exp_dir=experiments/one_bin/gt_vs_gt
 
 measures="unw_comp unw_hom w_comp w_hom"
 

@@ -81,7 +81,7 @@ fig-dist() {
     local only_plm_tools_evals_tsv="$exp_dir/evals/only_plasmids/merge.tsv"
     local with_chm_tools_evals_tsv="$exp_dir/evals/with_chromosomes/merge.tsv"
 
-    local fig_pdf="$exp_dir/figs/distribution.pdf"
+    local fig_pdf="$exp_dir/figs/distributions.pdf"
 
     local sopt_tools=()
     for tool in $user_tools; do
