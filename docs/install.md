@@ -9,7 +9,7 @@ icon: lucide/package-open
 Clone the repository:
 
 ```sh
-git clone -b develop git@github.com:vepain/lte-bib-bbaf589-10-1093.git
+git clone git@github.com:vepain/lte-bib-bbaf589-10-1093.git
 cd lte-bib-bbaf589-10-1093
 ```
 

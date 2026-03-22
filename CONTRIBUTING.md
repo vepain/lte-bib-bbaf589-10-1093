@@ -10,12 +10,16 @@ module name: lteu
   * [Tags comments](#tags-comments)
 * [Developing](#developing)
   * [Initializing the development environment](#initializing-the-development-environment)
+    * [Git flow](#git-flow)
+    * [uv package](#uv-package)
+    * [Linters](#linters)
+    * [Documentation](#documentation)
+    * [dependencies](#dependencies)
   * [Use an already initialized environment](#use-an-already-initialized-environment)
   * [Git](#git-1)
     * [Developing a feature](#developing-a-feature)
   * [Linting and format](#linting-and-format)
 * [Documentations](#documentations)
-  * [Installation](#installation)
   * [Preview in live server](#preview-in-live-server)
 
 ## Conventions
@@ -70,11 +74,15 @@ module name: lteu
 >[!NOTE]
 > **👤 @vepain:** I already initialized `git-flow` and `uv`, this section helps you to know how. Otherwise, you can go directly to the [next section](#use-an-already-initialized-environment).
 
+#### Git flow
+
 ```sh
 git flow init
 # Branch name for production releases: main
 # Default for the other options.
 ```
+
+#### uv package
 
 ```sh
 uv init --package --name lteu # Letter To the Editor Utilities
@@ -90,6 +98,8 @@ You can see [./pyproject.toml](./pyproject.toml) file is also initialized, I cha
   lteu = "lteu.__main__:main"
 ```
 
+#### Linters
+
 Install the linters:
 
 ```sh
@@ -103,6 +113,28 @@ You then have to say that the `lint` dependency group is part of the `dev` group
 [dependency-groups]
   dev = [ { include-group = "lint" } ]
 ```
+
+#### Documentation
+
+Add dependencies via `uv`:
+
+```sh
+uv add --group docs zensical
+```
+
+Add group `docs` to group `dev`:
+
+```toml
+[dependency-groups]
+  dev = [
+    # ...
+    { include-group = "docs" }
+  ]
+```
+
+Other dependencies: are listed in the group `docs`.
+
+#### dependencies
 
 Install [deptry](https://github.com/fpgmaas/deptry) to check correct dependencies:
 
@@ -187,26 +219,6 @@ uv run ty check src/lteu
 ## Documentations
 
 We use [zensical](https://zensical.org) static website generator based on Markdown.
-
-### Installation
-
-Add dependencies via `uv`:
-
-```sh
-uv add --group docs zensical
-```
-
-Add group `docs` to group `dev`:
-
-```toml
-[dependency-groups]
-  dev = [
-    # ...
-    { include-group = "docs" }
-  ]
-```
-
-Other dependencies: are listed in the group `docs`.
 
 ### Preview in live server
 
