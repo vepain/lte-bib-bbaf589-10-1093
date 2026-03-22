@@ -1,6 +1,6 @@
-# Letter to the editor - paper <https://doi.org/10.1093/bib/bbaf589>
+# On using clustering statistics for assessing plasmid binning tools accuracy
 
-The letter to the editor aims to demonstrate the bias of the evaluating measures used in [Circling in on plasmids: benchmarking plasmid detection and reconstruction tools for short-read data from diverse species](https://doi.org/10.1093/bib/bbaf589):
+This repo allows to reproduce the experiments described in the letter to the editor submitted to Briefings in Bioinformatics about pitfalls of the accuracy measures used in he paper [Circling in on plasmids: benchmarking plasmid detection and reconstruction tools for short-read data from diverse species](https://doi.org/10.1093/bib/bbaf589):
 
 * The measures take into account the bin containing the chromosomal contigs.
 * The way they manage the repeated contig does not ensure a perfect prediction has a perfect measure.
@@ -12,8 +12,9 @@ See also:
 * [Article supplementary data](https://github.com/broadinstitute/plasmid-detection-benchmark)
 
 >[!WARNING]
-> Homogeneity and completeness measures computing by `sklearn` are not correct. So we code ours.
+> Homogeneity and completeness measures computing by `sklearn` are not correct. 
 > See [GitHub issue #13058](https://github.com/scikit-learn/scikit-learn/issues/13058)
+> Our experiments rely on our own coding of the computation f completeness and homogeneity.
 
 **Python package:** `lteu` (for Letter To the Editor Utilities).
 
