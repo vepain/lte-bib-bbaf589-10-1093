@@ -10,22 +10,9 @@ This repo allows to reproduce the experiments described in the letter to the edi
 
 Please refer to the [documentation](vepain.github.io/lte-bib-BBAF589-10-1093) to reproduce the experiments described in the letter to the editor.
 
-### Reading the documentation in a web viewer (recommended)
-
-With [uv](https://docs.astral.sh/uv/):
-
->[!NOTE]
-> It will install all the dependencies for the developers.
-
-```sh
-uv sync
-uv run zensical serve
-open http://localhost:8000
-```
-
-### Reading the documentation in raw Markdown
-
-The experiments running tutorial is in [./docs/index.md](./docs/index.md).
+>[!TIP]
+> If you cannot access to the web documentation, you can read it in raw Markdown format via the `./docs/index.md` file.
+> Otherwise, you can follow the instructions in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 ## Contributing
 
