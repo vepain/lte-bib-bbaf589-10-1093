@@ -5,7 +5,7 @@ icon: lucide/telescope
 # Taking into account the contigs lengths and visualizing the chromosomal bin bias
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](../install.md).
+> Make sure you have installed the `lteu` package, see [Installation](/install.md).
 
 <!--  -->
 
@@ -26,14 +26,14 @@ mkdir -p $exp_dir
 <!-- markdownlint-disable MD046 -->
 ??? tip "Running everything in once"
 
-    ```sh
-    scripts_dir=scripts/overview  # use the correct path (absolute path recommended)
+    You may have to initialize the `$SCRIPTS_DIR` variable, see [Configurating the working space](/inputs.md).
 
-    $scripts_dir/evals.sh
-    $scripts_dir/merge_evals.sh
-    $scripts_dir/fig_dist.sh
-    $scripts_dir/fig_dist_content.sh
-    $scripts_dir/fig_dist_mode.sh
+    ```sh
+    $SCRIPTS_DIR/evals.sh
+    $SCRIPTS_DIR/merge_evals.sh
+    $SCRIPTS_DIR/fig_dist.sh
+    $SCRIPTS_DIR/fig_dist_content.sh
+    $SCRIPTS_DIR/fig_dist_mode.sh
     ```
 <!-- markdownlint-enable MD046 -->
 

@@ -2,12 +2,38 @@
 icon: lucide/file-spreadsheet
 ---
 
-# Formatting data in PlasEval format
+# Configurating the working space
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](../install.md).
+> Make sure you have installed the `lteu` package, see [Installation](/install.md).
 
-```sh
+<!--  -->
+
+>[!TIP] Keeping in memory the scripts directory absolute path (`$SCRIPTS_DIR` variable)
+> Here and for all the experiments, you can use the scripts in the `scripts` directory that is at the root of the git repository.
+> We recommend you to save in a bash variable the absolute path to that directory:
+>
+> <!-- markdownlint-disable MD046 -->
+> === "Bash"
+>
+>     ```sh
+>     # In the git repository
+>     cd scripts
+>     SCRIPTS_DIR=$(pwd -P)
+>     ```
+>
+> === "Fish"
+>
+>     ```fish
+>     # In the git repository
+>     cd scripts
+>     set SCRIPTS_DIR (pwd -P)
+>     ```
+> <!-- markdownlint-enable MD046 -->
+
+Create the root directory in which all the experiments will be run. Here we create a `data` directory:
+
+```sh title="Where you want"
 mkdir data
 cd data
 ```
@@ -15,13 +41,13 @@ cd data
 <!-- markdownlint-disable MD046 -->
 ??? tip "Running everything in once"
 
-    ```sh
-    scripts_dir=scripts/inputs  # use the correct path (absolute path recommended)
+    You may have to set the `$SCRIPTS_DIR` variable, see above.
 
-    $scripts_dir/download_original.sh
-    $scripts_dir/fmt_samples.sh
-    $scripts_dir/fmt_gt.sh
-    $scripts_dir/fmt_binning.sh
+    ```sh
+    $SCRIPTS_DIR/download_original.sh
+    $SCRIPTS_DIR/fmt_samples.sh
+    $SCRIPTS_DIR/fmt_gt.sh
+    $SCRIPTS_DIR/fmt_binning.sh
     ```
 <!-- markdownlint-enable MD046 -->
 

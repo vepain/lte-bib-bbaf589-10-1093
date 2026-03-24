@@ -6,7 +6,7 @@ status: deprecated
 # Repeat bias for each tool
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](../../install.md).
+> Make sure you have installed the `lteu` package, see [Installation](/install.md).
 
 <!--  -->
 

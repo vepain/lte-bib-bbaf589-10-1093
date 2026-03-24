@@ -11,3 +11,7 @@ MD013: false
 MD024:
   # Allow when nested under different parents e.g. CHANGELOG.md
   siblings_only: true
+
+MD046:
+  # Fix conventions (use block disable-enable for exceptions, e.g. for content tabs or markdown cards)
+  style: fenced

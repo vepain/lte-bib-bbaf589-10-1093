@@ -4,8 +4,6 @@ icon: lucide/package-open
 
 # Installation
 
-## Install `lteu`
-
 Clone the repository:
 
 ```sh
@@ -61,8 +59,6 @@ cd lte-bib-bbaf589-10-1093
     ```
 
 <!-- markdownlint-enable MD046 -->
-
-## Usage
 
 Test the installation with:
 

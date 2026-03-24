@@ -5,7 +5,7 @@ icon: lucide/copy
 # Analyzing the repeat bias
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](../install.md).
+> Make sure you have installed the `lteu` package, see [Installation](/install.md).
 
 <!--  -->
 
@@ -27,15 +27,15 @@ mkdir -p $exp_dir
 <!-- markdownlint-disable MD046 -->
 ??? tip "Running everything in once"
 
-    ```sh
-    scripts_dir=scripts/uniqify/gt_vs_gt  # use the correct path (absolute path recommended)
+    You may have to initialize the `$SCRIPTS_DIR` variable, see [Configurating the working space](/inputs.md).
 
-    $scripts_dir/samples.sh
-    $scripts_dir/uniqify.sh
-    $scripts_dir/eval_original.sh
-    $scripts_dir/eval_uniqify.sh
-    $scripts_dir/fig_vs.sh
-    $scripts_dir/fig_dist.sh
+    ```sh
+    $SCRIPTS_DIR/samples.sh
+    $SCRIPTS_DIR/uniqify.sh
+    $SCRIPTS_DIR/eval_original.sh
+    $SCRIPTS_DIR/eval_uniqify.sh
+    $SCRIPTS_DIR/fig_vs.sh
+    $SCRIPTS_DIR/fig_dist.sh
     ```
 <!-- markdownlint-enable MD046 -->
 

@@ -1,7 +1,7 @@
 # Binning tools versus the ground truths
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](../install.md).
+> Make sure you have installed the `lteu` package, see [Installation](/install.md).
 
 <!--  -->
 
@@ -23,14 +23,14 @@ mkdir -p $exp_dir
 <!-- markdownlint-disable MD046 -->
 ??? tip "Running everything in once"
 
-    ```sh
-    scripts_dir=scripts/one_bin/binning  # use the correct path (absolute path recommended)
+    You may have to initialize the `$SCRIPTS_DIR` variable, see [Configurating the working space](/inputs.md).
 
-    $scripts_dir/samples.sh
-    $scripts_dir/evals.sh
-    $scripts_dir/merge_evals.sh
-    $scripts_dir/fig_dist.sh
-    $scripts_dir/fig_dist_no_pbf.sh
+    ```sh
+    $SCRIPTS_DIR/samples.sh
+    $SCRIPTS_DIR/evals.sh
+    $SCRIPTS_DIR/merge_evals.sh
+    $SCRIPTS_DIR/fig_dist.sh
+    $SCRIPTS_DIR/fig_dist_no_pbf.sh
     ```
 <!-- markdownlint-enable MD046 -->
 
