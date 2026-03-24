@@ -268,5 +268,3 @@ sbatch comp.sh
 ## Distinguishing the repeats
 
 To answer the repeat bias
-
-<!-- TODO CONTINUE HERE -->
