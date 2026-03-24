@@ -30,11 +30,10 @@ mkdir -p $exp_dir
     scripts_dir=scripts/overview  # use the correct path (absolute path recommended)
 
     $scripts_dir/evals.sh
-    $scripts_dir/uniqify.sh
-    $scripts_dir/eval_original.sh
-    $scripts_dir/eval_uniqify.sh
-    $scripts_dir/fig_vs.sh
+    $scripts_dir/merge_evals.sh
     $scripts_dir/fig_dist.sh
+    $scripts_dir/fig_dist_content.sh
+    $scripts_dir/fig_dist_mode.sh
     ```
 <!-- markdownlint-enable MD046 -->
 
