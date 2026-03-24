@@ -37,7 +37,7 @@ Copyright &copy; 2026 The authors
 """
 
     nav = [
-        "index.md",
+        { "Home" = "index.md" },
         "install.md",
         "inputs.md",
         { "Experiments" = [
