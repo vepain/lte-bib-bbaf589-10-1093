@@ -5,7 +5,7 @@ icon: lucide/file-spreadsheet
 # Configurating the working space
 
 >[!IMPORTANT]
-> Make sure you have installed the `lteu` package, see [Installation](/install.md).
+> Make sure you have installed the `lteu` package, see [Installation](./install.md).
 
 <!--  -->
 

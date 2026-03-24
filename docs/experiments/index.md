@@ -1,7 +1,7 @@
 # Experiments
 
 >[!IMPORTANT]
-> Make sure you have configurated your working space, see [Installation](/install.md) otherwise.
+> Make sure you have configurated your working space, see [Installation](../install.md) otherwise.
 
 You can independently run the following experiments:
 
