@@ -1,5 +1,6 @@
 ---
 icon: lucide/cloud-cog
+status: deprecated
 ---
 
 # On Fir cluster

@@ -1,11 +1,18 @@
 ---
 icon: lucide/copy
+status: deprecated
 ---
 
 # Repeat bias for each tool
 
 >[!IMPORTANT]
 > Make sure you have installed the `lteu` package, see [Installation](../../install.md).
+
+<!--  -->
+
+!!! danger
+
+    The following section is old such that some informations may be out of date.  <!-- markdownlint-disable MD046  -->
 
 ```sh
 .
