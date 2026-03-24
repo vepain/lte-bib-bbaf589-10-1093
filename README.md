@@ -8,7 +8,7 @@ This repo allows to reproduce the experiments described in the letter to the edi
 
 ## Experiments
 
-Please refer to the [documentation](https://vepain.github.io/lte-bib-BBAF589-10-1093) to reproduce the experiments described in the letter to the editor.
+Please refer to the [documentation](https://vepain.github.io/lte-bib-bbaf589-10-1093) to reproduce the experiments described in the letter to the editor.
 
 >[!TIP]
 > If you cannot access to the web documentation, you can read it in raw Markdown format via the `./docs/index.md` file.
