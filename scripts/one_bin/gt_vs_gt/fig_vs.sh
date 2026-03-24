@@ -21,7 +21,7 @@ figs_dir="$exp_dir/figs"
 
 for measure in $measures; do
     fig_pdf="$figs_dir/$measure.pdf"
-    uv run lteu figs vs gt "$measure" "$fig_pdf" \
+    lteu figs vs gt "$measure" "$fig_pdf" \
         --x-axis "$x_evals_tsv" --x-label "$x_label" \
         --y-axis "$y_evals_tsv" --y-label "$y_label" \
         --context "$context" "$focus_mode"

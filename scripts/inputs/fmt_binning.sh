@@ -7,7 +7,7 @@ tools="hyasp mob pbf gplas2"
 #
 content=only_plasmids
 for tool in $tools; do
-    uv run lteu fmt bins original/predictions.xlsx "$tool" "binning/$content/$tool"
+    lteu fmt bins original/predictions.xlsx "$tool" "binning/$content/$tool"
 done
 
 #
@@ -15,5 +15,5 @@ done
 #
 content=with_chromosomes
 for tool in $tools; do
-    uv run lteu fmt bins original/predictions.xlsx "$tool" "binning/$content/$tool" --with-chromosomes
+    lteu fmt bins original/predictions.xlsx "$tool" "binning/$content/$tool" --with-chromosomes
 done

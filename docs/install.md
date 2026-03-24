@@ -19,22 +19,46 @@ cd lte-bib-bbaf589-10-1093
     Install thanks to [uv](https://docs.astral.sh/uv/):
 
     ```sh
-    uv install .
+    uv sync --no-dev
     ```
 
-    The commands described in the [experiments](experiments/index.md) are prepended by `uv run` e.g. `uv run lteu --help`.
+    Source the environment:
+
+    === "Bash"
+
+        ```sh
+        source .venv/bin/activate
+        ```
+
+    === "Fish"
+
+        ```sh
+        source .venv/bin/activate.fish
+        ```
 
 === "Without `uv`"
 
-    Create a virtual environment, source it, and install `lteu`:
+    Create a virtual environment and source it
+
+    === "Bash"
+
+        ```sh
+        python3.13 -m venv .venv
+        source .venv/bin/activate
+        ```
+
+    === "Fish"
+
+        ```sh
+        python3.13 -m venv .venv
+        source .venv/bin/activate.fish
+        ```
+
+    install `lteu`:
 
     ```sh
     pip install .
     ```
-
-    >[!WARNING]
-    > If you use this method, make sure you have sourced your virtual environment before running the commands in the [experiments](experiments/index.md).
-    > Also, all the commands in the scripts use `uv run lteu`. So you may have to remove the `uv run` prefix if you cannot use `uv`.
 
 <!-- markdownlint-enable MD046 -->
 
@@ -42,16 +66,6 @@ cd lte-bib-bbaf589-10-1093
 
 Test the installation with:
 
-<!-- markdownlint-disable MD046 -->
-=== "With `uv` (recommended)"
-
-    ```sh
-    uv run lteu --help
-    ```
-
-=== "Without `uv`"
-
-    ```sh
-    lteu --help
-    ```
-<!-- markdownlint-enable MD046 -->
+```sh
+lteu --help
+```

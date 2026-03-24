@@ -14,7 +14,7 @@ for content in $contents; do
         sopt_tools+=(--eval-tsv "$exp_dir/evals/$content/$tool.tsv")
     done
 
-    uv run lteu eval merge \
+    lteu eval merge \
         "${sopt_tools[@]}" \
         "$exp_dir/evals/$content/merge.tsv"
 done

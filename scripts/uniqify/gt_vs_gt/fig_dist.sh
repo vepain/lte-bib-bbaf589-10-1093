@@ -14,6 +14,6 @@ with_chm_eval_tsv=$exp_dir/evals/with_chromosomes/original.tsv
 
 fig_pdf="$exp_dir/figs/distributions.pdf"
 
-uv run lteu figs dist gt \
+lteu figs dist gt \
     "$only_plm_eval_tsv" "$with_chm_eval_tsv" "$fig_pdf" \
     --context "$context" "$focus_mode"

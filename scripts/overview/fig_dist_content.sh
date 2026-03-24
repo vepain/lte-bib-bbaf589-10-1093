@@ -27,7 +27,7 @@ measure_modes="Unweighted Weighted"
 for measure_mode in $measure_modes; do
     fig_pdf="$exp_dir/figs/distributions_content_$measure_mode.pdf"
 
-    uv run lteu figs dist tools-content \
+    lteu figs dist tools-content \
         "$only_plm_tools_evals_tsv" "$with_chm_tools_evals_tsv" "$measure_mode" "$fig_pdf" \
         "${sopt_tools[@]}" \
         --remove-samples "$rm_samples_mode" \

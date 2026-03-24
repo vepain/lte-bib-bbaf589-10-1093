@@ -27,7 +27,7 @@ contents="only_plasmids with_chromosomes"
 for content in $contents; do
     fig_pdf="$exp_dir/figs/distributions_mode_$content.pdf"
 
-    uv run lteu figs dist tools-mode \
+    lteu figs dist tools-mode \
         "$only_plm_tools_evals_tsv" "$with_chm_tools_evals_tsv" "$content" "$fig_pdf" \
         "${sopt_tools[@]}" \
         --remove-samples "$rm_samples_mode" \

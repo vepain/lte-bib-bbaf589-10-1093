@@ -8,7 +8,7 @@ for content in $contents; do
 
     eval_dir="$exp_dir/evals/$content"
 
-    uv run lteu eval merge \
+    lteu eval merge \
         -t hyasp -i "$eval_dir/hyasp.tsv" \
         -t mob -i "$eval_dir/mob.tsv" \
         -t pbf -i "$eval_dir/pbf.tsv" \

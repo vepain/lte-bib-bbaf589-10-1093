@@ -24,7 +24,7 @@ for tool in $tools; do
     sopt_tools+=(--tool "$tool")
 done
 
-uv run lteu figs dist tools \
+lteu figs dist tools \
     "$only_plm_tools_evals_tsv" "$with_chm_tools_evals_tsv" "$fig_pdf" \
     "${sopt_tools[@]}" \
     --remove-samples "$rm_samples_mode" \

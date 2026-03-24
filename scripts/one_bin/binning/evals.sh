@@ -8,6 +8,6 @@ tools="hyasp mob pbf gplas2"
 
 for content in $contents; do
     for tool in $tools; do
-        uv run lteu eval run "binning/$content/$tool" "ground_truths/$content" "$exp_dir/samples.tsv" "$exp_dir/evals/$content/$tool.tsv"
+        lteu eval run "binning/$content/$tool" "ground_truths/$content" "$exp_dir/samples.tsv" "$exp_dir/evals/$content/$tool.tsv"
     done
 done
