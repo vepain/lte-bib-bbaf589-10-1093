@@ -10,7 +10,8 @@
 		"charliermarsh.ruff",
 		"vivaxy.vscode-conventional-commits",
 		"DavidAnson.vscode-markdownlint",
-		"tamasfe.even-better-toml"
+		"tamasfe.even-better-toml",
+		"me-dutour-mathieu.vscode-github-actions"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": []

@@ -15,7 +15,6 @@
   },
   "autoDocstring.docstringFormat": "numpy",
   "comment-divider.length": 88,
-  "editor.formatOnSave": false,
   "files.exclude": {
     "**/*.egg-info": true,
     "**/__pycache__": true,
